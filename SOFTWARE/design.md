@@ -517,6 +517,8 @@ Stitch generó cada pantalla por separado y hay detalles que cambian entre ellas
 | Pendiente: icono | `schedule`, `hourglass_empty`, `hourglass_top`, `bookmark_add` | Se respeta el de cada pantalla |
 | "Visto" en `DESIGN.md` de Stitch (verde `#34D399`) | No se usa en las pantallas | Estilos de §2.3 |
 | Barra inferior en `DESIGN.md` ("Inicio, Buscar, Mi Lista, Estadísticas") | Pantallas: Biblioteca, Listas, Añadir, Buscar, Ajustes | Las de las pantallas |
+| ¿Ajustes lleva barra inferior? | §3.4 dice "solo Biblioteca, Listas y Buscar", pero Ajustes es un destino de la barra | Ajustes es pestaña principal: barra superior de marca ("Ajustes") y barra inferior con Ajustes resaltado (S0, T0.05) |
+| Elevación del botón "Añadir" (`-mt-5`) | La fila centra la caja de margen (`items-center`), así que el círculo sube 10 dp, no 20 | Se reproduce lo que se ve: 10 dp (S0, T0.08) |
 
 ---
 
@@ -552,7 +554,7 @@ Stitch generó cada pantalla por separado y hay detalles que cambian entre ellas
 | Build | Gradle KTS + catálogo de versiones, R8 en release | |
 | Calidad | ktlint, detekt | |
 
-**Versión mínima**: propuesta `minSdk 26` (Android 8.0); `targetSdk` la última estable. Pendiente de confirmar (RES-02).
+**Versión mínima**: `minSdk 26` (Android 8.0); `targetSdk 36`, `compileSdk 37`. Decidido en el S0 (RES-02).
 
 ## 16. Modelo de datos (Room)
 

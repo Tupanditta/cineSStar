@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CineTrack</string>
+
+    <!-- Barra superior (design.md §3.2 y §3.3) -->
+    <string name="marca">CineTrack</string>
+    <string name="pildora_local">100% Local</string>
+    <string name="cd_logo">Logo de CineTrack</string>
+    <string name="cd_avatar">Ir a Ajustes</string>
+    <string name="cd_atras">Volver</string>
+
+    <!-- Destinos (design.md §3.4) -->
+    <string name="destino_biblioteca">Biblioteca</string>
+    <string name="destino_listas">Listas</string>
+    <string name="destino_anadir">Añadir</string>
+    <string name="destino_buscar">Buscar</string>
+    <string name="destino_ajustes">Ajustes</string>
+
+    <!-- Pantallas secundarias -->
+    <string name="titulo_anadir_medio">Añadir Medio</string>
+
+    <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
+    <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>
+    <string name="m02_perfil_duplicado_pelicula">Ya existe una película con ese nombre.</string>
+    <string name="m02_perfil_duplicado_serie">Ya existe una serie con ese nombre.</string>
+    <string name="m03_puntuacion_invalida">Puntuación no válida. Introduce un valor entre 0.0 y 10 con un máximo de un decimal.</string>
+    <string name="m04_saga_duplicada">Ya existe una saga con ese nombre.</string>
+    <string name="m05_saga_nombre_obligatorio">El nombre de la saga es obligatorio.</string>
+    <string name="m07_lista_nombre_obligatorio">El nombre de la lista es obligatorio.</string>
+    <string name="m08_lista_duplicada">Ya existe una lista con ese nombre.</string>
+    <string name="m09_lista_solo_peliculas">Esta lista solo admite películas.</string>
+    <string name="m09_lista_solo_series">Esta lista solo admite series.</string>
+    <string name="m10_ya_en_lista">«%1$s» ya está en esta lista.</string>
+    <string name="m24_posicion_invalida">Posición no válida.</string>
+    <string name="m25_error_inesperado">Error inesperado. Tus datos no se han modificado.</string>
+</resources>

@@ -1,0 +1,533 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "11af67f86a1bd2cf290e9d2821165668",
+    "entities": [
+      {
+        "tableName": "perfil",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `nombreBusqueda` TEXT NOT NULL, `tipo` TEXT NOT NULL, `estado` TEXT NOT NULL, `puntuacionDecimas` INTEGER, `comentario` TEXT, `comentarioEditadoEn` INTEGER, `sagaId` INTEGER, `caratulaUri` TEXT, `creadoEn` INTEGER NOT NULL, FOREIGN KEY(`sagaId`) REFERENCES `saga`(`id`) ON UPDATE NO ACTION ON DELETE SET NULL )",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombreBusqueda",
+            "columnName": "nombreBusqueda",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "estado",
+            "columnName": "estado",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "puntuacionDecimas",
+            "columnName": "puntuacionDecimas",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "comentario",
+            "columnName": "comentario",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "comentarioEditadoEn",
+            "columnName": "comentarioEditadoEn",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "sagaId",
+            "columnName": "sagaId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "caratulaUri",
+            "columnName": "caratulaUri",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "creadoEn",
+            "columnName": "creadoEn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_perfil_nombreBusqueda_tipo",
+            "unique": true,
+            "columnNames": [
+              "nombreBusqueda",
+              "tipo"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_perfil_nombreBusqueda_tipo` ON `${TABLE_NAME}` (`nombreBusqueda`, `tipo`)"
+          },
+          {
+            "name": "index_perfil_sagaId",
+            "unique": false,
+            "columnNames": [
+              "sagaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_perfil_sagaId` ON `${TABLE_NAME}` (`sagaId`)"
+          },
+          {
+            "name": "index_perfil_puntuacionDecimas",
+            "unique": false,
+            "columnNames": [
+              "puntuacionDecimas"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_perfil_puntuacionDecimas` ON `${TABLE_NAME}` (`puntuacionDecimas`)"
+          },
+          {
+            "name": "index_perfil_creadoEn",
+            "unique": false,
+            "columnNames": [
+              "creadoEn"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_perfil_creadoEn` ON `${TABLE_NAME}` (`creadoEn`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "saga",
+            "onDelete": "SET NULL",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "sagaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "saga",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `nombreBusqueda` TEXT NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombreBusqueda",
+            "columnName": "nombreBusqueda",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_saga_nombreBusqueda",
+            "unique": true,
+            "columnNames": [
+              "nombreBusqueda"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_saga_nombreBusqueda` ON `${TABLE_NAME}` (`nombreBusqueda`)"
+          }
+        ]
+      },
+      {
+        "tableName": "genero",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `orden` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orden",
+            "columnName": "orden",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_genero_nombre",
+            "unique": true,
+            "columnNames": [
+              "nombre"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_genero_nombre` ON `${TABLE_NAME}` (`nombre`)"
+          }
+        ]
+      },
+      {
+        "tableName": "idioma",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `orden` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orden",
+            "columnName": "orden",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_idioma_nombre",
+            "unique": true,
+            "columnNames": [
+              "nombre"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_idioma_nombre` ON `${TABLE_NAME}` (`nombre`)"
+          }
+        ]
+      },
+      {
+        "tableName": "perfil_genero",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`perfilId` INTEGER NOT NULL, `generoId` INTEGER NOT NULL, PRIMARY KEY(`perfilId`, `generoId`), FOREIGN KEY(`perfilId`) REFERENCES `perfil`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`generoId`) REFERENCES `genero`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "perfilId",
+            "columnName": "perfilId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "generoId",
+            "columnName": "generoId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "perfilId",
+            "generoId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_perfil_genero_generoId",
+            "unique": false,
+            "columnNames": [
+              "generoId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_perfil_genero_generoId` ON `${TABLE_NAME}` (`generoId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "perfil",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "perfilId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "genero",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "generoId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "perfil_idioma",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`perfilId` INTEGER NOT NULL, `idiomaId` INTEGER NOT NULL, PRIMARY KEY(`perfilId`, `idiomaId`), FOREIGN KEY(`perfilId`) REFERENCES `perfil`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`idiomaId`) REFERENCES `idioma`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "perfilId",
+            "columnName": "perfilId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "idiomaId",
+            "columnName": "idiomaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "perfilId",
+            "idiomaId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_perfil_idioma_idiomaId",
+            "unique": false,
+            "columnNames": [
+              "idiomaId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_perfil_idioma_idiomaId` ON `${TABLE_NAME}` (`idiomaId`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "perfil",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "perfilId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "idioma",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "idiomaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "tableName": "lista",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nombre` TEXT NOT NULL, `nombreBusqueda` TEXT NOT NULL, `tipo` TEXT NOT NULL, `restriccion` TEXT NOT NULL, `avisoVaciaMostrado` INTEGER NOT NULL DEFAULT 0, `creadoEn` INTEGER NOT NULL)",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombre",
+            "columnName": "nombre",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "nombreBusqueda",
+            "columnName": "nombreBusqueda",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "tipo",
+            "columnName": "tipo",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "restriccion",
+            "columnName": "restriccion",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "avisoVaciaMostrado",
+            "columnName": "avisoVaciaMostrado",
+            "affinity": "INTEGER",
+            "notNull": true,
+            "defaultValue": "0"
+          },
+          {
+            "fieldPath": "creadoEn",
+            "columnName": "creadoEn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": true,
+          "columnNames": [
+            "id"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lista_nombreBusqueda",
+            "unique": true,
+            "columnNames": [
+              "nombreBusqueda"
+            ],
+            "orders": [],
+            "createSql": "CREATE UNIQUE INDEX IF NOT EXISTS `index_lista_nombreBusqueda` ON `${TABLE_NAME}` (`nombreBusqueda`)"
+          }
+        ]
+      },
+      {
+        "tableName": "lista_item",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`listaId` INTEGER NOT NULL, `perfilId` INTEGER NOT NULL, `posicion` INTEGER, `prioridad` TEXT, `anadidoEn` INTEGER NOT NULL, PRIMARY KEY(`listaId`, `perfilId`), FOREIGN KEY(`listaId`) REFERENCES `lista`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`perfilId`) REFERENCES `perfil`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "fields": [
+          {
+            "fieldPath": "listaId",
+            "columnName": "listaId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "perfilId",
+            "columnName": "perfilId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "posicion",
+            "columnName": "posicion",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "prioridad",
+            "columnName": "prioridad",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "anadidoEn",
+            "columnName": "anadidoEn",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "listaId",
+            "perfilId"
+          ]
+        },
+        "indices": [
+          {
+            "name": "index_lista_item_perfilId",
+            "unique": false,
+            "columnNames": [
+              "perfilId"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lista_item_perfilId` ON `${TABLE_NAME}` (`perfilId`)"
+          },
+          {
+            "name": "index_lista_item_listaId_posicion",
+            "unique": false,
+            "columnNames": [
+              "listaId",
+              "posicion"
+            ],
+            "orders": [],
+            "createSql": "CREATE INDEX IF NOT EXISTS `index_lista_item_listaId_posicion` ON `${TABLE_NAME}` (`listaId`, `posicion`)"
+          }
+        ],
+        "foreignKeys": [
+          {
+            "table": "lista",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "listaId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          },
+          {
+            "table": "perfil",
+            "onDelete": "CASCADE",
+            "onUpdate": "NO ACTION",
+            "columns": [
+              "perfilId"
+            ],
+            "referencedColumns": [
+              "id"
+            ]
+          }
+        ]
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '11af67f86a1bd2cf290e9d2821165668')"
+    ]
+  }
+}

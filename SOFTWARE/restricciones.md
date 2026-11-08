@@ -4,7 +4,7 @@
 
 ## Plataforma
 - La aplicación es móvil y se ejecuta solo en Android.
-- La versión mínima de Android está sin definir (pendiente de decidir).
+- Versión mínima: **Android 8.0 (API 26)**; `targetSdk` 36 (decidido en el S0, RES-02).
 
 ## Funcionamiento y conectividad
 - La aplicación se ejecuta íntegramente en local, en el móvil.

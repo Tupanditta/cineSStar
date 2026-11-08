@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Igual que background en ui/theme/Color.kt (design.md §2.1). -->
+    <color name="fondo_ventana">#FF121316</color>
+</resources>

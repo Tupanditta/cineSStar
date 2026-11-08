@@ -1,0 +1,16 @@
+# Gradle / Android
+.gradle/
+build/
+.kotlin/
+local.properties
+captures/
+*.apk
+*.aab
+
+# IDE
+/.idea/workspace.xml
+/.idea/shelf/
+/.idea/caches/
+/.idea/libraries/
+/.idea/gradle.xml
+/.idea/deploymentTargetDropDown.xml
