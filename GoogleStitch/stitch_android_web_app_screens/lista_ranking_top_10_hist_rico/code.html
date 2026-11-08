@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#121316;color:#e3e2e6;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#00668a", "on-error-container": "#ffdad6", "tertiary-fixed-dim": "#7bd1fa", "tertiary-fixed": "#c0e8ff", "on-primary-fixed": "#001e2c", "on-surface": "#e3e2e6", "inverse-on-surface": "#2f3034", "on-secondary": "#68001a", "on-primary-container": "#004965", "error": "#ffb4ab", "on-secondary-fixed": "#40000c", "surface-container-low": "#1b1b1f", "primary-container": "#38bdf8", "error-container": "#93000a", "inverse-surface": "#e3e2e6", "secondary-fixed": "#ffdada", "surface-dim": "#121316", "tertiary": "#83d7ff", "on-surface-variant": "#bdc8d1", "outline-variant": "#3e484f", "surface-bright": "#38393c", "on-tertiary-fixed": "#001e2b", "surface-container": "#1f1f23", "surface-container-lowest": "#0d0e11", "on-background": "#e3e2e6", "primary": "#8ed5ff", "outline": "#87929a", "surface-variant": "#343538", "surface-container-high": "#292a2d", "tertiary-container": "#64bbe3", "primary-fixed": "#c4e7ff", "surface-tint": "#7bd0ff", "on-tertiary-container": "#004961", "on-secondary-container": "#ffdcdc", "on-tertiary-fixed-variant": "#004d66", "on-error": "#690005", "on-primary": "#00354a", "background": "#121316", "secondary-fixed-dim": "#ffb3b6", "secondary-container": "#cc003c", "primary-fixed-dim": "#7bd0ff", "surface-container-highest": "#323742", "on-primary-fixed-variant": "#004c69", "on-tertiary": "#003547", "secondary": "#ffb3b6", "on-secondary-fixed-variant": "#920028", "surface": "#121316" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "gutter": "1rem", "margin-desktop": "2rem", "space-xl": "2rem", "margin-tablet": "1.5rem", "space-md": "1rem", "gutter-compact": "0.75rem" }, "fontFamily": { "label-md": ["Inter"], "body-lg": ["Inter"], "body-sm": ["Inter"], "label-lg": ["Inter"], "headline-md": ["Inter"], "title-sm": ["Inter"], "headline-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "title-md": ["Inter"], "body-md": ["Inter"], "display-lg": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}], "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}], "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}], "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}], "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["14px", {"lineHeight": "20px", "fontWeight": "600"}], "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}], "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "600"}], "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}], "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-20 px-margin justify-between"><div class="flex items-center justify-between h-7 pt-space-xs text-on-surface-variant"><span class="font-label-md text-label-md font-semibold">12:45</span><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">wifi_off</span><span class="material-symbols-outlined text-[16px]">sd_card</span><span class="font-label-sm text-label-sm font-semibold">92%</span><span class="material-symbols-outlined text-[16px]">battery_full</span></div></div><div class="flex items-center justify-between pb-space-sm"><div class="flex items-center gap-space-sm"><button class="w-11 h-11 flex items-center justify-center text-on-surface" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="CineTrack Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFtt3LlbYZeZRrhMAaoIBt7z7-WKx-oeTmleT2KBlwMSMdt7pvmAIV-HFr89pugOp9P_VqWkLVqAbTKYTZhQm0mkEHBgQcY8iJm8NEmzlf9pKTD5lwt-arsXuicjCV2zNuJpiZr1hAb-Q12ViHX4ZTuEAd5MVp7kG6nhMl0_arxdVd6LqAeEkIQXwEisDyNrjotCrNv7XEHZUqA3Ct6qwiI-md63pDsY73Fz_O2T8"/><h1 class="font-title-md text-title-md font-bold text-on-surface truncate">Detalle Pelicula</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full px-margin pb-10">
+<!-- Cabecera de la Lista -->
+<section class="flex flex-col pt-space-md pb-space-sm gap-space-sm">
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="inline-flex items-center px-2 py-0.5 rounded-full bg-primary-container/20 text-primary-container font-label-sm text-label-sm uppercase tracking-wider">
+          RANKING
+        </span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[13px] text-status-completed" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+          10 de 10 títulos • Completa
+        </span>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-sm" id="btn-edit-title" title="Editar detalles de lista">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+<button class="w-9 h-9 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-colors shadow-sm" id="btn-more-options" title="Opciones">
+<span class="material-symbols-outlined text-[18px]">more_vert</span>
+</button>
+</div>
+</div>
+<div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface tracking-tight" id="list-title">Top 10 Histórico</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+        Orden estricto por posición cinemática personal. La posición solo rige en esta lista exclusiva.
+      </p>
+</div>
+<!-- Barra de acciones rápidas -->
+<div class="flex items-center gap-space-sm pt-space-xs">
+<button class="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-all shadow-sm" id="btn-toggle-reorder">
+<span class="material-symbols-outlined text-[18px] text-primary-container">swap_vert</span>
+<span id="reorder-text">Reordenar puestos</span>
+</button>
+<button class="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-primary-container text-on-primary-container font-label-md text-label-md transition-transform active:scale-95 shadow-sm" id="btn-add-title">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Añadir título</span>
+</button>
+</div>
+<!-- Notificador de modo reordenar (oculto por defecto) -->
+<div class="hidden items-center justify-between p-3 rounded-xl bg-surface-container-highest text-primary font-body-sm text-body-sm shadow-md animate-fade-in" id="reorder-banner">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">info</span>
+<span>Usa las flechas para desplazar puestos ordinales.</span>
+</div>
+<button class="px-3 py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm" id="btn-done-reorder">
+        Listo
+      </button>
+</div>
+</section>
+<!-- Lista de 10 Elementos del Ranking -->
+<section aria-label="Elementos del ranking" class="flex flex-col gap-space-sm mt-space-sm" id="ranking-list">
+<!-- Item #1 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="1">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-primary-container font-extrabold tracking-tighter">#1</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Dark, moodily lit dramatic cinematic frame featuring Don Vito Corleone seated in his atmospheric dimly lit office, deep shadows, vintage 1940s aesthetics, cinematic charcoal sky tones with soft ambient highlights, fine grain texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUEjWXd0EF6Mhr8Gs-abRqWWbGEQ-TOWtNeAah1nzMr-BG1MMsNEozevyWssG4WOa0mOr4-k6BHRk7ERecmQKmNpFidsP13aYN9HCpJ4zpzt_Ybh7HGf_92OvdBL7To5q_o6-oEpDDwfI2Kzq9Y0dhsE7tCfkYkPXEfVEZo6ftIPhkd3Co2dG7LhNuOwb54jCEVl1CQ4WHxlbtGalBfBkt4gE9TJFDEzXqDq-N2eI"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Película</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">El Padrino</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 1972</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Francis Ford Coppola</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            10.0
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Puesto fijo en lista</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant opacity-30 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #2 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="2">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-primary-container font-extrabold tracking-tighter">#2</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Epic cinematic desert landscape of Arrakis under twin suns, gigantic dunes with shimmering atmospheric heat, dark blue and muted amber reflections, cinematic sci-fi scale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr3LE-GhacIJu95v_ko2V5pp4_A-bw3MkjXe45F6IgF_BMZXhEBgxL2EekiWEbUgSOA0bQr5BdUVFXH-Jm1V5uK-WTGw1EfvZ2XrWugXqF3fK90OVTW5S1a05_OTJwVFSyXiJ2mSndJQKYjWl6ANxT2FVrFc5qo-Tvf5iMW18OVB73z3oxc7V2k2pBdJ-qJpmclJaC9dF5lXnAJnPImudNOgq4fK-XVgodNYaWsss"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Película</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Dune: Parte Dos</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2024</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Denis Villeneuve</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.8
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Saga Dune</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #3 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="3">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-primary-container font-extrabold tracking-tighter">#3</span>
+<span class="material-symbols-outlined text-[14px] text-primary-container" style="font-variation-settings: 'FILL' 1;">military_tech</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Iconic desert RV in New Mexico surrounded by expansive lonely skies, crystal blue smoke silhouette against an atmospheric charcoal twilight, moody neo-western neo-noir lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_LZ8QYUI0xMHwv9d-0hUHOs42OSmS-0EekocfAyJwbSxCH_BCR73koHAtsdVaZstVioFlQzuuyAhl06ahH8_e4wVpSHhvXZLtM-FltDmnWM1px33yT34Ble8UvsuTUyFVjdfaSElYLnVDMPC_FieW8FeOBx3JZAs2Ii8GGAAtS4r7eIEsEYWYWYa0FPn01CIX6jX9ndsokU5jSruEGXUMWpovZ456iAB0goIrv4g"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Serie</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Breaking Bad</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2008</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Vince Gilligan • 5 Temporadas</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.9
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Crimen / Drama</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #4 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="4">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-primary font-bold tracking-tighter">#4</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Sterile surrealist corporate white office corridors with luminescent fluorescent lights, a lone worker at a terminal surrounded by cold symmetric brutalist architecture, cold cyan tint" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCol1ALKKgXx_mWEmcmITYGIGxBmmWSqGFcyZ3qdyElOFGEI5YWree5U4b38dmZp9VXEY5neudDDj64qTYJrS7FAOQcjg6U7WBqXhostWJKZ-kCAl_nNdd_ukJx0-HcMbP51Vfvj97KnmHhrbh6ZFVnrb0tTDcjwMH3PHCb2KZbI30ZMQmAARtP_w-WZfyJVD4b5Ll8TQ0k-7lhinuq4IAavpixnboouFnvsvNSsu4"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Serie</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Severance</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2022</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Dan Erickson • Dan Stiller</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.5
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ciencia Ficción</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #5 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="5">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-primary font-bold tracking-tighter">#5</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Dramatic 1970s courtroom in Buenos Aires, intense gaze between two investigators across a crowd, warm sepia undertones blended with dark shadowy noir atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZuXrsNQUw-u07gJHixP_uoOOAI81WQwmqTIZ44RK1W4TbIBN5-KVi5N4FlgH1dAmGmB1XIi2Mw7-dW8v-AAc-mN7pMwqhpBX1kWSGLHUKRyjI9cXCfAADnq84ANbq95SJiGlmyE9sM_6jZUiKZXbqvxuTM4lJH4T56rgbY4TmSxoAgDeXgB-PWwTSo_hYM7hOH6BSOqSMcLihFC-hQ8JU0xPlkrQwc5UB0jKKwGs"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Película</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">El Secreto de sus Ojos</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2009</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Juan José Campanella</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.6
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Misterio / Suspense</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #6 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="6">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter">#6</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Skyscraper executive boardroom overlooking New York skyline during dusk, silhouette of a family in expensive suits with tense body language, crisp modern cinematic grain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTnuKV2NSDyNQg-v5TYcA2Z6KN2Gf30szhTWAWw8DTafyALnmB9Ltaz9wuhn2cm7Hso43VYzpGwoKV_Zp0G90jBcxISOsWZyNXAMDgRp6cnqugDFqqm8aBI2aEatHpWzB2PtOW0uy6oVDpZl6OzzPPLRQpmXV-GNr05aGy-hWYMrg_6LGIw4LRvzVyxa1H0KDny3zSobEciJS9LufyQ7j5brO3UV70g0b9W2jI6No"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Serie</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Succession</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2018</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Jesse Armstrong • 4 Temporadas</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.7
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Drama Satírico</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #7 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="7">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter">#7</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Swirling atmospheric fiery plasma particles in deep darkness, glowing embers of an atomic shockwave contrasted with a man's stern profile in a fedora, IMAX film grain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbkmb8LPnIbrRCxzsHCPUzRu3mKnQbB848KSlWb8M2Go5f-ubSFrKRQ_Ogg-lQIZAUKRuubSXFmPYNr-pcJLZBDp3CiQyZTk13IHar4c96OSgUANKdNpE_Qizojd80L70rFq_7bJC3E72S1TfkygBq_4s2ORnZEGB2dLnB0Ict0VXNQnWj92-UlRefgpWx_O7NI9f_aCyU4GinKyA4YUSZPh3nwyT0r11uelBQk6k"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Película</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Oppenheimer</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2023</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Christopher Nolan</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.4
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Biográfico / Drama</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #8 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="8">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter">#8</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Feudal Japanese seaside castle enveloped in morning mist and rain, a solitary armored samurai holding a katana beneath blooming dark pines, cinematic teal and charcoal contrast" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2-gP1wnf-EgGMiHf2aYcy2Mm8LoS5BnNw8DfQp0xxeYo3gTLi2voyebS99Rr9e2uCj5NQPSe5di05gNMzl3S65UGyW85lMyvO2NYbaSilcgVwZ3LgD_63sPFLCt_tEkFsgXl4Jfa8SGEcBtpGUrD8wA0BkWG-KC37SZMQ0X7lQuvjYFejzMPMwIpXBj7c___cbnfOGA64kwe7FjqaYLEAS5RbEU3ZVDWtByZRk68"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Serie</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Shōgun</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2024</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Justin Marks • Rachel Kondo</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.3
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Histórico / Drama</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #9 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="9">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter">#9</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Atmospheric dystopian orange smog hanging over monumental statues in Las Vegas ruins, a lone trenchcoat figure walking away in vast empty silence, Roger Deakins style cinematography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABgjfuL147W6H1HJEND8-GCtDqza4YjSscqYgJdJZz6wWtjPlvKn21I_Sr_4z_tOHWRM40fnSHnwzoxUL_Se-97FMHOkv5aRbsgwCrpG0am_t0gm7Y-wmMutNRaxTjvXzv1Y4gEM4SZ62U16DmGwYoNW2jTR9Fxdy0Wov0j6-XgDBkSBXCCOS1aNlQFtZa_4chk5kK-6cPaa67DAMyyqyag3S0pJ2cQIgsOYW8q2E"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Película</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">Blade Runner 2049</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2017</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Denis Villeneuve</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.2
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Cyberpunk / Sci-Fi</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+<!-- Item #10 -->
+<article class="ranking-item relative flex items-center gap-space-sm p-space-sm rounded-xl bg-surface-container-low shadow-sm transition-all" data-id="10">
+<div class="flex flex-col items-center justify-center w-8 shrink-0">
+<span class="font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter">#10</span>
+</div>
+<div class="w-14 h-20 rounded-lg overflow-hidden shrink-0 bg-surface-container relative shadow-md">
+<img class="w-full h-full object-cover" data-alt="Baroque religious shrine inside an unsettling rural house, soft diffused candle luminescence, religious iconography mixed with surreal claustrophobic Spanish gothic aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9gpi9Bt7nsTtmIWfyFcKPuBdvDosR5zZKhDTDF9AyIXYNS-B0Txx-Hvzawk2NdPlJSIWZB6O19U3-huPbAe9bJ_sisG_ePRDQHgtJmd9waXOsoLVFUazapMaSgXeYeCH5GZym9F4re1_KYVCRy6hfoyvIIEi0P1R699zeQR0kHADAlKXVWhJeFkKZkXYWliItVXPnwwUHFFgLh7ThfR4zjiScb6hWSvKzDTubCek"/>
+<span class="absolute top-1 left-1 px-1 rounded bg-surface-dim/80 backdrop-blur-sm text-on-surface font-label-sm text-[9px] uppercase font-bold">Serie</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<div class="flex items-center gap-1.5 flex-wrap">
+<h3 class="font-title-sm text-title-sm text-on-surface font-bold truncate">La Mesías</h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant">• 2023</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Los Javis • Miniserie</p>
+<div class="flex items-center gap-2 mt-1">
+<span class="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[12px] text-primary-container" style="font-variation-settings: 'FILL' 1;">star</span>
+            9.1
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Drama Psicológico</span>
+</div>
+</div>
+<div class="flex items-center gap-1 reorder-controls">
+<div class="flex flex-col">
+<button class="btn-move-up w-7 h-7 flex items-center justify-center rounded text-on-surface-variant hover:text-on-surface active:bg-surface-container">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_up</span>
+</button>
+<button class="btn-move-down w-7 h-7 flex items-center justify-center rounded text-on-surface-variant opacity-30 cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<button class="btn-remove-item w-8 h-8 flex items-center justify-center rounded-full text-on-surface-variant hover:text-error transition-colors" title="Quitar de esta lista">
+<span class="material-symbols-outlined text-[18px]">remove_circle_outline</span>
+</button>
+</div>
+</article>
+</section>
+<!-- Pie de Lista y Acciones Destructivas Sutiles -->
+<section class="flex flex-col gap-space-md mt-space-lg pt-space-md">
+<div class="p-space-sm rounded-xl bg-surface-container-lowest flex items-start gap-3 shadow-inner">
+<span class="material-symbols-outlined text-primary-container text-[20px] shrink-0 mt-0.5">lock</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+        Límite alcanzado (10 de 10). Para incorporar nuevos títulos a este Top 10, desplaza o retira alguno de los elementos existentes.
+      </p>
+</div>
+<div class="flex justify-center pt-2">
+<button class="flex items-center gap-2 py-2 px-4 rounded-xl text-error hover:bg-error-container/20 font-label-md text-label-md transition-colors" id="btn-delete-list">
+<span class="material-symbols-outlined text-[18px]">delete_sweep</span>
+<span>Eliminar esta lista</span>
+</button>
+</div>
+</section>
+<!-- Modal / Dialogo de Confirmación para Quitar de Lista (Oculto) -->
+<div class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-background/80 backdrop-blur-sm hidden" id="modal-remove">
+<div class="w-full max-w-sm p-5 rounded-2xl bg-surface-container-high shadow-2xl flex flex-col gap-4 animate-scale-up">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[20px]">playlist_remove</span>
+</div>
+<div>
+<h4 class="font-title-md text-title-md text-on-surface font-bold">Quitar del ranking</h4>
+<span class="font-body-sm text-body-sm text-primary truncate block font-medium" id="modal-item-name">Título</span>
+</div>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+        ¿Deseas desvincular este título de <strong class="text-on-surface font-semibold">"Top 10 Histórico"</strong>? Su ficha y estado en tu biblioteca general permanecerán intactos.
+      </p>
+<div class="flex items-center gap-2 pt-1">
+<button class="flex-1 py-2.5 rounded-xl bg-surface-container-highest text-on-surface font-label-md text-label-md" id="btn-cancel-remove">
+          Cancelar
+        </button>
+<button class="flex-1 py-2.5 rounded-xl bg-secondary-container text-on-secondary font-label-md text-label-md font-semibold" id="btn-confirm-remove">
+          Quitar
+        </button>
+</div>
+</div>
+</div>
+<!-- Toast de Notificación Rápida -->
+<aside class="fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2.5 rounded-full bg-surface-bright text-on-surface font-label-md text-label-md shadow-xl flex items-center gap-2 transition-all opacity-0 pointer-events-none z-50" id="toast">
+<span class="material-symbols-outlined text-primary-container text-[18px]">check</span>
+<span id="toast-text">Cambio aplicado</span>
+</aside>
+</div>
+<script>
+  (function() {
+    const list = document.getElementById('ranking-list');
+    const toast = document.getElementById('toast');
+    const toastText = document.getElementById('toast-text');
+    const removeModal = document.getElementById('modal-remove');
+    const modalItemName = document.getElementById('modal-item-name');
+    const btnCancelRemove = document.getElementById('btn-cancel-remove');
+    const btnConfirmRemove = document.getElementById('btn-confirm-remove');
+    const btnToggleReorder = document.getElementById('btn-toggle-reorder');
+    const reorderBanner = document.getElementById('reorder-banner');
+    const btnDoneReorder = document.getElementById('btn-done-reorder');
+    const btnAddTitle = document.getElementById('btn-add-title');
+    const btnDeleteList = document.getElementById('btn-delete-list');
+    let itemPendingRemoval = null;
+
+    function showToast(msg) {
+      if (!toast) return;
+      toastText.textContent = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      toast.classList.add('opacity-100');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100');
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2600);
+    }
+
+    function updateOrdinalNumbers() {
+      const items = list.querySelectorAll('.ranking-item');
+      items.forEach((item, index) => {
+        const rank = index + 1;
+        const rankSpan = item.querySelector('.font-headline-md');
+        if (rankSpan) {
+          rankSpan.textContent = '#' + rank;
+          if (rank <= 3) {
+            rankSpan.className = 'font-headline-md text-headline-md text-primary-container font-extrabold tracking-tighter';
+          } else {
+            rankSpan.className = 'font-headline-md text-headline-md text-on-surface-variant font-bold tracking-tighter';
+          }
+        }
+        
+        // Actualizar estados disabled de flechas
+        const upBtn = item.querySelector('.btn-move-up');
+        const downBtn = item.querySelector('.btn-move-down');
+        
+        if (upBtn) {
+          if (index === 0) {
+            upBtn.disabled = true;
+            upBtn.classList.add('opacity-30', 'cursor-not-allowed');
+            upBtn.classList.remove('hover:text-on-surface', 'active:bg-surface-container');
+          } else {
+            upBtn.disabled = false;
+            upBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+            upBtn.classList.add('hover:text-on-surface', 'active:bg-surface-container');
+          }
+        }
+
+        if (downBtn) {
+          if (index === items.length - 1) {
+            downBtn.disabled = true;
+            downBtn.classList.add('opacity-30', 'cursor-not-allowed');
+            downBtn.classList.remove('hover:text-on-surface', 'active:bg-surface-container');
+          } else {
+            downBtn.disabled = false;
+            downBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+            downBtn.classList.add('hover:text-on-surface', 'active:bg-surface-container');
+          }
+        }
+      });
+    }
+
+    // Reordenar mediante flechas
+    list.addEventListener('click', (e) => {
+      const upBtn = e.target.closest('.btn-move-up');
+      const downBtn = e.target.closest('.btn-move-down');
+      const removeBtn = e.target.closest('.btn-remove-item');
+
+      if (upBtn && !upBtn.disabled) {
+        const item = upBtn.closest('.ranking-item');
+        const prev = item.previousElementSibling;
+        if (prev) {
+          list.insertBefore(item, prev);
+          updateOrdinalNumbers();
+          showToast('Posición actualizada');
+        }
+      }
+
+      if (downBtn && !downBtn.disabled) {
+        const item = downBtn.closest('.ranking-item');
+        const next = item.nextElementSibling;
+        if (next) {
+          list.insertBefore(next, item);
+          updateOrdinalNumbers();
+          showToast('Posición actualizada');
+        }
+      }
+
+      if (removeBtn) {
+        const item = removeBtn.closest('.ranking-item');
+        const titleText = item.querySelector('h3')?.textContent || 'Título';
+        itemPendingRemoval = item;
+        modalItemName.textContent = titleText;
+        removeModal.classList.remove('hidden');
+      }
+    });
+
+    btnCancelRemove.addEventListener('click', () => {
+      removeModal.classList.add('hidden');
+      itemPendingRemoval = null;
+    });
+
+    btnConfirmRemove.addEventListener('click', () => {
+      if (itemPendingRemoval) {
+        itemPendingRemoval.remove();
+        itemPendingRemoval = null;
+        updateOrdinalNumbers();
+        removeModal.classList.add('hidden');
+        showToast('Título quitado del ranking (permanece en biblioteca)');
+      }
+    });
+
+    btnToggleReorder.addEventListener('click', () => {
+      reorderBanner.classList.toggle('hidden');
+      reorderBanner.classList.toggle('flex');
+    });
+
+    btnDoneReorder.addEventListener('click', () => {
+      reorderBanner.classList.add('hidden');
+      reorderBanner.classList.remove('flex');
+      showToast('Ranking guardado');
+    });
+
+    btnAddTitle.addEventListener('click', () => {
+      showToast('Límite de 10 alcanzado. Desplaza un elemento primero.');
+    });
+
+    btnDeleteList.addEventListener('click', () => {
+      if (confirm('¿Eliminar la lista "Top 10 Histórico"? Sus títulos no se borrarán de tu biblioteca personal.')) {
+        showToast('Lista eliminada');
+      }
+    });
+
+    updateOrdinalNumbers();
+  })();
+</script></main></body></html>

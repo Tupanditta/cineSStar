@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><meta content="mobile_stack" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{width:100vw;margin:0;padding:0;background-color:#121316;color:#e3e2e6;}body{overscroll-behavior:none;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "inverse-primary": "#00668a", "on-error-container": "#ffdad6", "tertiary-fixed-dim": "#7bd1fa", "tertiary-fixed": "#c0e8ff", "on-primary-fixed": "#001e2c", "on-surface": "#e3e2e6", "inverse-on-surface": "#2f3034", "on-secondary": "#68001a", "on-primary-container": "#004965", "error": "#ffb4ab", "on-secondary-fixed": "#40000c", "surface-container-low": "#1b1b1f", "primary-container": "#38bdf8", "error-container": "#93000a", "inverse-surface": "#e3e2e6", "secondary-fixed": "#ffdada", "surface-dim": "#121316", "tertiary": "#83d7ff", "on-surface-variant": "#bdc8d1", "outline-variant": "#3e484f", "surface-bright": "#38393c", "on-tertiary-fixed": "#001e2b", "surface-container": "#1f1f23", "surface-container-lowest": "#0d0e11", "on-background": "#e3e2e6", "primary": "#8ed5ff", "outline": "#87929a", "surface-variant": "#343538", "surface-container-high": "#292a2d", "tertiary-container": "#64bbe3", "primary-fixed": "#c4e7ff", "surface-tint": "#7bd0ff", "on-tertiary-container": "#004961", "on-secondary-container": "#ffdcdc", "on-tertiary-fixed-variant": "#004d66", "on-error": "#690005", "on-primary": "#00354a", "background": "#121316", "secondary-fixed-dim": "#ffb3b6", "secondary-container": "#cc003c", "primary-fixed-dim": "#7bd0ff", "surface-container-highest": "#323742", "on-primary-fixed-variant": "#004c69", "on-tertiary": "#003547", "secondary": "#ffb3b6", "on-secondary-fixed-variant": "#920028", "surface": "#121316" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-lg": "1.5rem", "margin": "1rem", "space-xs": "0.25rem", "space-sm": "0.5rem", "gutter": "1rem", "margin-desktop": "2rem", "space-xl": "2rem", "margin-tablet": "1.5rem", "space-md": "1rem", "gutter-compact": "0.75rem" }, "fontFamily": { "label-md": ["Inter"], "body-lg": ["Inter"], "body-sm": ["Inter"], "label-lg": ["Inter"], "headline-md": ["Inter"], "title-sm": ["Inter"], "headline-lg": ["Inter"], "headline-lg-mobile": ["Inter"], "title-md": ["Inter"], "body-md": ["Inter"], "display-lg": ["Inter"], "label-sm": ["Inter"] }, "fontSize": { "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600"}], "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}], "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}], "label-lg": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600"}], "headline-md": ["20px", {"lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600"}], "title-sm": ["14px", {"lineHeight": "20px", "fontWeight": "600"}], "headline-lg": ["30px", {"lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "700"}], "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}], "title-md": ["16px", {"lineHeight": "24px", "fontWeight": "600"}], "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}], "display-lg": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "800"}], "label-sm": ["10px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700"}] } } } };</script><style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+</head><body class="bg-surface text-on-surface flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="flex flex-col h-20 px-margin justify-between"><div class="flex items-center justify-between h-7 pt-space-xs text-on-surface-variant"><span class="font-label-md text-label-md font-semibold">12:45</span><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">wifi_off</span><span class="material-symbols-outlined text-[16px]">sd_card</span><span class="font-label-sm text-label-sm font-semibold">92%</span><span class="material-symbols-outlined text-[16px]">battery_full</span></div></div><div class="flex items-center justify-between pb-space-sm"><div class="flex items-center gap-space-sm"><button class="w-11 h-11 flex items-center justify-center text-on-surface" onclick="history.back()"><span class="material-symbols-outlined text-[24px]">arrow_back</span></button><img alt="CineTrack Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFtt3LlbYZeZRrhMAaoIBt7z7-WKx-oeTmleT2KBlwMSMdt7pvmAIV-HFr89pugOp9P_VqWkLVqAbTKYTZhQm0mkEHBgQcY8iJm8NEmzlf9pKTD5lwt-arsXuicjCV2zNuJpiZr1hAb-Q12ViHX4ZTuEAd5MVp7kG6nhMl0_arxdVd6LqAeEkIQXwEisDyNrjotCrNv7XEHZUqA3Ct6qwiI-md63pDsY73Fz_O2T8"/><h1 class="font-title-md text-title-md font-bold text-on-surface truncate">Detalle Pelicula</h1></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="flex flex-col relative w-full pt-20 pb-safe bg-surface min-h-screen"><div class="flex flex-col w-full px-margin pb-space-xl gap-space-lg">
+<!-- Hero Backdrop & Poster Composition -->
+<div class="relative w-full rounded-xl overflow-hidden bg-surface-container shadow-md">
+<!-- Cinematic Backdrop Image -->
+<div class="w-full h-56 bg-cover bg-center relative" data-alt="Cinematic still from Dune Part Two, featuring Paul Atreides standing in a golden desert storm under huge spice dunes, epic sci-fi atmospheric lighting, warm amber and deep shadows, IMAX composition" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDIm8TGATSH4J1zCxihDY8eYqz6Uo22D30ygcX-tzWccGmR48BOx-acXsbziBJZ8aPYJ32JGp2EHHsGEw_l8aNHDllSHhFoNPidixrT4qt8y0SYMp3IDnpSOU2s77mkr6iXPDzL25GsmvFvGKHMYehBfvGDWWy7VGIavAfMfgPgkqTZW7eKK9y6lYqcMtvOvhKCuw0BqTp9DAkJHBEo8xW20qopF9cSqiTeJQo7IuY')">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/60 to-transparent"></div>
+<!-- Top badges float inside the banner -->
+<div class="absolute top-space-sm left-space-sm flex items-center gap-space-xs">
+<span class="bg-surface-container-lowest/80 backdrop-blur-md text-on-surface px-space-sm py-0.5 rounded-full font-label-sm text-label-sm tracking-wide">
+          Película
+        </span>
+<span class="bg-surface-container-lowest/80 backdrop-blur-md text-on-surface-variant px-space-sm py-0.5 rounded-full font-label-sm text-label-sm">
+          2024 • 166 min
+        </span>
+</div>
+<div class="absolute top-space-sm right-space-sm">
+<button class="w-9 h-9 rounded-full bg-surface-container-lowest/80 backdrop-blur-md text-on-surface flex items-center justify-center hover:bg-surface-bright transition-colors active:scale-95" id="btn-quick-menu">
+<span class="material-symbols-outlined text-[20px]">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Media Overlap Card Info -->
+<div class="p-space-md pt-0 relative flex flex-col gap-space-md">
+<div class="flex gap-space-md -mt-16 items-end">
+<!-- Poster Thumbnail -->
+<div class="relative w-28 h-40 flex-shrink-0 rounded-xl overflow-hidden bg-surface-container-high shadow-xl">
+<img class="w-full h-full object-cover" data-alt="Dune Part Two official theatrical poster portrait, Paul Atreides and Chani with glowing blue fremen eyes against orange Arrakis sunset sands, pristine movie poster layout" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC26Vo5E4FCWKqYK7AP6tEnHXWQrSx7wlYVzBsv4gesCWf80Q-YSF10riEzPX19qKrGA-7tWJCxJ7g9fz9o-ZIyG1bUAiVX75ETzDlMsnrpfhdYwmi4Xy5I8sBqMFHSYvU8gnvEjpcWuHYefERimLmWcIz5HkxPILqOyihxQxx7KETbDRfjk3HOk1Mp26BJeUQ8CEEDfnqnK4g8j0d7-beHBho4yBkTaTCScue8iow"/>
+<div class="absolute bottom-1 right-1 bg-surface-container-lowest/90 text-primary rounded-full px-1.5 py-0.5 font-label-sm text-label-sm flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">hd</span>
+<span>4K</span>
+</div>
+</div>
+<!-- Title & Subtitle details -->
+<div class="flex flex-col min-w-0 pb-1">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-on-surface truncate leading-tight">
+            Dune: Parte Dos
+          </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+            Dir. Denis Villeneuve
+          </p>
+<div class="flex items-center gap-space-xs mt-1">
+<span class="inline-flex items-center gap-1 text-primary font-label-md text-label-md">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">star</span>
+              9.2
+            </span>
+<span class="text-outline text-label-sm font-label-sm">• Top #1 Cine 2024</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- State Selector (Pendiente, Viendo, Visto) -->
+<section class="flex flex-col gap-space-xs">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Estado de visualización</span>
+<div class="grid grid-cols-3 p-1 rounded-xl bg-surface-container gap-1 shadow-sm">
+<button class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface" id="status-btn-pending" onclick="setStatus('pending')">
+<span class="material-symbols-outlined text-[18px]">bookmark_add</span>
+<span>Pendiente</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg font-label-md text-label-md transition-all text-on-surface-variant hover:text-on-surface" id="status-btn-watching" onclick="setStatus('watching')">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+<span>Viendo</span>
+</button>
+<button class="flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg font-label-md text-label-md transition-all bg-primary-container text-on-primary-container shadow-sm font-semibold" id="status-btn-watched" onclick="setStatus('watched')">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span>Visto</span>
+</button>
+</div>
+</section>
+<!-- Big Interactive Score Card -->
+<section class="bg-surface-container rounded-xl p-space-md flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-space-md">
+<div class="w-14 h-14 rounded-xl bg-surface-container-high flex flex-col items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">grade</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Tu nota</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-baseline gap-1">
+<span class="font-display-lg text-display-lg font-extrabold text-primary leading-none" id="score-display">9.4</span>
+<span class="font-title-sm text-title-sm text-outline font-medium">/ 10</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Obra maestra visual y sonora</span>
+</div>
+</div>
+<button class="px-space-md py-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface rounded-lg font-label-md text-label-md flex items-center gap-1 transition-colors active:scale-95" onclick="toggleScoreEditor()">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span>Ajustar</span>
+</button>
+</section>
+<!-- Interactive Score Slider Box (Collapsible) -->
+<div class="hidden flex-col gap-space-sm bg-surface-container-high p-space-md rounded-xl shadow-md transition-all" id="score-editor-box">
+<div class="flex justify-between items-center">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Calificar (saltos de 0.1)</span>
+<span class="font-title-md text-title-md text-primary font-bold" id="slider-val">9.4</span>
+</div>
+<input class="w-full accent-primary-container bg-surface-container h-2 rounded-lg cursor-pointer" id="score-slider" max="10" min="0" oninput="updateScoreValue(this.value)" step="0.1" type="range" value="9.4"/>
+<div class="flex justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span>0.0 (Pésima)</span>
+<span>5.0</span>
+<span>10.0 (Perfecta)</span>
+</div>
+</div>
+<!-- Technical Spec & Saga Card -->
+<section class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-sm">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-primary">movie_filter</span>
+<h3 class="font-title-md text-title-md font-bold">Ficha Técnica Local</h3>
+</div>
+<!-- Saga Badge Clickable -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Colección / Saga</span>
+<button class="flex items-center justify-between p-space-sm bg-surface-container-high hover:bg-surface-bright rounded-lg text-left transition-colors group">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-[20px] text-tertiary">auto_stories</span>
+<div>
+<span class="font-title-sm text-title-sm text-on-surface font-semibold group-hover:text-primary transition-colors">Saga Dune</span>
+<span class="block font-body-sm text-body-sm text-on-surface-variant">2 películas guardadas en tu archivo</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-[20px] text-on-surface-variant group-hover:translate-x-1 transition-transform">arrow_forward_ios</span>
+</button>
+</div>
+<!-- Genres -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Géneros</span>
+<div class="flex flex-wrap gap-space-xs">
+<span class="px-space-sm py-1 bg-surface-container-high text-on-surface rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">rocket_launch</span>
+          Ciencia Ficción
+        </span>
+<span class="px-space-sm py-1 bg-surface-container-high text-on-surface rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">explore</span>
+          Aventura
+        </span>
+<span class="px-space-sm py-1 bg-surface-container-high text-on-surface rounded-full font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">theater_comedy</span>
+          Drama
+        </span>
+</div>
+</div>
+<!-- Available Audio / Subs -->
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Idiomas y subtítulos disponibles</span>
+<div class="flex flex-wrap gap-space-xs">
+<span class="px-space-sm py-1 bg-surface-container-lowest text-on-surface-variant rounded-md font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">volume_up</span>
+          Español (Castellano 5.1)
+        </span>
+<span class="px-space-sm py-1 bg-surface-container-lowest text-on-surface-variant rounded-md font-label-sm text-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">closed_caption</span>
+          Inglés V.O.S. (Dolby Atmos)
+        </span>
+</div>
+</div>
+</section>
+<!-- User Lists Section -->
+<section class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-md shadow-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-primary">folder_special</span>
+<h3 class="font-title-md text-title-md font-bold">En tus Listas</h3>
+</div>
+<button class="text-primary hover:text-primary-container font-label-md text-label-md flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Añadir a lista</span>
+</button>
+</div>
+<div class="flex flex-col gap-space-xs">
+<!-- List chip 1 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Favoritas 2024</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Posición actual: #1 de 28 títulos</span>
+</div>
+</div>
+<span class="bg-surface-container-lowest text-primary px-space-sm py-0.5 rounded font-label-sm text-label-sm font-semibold">Ranking #1</span>
+</div>
+<!-- List chip 2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-surface-container-high">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+<div class="flex flex-col">
+<span class="font-title-sm text-title-sm text-on-surface font-semibold">Maratón Otoño</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Orden de reproducción activo</span>
+</div>
+</div>
+<span class="bg-surface-container-lowest text-primary px-space-sm py-0.5 rounded font-label-sm text-label-sm font-semibold">Prioridad Alta</span>
+</div>
+</div>
+</section>
+<!-- User Personal Review & Notes -->
+<section class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm shadow-sm relative">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface">
+<span class="material-symbols-outlined text-[20px] text-primary">rate_review</span>
+<h3 class="font-title-md text-title-md font-bold">Mi Crítica y Notas</h3>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="p-1 rounded-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" onclick="editUserReview()" title="Editar">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+</button>
+<button class="p-1 rounded-md text-on-surface-variant hover:text-error hover:bg-surface-container-high transition-colors" onclick="confirmDeleteReview()" title="Borrar">
+<span class="material-symbols-outlined text-[18px]">delete_outline</span>
+</button>
+</div>
+</div>
+<div class="p-space-md bg-surface-container-lowest rounded-xl flex flex-col gap-space-sm">
+<p class="font-body-md text-body-md text-on-surface leading-relaxed italic" id="review-content">
+        "Experiencia audiovisual abrumadora. El diseño sonoro de Hans Zimmer en IMAX te hace sentir la vibración de los gusanos de arena. Feyd-Rautha es intimidante y el clímax político prepara a la perfección la tercera entrega."
+      </p>
+<div class="flex items-center justify-between pt-2 border-t-0 text-on-surface-variant font-label-sm text-label-sm">
+<span>Visto en Cine Gran Vía (Sala 1)</span>
+<span>Guardado: 14 de marzo, 2024</span>
+</div>
+</div>
+</section>
+<!-- Destructive Actions Section -->
+<section class="flex flex-col gap-space-sm mt-space-sm">
+<button class="w-full py-3.5 px-space-md bg-error-container text-on-error-container hover:bg-error hover:text-on-error rounded-xl font-title-sm text-title-sm font-semibold flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-sm" onclick="openDeleteConfirmationModal()">
+<span class="material-symbols-outlined text-[20px]">delete_forever</span>
+<span>Eliminar de mi catálogo</span>
+</button>
+<p class="text-center font-label-sm text-label-sm text-outline px-space-sm">
+      Esta acción es irreversible y eliminará calificaciones, notas y registros de tus listas.
+    </p>
+</section>
+<!-- Interactive Destructive Modal (Hidden by default) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-margin bg-surface-dim/80 backdrop-blur-sm hidden" id="delete-modal">
+<div class="bg-surface-container-high max-w-sm w-full p-space-lg rounded-xl shadow-xl flex flex-col gap-space-md animate-in fade-in">
+<div class="w-12 h-12 rounded-full bg-error-container text-on-error-container flex items-center justify-center mx-auto">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<div class="flex flex-col text-center gap-1">
+<h4 class="font-headline-md text-headline-md font-bold text-on-surface">¿Eliminar del catálogo?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Se quitará <strong>"Dune: Parte Dos"</strong> de tu base de datos local y de las 2 listas personalizadas asociadas.
+        </p>
+</div>
+<div class="flex flex-col gap-2 pt-space-xs">
+<button class="w-full py-2.5 bg-error text-on-error font-title-sm text-title-sm font-bold rounded-lg hover:bg-error-container hover:text-on-error-container transition-colors" onclick="confirmDeletion()">
+          Sí, eliminar definitivamente
+        </button>
+<button class="w-full py-2.5 bg-surface-container text-on-surface font-title-sm text-title-sm rounded-lg hover:bg-surface-bright transition-colors" onclick="closeDeleteConfirmationModal()">
+          Cancelar
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function setStatus(type) {
+    const btnPending = document.getElementById('status-btn-pending');
+    const btnWatching = document.getElementById('status-btn-watching');
+    const btnWatched = document.getElementById('status-btn-watched');
+
+    const resetClasses = "text-on-surface-variant font-normal shadow-none";
+    const activeClasses = "bg-primary-container text-on-primary-container shadow-sm font-semibold";
+
+    [btnPending, btnWatching, btnWatched].forEach(b => {
+      b.className = b.className.replace(activeClasses, "").replace(resetClasses, "") + " " + resetClasses;
+      const icon = b.querySelector('.material-symbols-outlined');
+      if (icon) icon.style.fontVariationSettings = "'FILL' 0";
+    });
+
+    let selectedBtn = btnWatched;
+    if (type === 'pending') selectedBtn = btnPending;
+    if (type === 'watching') selectedBtn = btnWatching;
+
+    selectedBtn.className = selectedBtn.className.replace(resetClasses, "") + " " + activeClasses;
+    const activeIcon = selectedBtn.querySelector('.material-symbols-outlined');
+    if (activeIcon) activeIcon.style.fontVariationSettings = "'FILL' 1";
+  }
+
+  function toggleScoreEditor() {
+    const editor = document.getElementById('score-editor-box');
+    editor.classList.toggle('hidden');
+    editor.classList.toggle('flex');
+  }
+
+  function updateScoreValue(val) {
+    const formatted = parseFloat(val).toFixed(1);
+    document.getElementById('slider-val').innerText = formatted;
+    document.getElementById('score-display').innerText = formatted;
+  }
+
+  function editUserReview() {
+    const content = document.getElementById('review-content');
+    const current = content.innerText.replace(/^"|"$/g, '');
+    const newText = prompt("Edita tu reseña cinematográfica:", current);
+    if (newText !== null && newText.trim() !== "") {
+      content.innerText = `"${newText.trim()}"`;
+    }
+  }
+
+  function confirmDeleteReview() {
+    if (confirm("¿Deseas vaciar tu reseña personal guardada?")) {
+      document.getElementById('review-content').innerText = "Sin reseña redactada todavía.";
+    }
+  }
+
+  function openDeleteConfirmationModal() {
+    document.getElementById('delete-modal').classList.remove('hidden');
+  }
+
+  function closeDeleteConfirmationModal() {
+    document.getElementById('delete-modal').classList.add('hidden');
+  }
+
+  function confirmDeletion() {
+    closeDeleteConfirmationModal();
+    alert("Película eliminada de la biblioteca local.");
+    if (window.history.length > 1) {
+      window.history.back();
+    }
+  }
+</script></main></body></html>
