@@ -9,6 +9,7 @@ import com.cinesstar.cinetrack.data.room.PerfilDao
 import com.cinesstar.cinetrack.data.room.PerfilEntity
 import com.cinesstar.cinetrack.data.room.PerfilGeneroEntity
 import com.cinesstar.cinetrack.data.room.PerfilIdiomaEntity
+import com.cinesstar.cinetrack.data.room.PertenenciaLista
 import com.cinesstar.cinetrack.data.room.SagaDao
 import com.cinesstar.cinetrack.data.room.SagaEntity
 import com.cinesstar.cinetrack.domain.DominioException
@@ -16,7 +17,11 @@ import com.cinesstar.cinetrack.domain.ErrorDominio
 import com.cinesstar.cinetrack.domain.Estado
 import com.cinesstar.cinetrack.domain.Normalizador
 import com.cinesstar.cinetrack.domain.Puntuacion
+import com.cinesstar.cinetrack.domain.TipoLista
 import com.cinesstar.cinetrack.domain.TipoPerfil
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 
 /** Datos para crear un perfil. Solo nombre y tipo son obligatorios (RF-03). */
 data class NuevoPerfil(
@@ -29,6 +34,12 @@ data class NuevoPerfil(
     val generoIds: Set<Long> = emptySet(),
     val idiomaIds: Set<Long> = emptySet(),
     val caratulaUri: String? = null,
+    /**
+     * Saga creada en el propio formulario (CU-10 A1). Se registra al guardar el perfil, en la misma transacción, y no
+     * antes (CU-10 E4). Si ya existe una con el mismo nombre normalizado, se reutiliza (RF-10). Tiene prioridad sobre
+     * [sagaId].
+     */
+    val sagaNueva: String? = null,
 )
 
 /** Perfil con sus relaciones, para la vista de detalle. */
@@ -39,6 +50,18 @@ data class PerfilDetalle(
     val idiomas: List<IdiomaEntity>,
 ) {
     val puntuacion: Puntuacion? get() = perfil.puntuacionDecimas?.let { Puntuacion.of(it) }
+}
+
+/** Todo lo que muestra el detalle de un perfil (CU-07, design.md §7). */
+data class FichaPerfil(
+    val detalle: PerfilDetalle,
+    /** Perfiles de la saga por tipo (incluido este); vacío si no tiene saga. */
+    val perfilesSaga: Map<TipoPerfil, Int>,
+    val listas: List<PertenenciaLista>,
+) {
+    /** Mejor puesto del perfil en sus rankings, para el hero (design.md §7.1); null si no está en ninguno. */
+    val mejorRanking: PertenenciaLista?
+        get() = listas.filter { it.tipo == TipoLista.RANKING && it.posicion != null }.minByOrNull { it.posicion!! }
 }
 
 /**
@@ -54,6 +77,10 @@ class PerfilRepository(
 ) {
     private val rankings = RankingOps(listaDao)
 
+    private companion object {
+        val TABLAS_FICHA = arrayOf("perfil", "saga", "perfil_genero", "perfil_idioma", "lista", "lista_item")
+    }
+
     /** CU-01. Devuelve el id del perfil creado. Errores: M-01, M-02. */
     suspend fun crear(nuevo: NuevoPerfil): Long =
         db.withTransaction {
@@ -63,6 +90,7 @@ class PerfilRepository(
             if (perfilDao.buscarPorNombre(nombreBusqueda, nuevo.tipo) != null) {
                 throw DominioException(ErrorDominio.PerfilDuplicado(nuevo.tipo))
             }
+            val sagaId = nuevo.sagaNueva?.let { registrarSaga(it) } ?: nuevo.sagaId
             val ahora = reloj()
             val comentario = nuevo.comentario?.takeIf { it.isNotBlank() }
             val id =
@@ -75,7 +103,7 @@ class PerfilRepository(
                         puntuacionDecimas = nuevo.puntuacion?.decimas,
                         comentario = comentario,
                         comentarioEditadoEn = comentario?.let { ahora },
-                        sagaId = nuevo.sagaId,
+                        sagaId = sagaId,
                         caratulaUri = nuevo.caratulaUri,
                         creadoEn = ahora,
                     ),
@@ -83,6 +111,52 @@ class PerfilRepository(
             if (nuevo.generoIds.isNotEmpty()) perfilDao.insertarGeneros(nuevo.generoIds.map { PerfilGeneroEntity(id, it) })
             if (nuevo.idiomaIds.isNotEmpty()) perfilDao.insertarIdiomas(nuevo.idiomaIds.map { PerfilIdiomaEntity(id, it) })
             id
+        }
+
+    /** Saga del formulario: la existente con ese nombre normalizado o una nueva. Dentro de la transacción de [crear]. */
+    private suspend fun registrarSaga(nombre: String): Long {
+        val limpio = Normalizador.limpiar(nombre)
+        if (limpio.isEmpty()) throw DominioException(ErrorDominio.SagaNombreObligatorio)
+        val nombreBusqueda = Normalizador.normalizar(limpio)
+        return sagaDao.buscarPorNombre(nombreBusqueda)?.id ?: sagaDao.insertar(SagaEntity(nombre = limpio, nombreBusqueda = nombreBusqueda))
+    }
+
+    /** CU-01 paso 4 / E5: ¿ya hay un perfil con ese nombre (normalizado) y tipo? Un nombre vacío no existe. */
+    suspend fun existe(
+        nombre: String,
+        tipo: TipoPerfil,
+    ): Boolean {
+        val nombreBusqueda = Normalizador.normalizar(nombre)
+        return nombreBusqueda.isNotEmpty() && perfilDao.existe(nombreBusqueda, tipo)
+    }
+
+    /** Todos los perfiles, más recientes primero (S-10). */
+    fun observarTodos(): Flow<List<PerfilEntity>> = perfilDao.observarTodos()
+
+    /**
+     * CU-07: ficha del perfil, que se vuelve a leer cada vez que cambia cualquiera de las tablas que la forman. Emite
+     * null si el perfil no existe (o se borra mientras se ve, CU-07 E1).
+     */
+    @OptIn(ExperimentalCoroutinesApi::class)
+    fun observarFicha(perfilId: Long): Flow<FichaPerfil?> =
+        db.invalidationTracker
+            .createFlow(*TABLAS_FICHA)
+            .mapLatest { obtenerFicha(perfilId) }
+
+    suspend fun obtenerFicha(perfilId: Long): FichaPerfil? =
+        db.withTransaction {
+            val detalle = obtener(perfilId) ?: return@withTransaction null
+            val sagaId = detalle.perfil.sagaId
+            FichaPerfil(
+                detalle = detalle,
+                perfilesSaga =
+                    if (sagaId == null) {
+                        emptyMap()
+                    } else {
+                        TipoPerfil.entries.associateWith { sagaDao.contarPerfiles(sagaId, it) }
+                    },
+                listas = listaDao.listasDe(perfilId),
+            )
         }
 
     suspend fun obtener(perfilId: Long): PerfilDetalle? =

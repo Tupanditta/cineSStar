@@ -18,6 +18,114 @@
 
     <!-- Pantallas secundarias -->
     <string name="titulo_anadir_medio">Añadir Medio</string>
+    <string name="titulo_detalle_pelicula">Detalle Película</string>
+    <string name="titulo_detalle_serie">Detalle Serie</string>
+
+    <!-- Valores comunes -->
+    <string name="tipo_pelicula">Película</string>
+    <string name="tipo_serie">Serie</string>
+    <string name="estado_pendiente">Pendiente</string>
+    <string name="estado_viendo">Viendo</string>
+    <string name="estado_visto">Visto</string>
+    <string name="sin_valor">—</string>
+    <string name="sobre_diez">/ 10</string>
+    <string name="sin_puntuar">Sin puntuar</string>
+    <string name="toast_perfil_guardado">¡Perfil guardado correctamente en CineTrack!</string>
+
+    <!-- Formulario de perfil (design.md §8) -->
+    <string name="form_titulo">Añadir nuevo perfil</string>
+    <string name="form_subtitulo">Registra y califica en tu colección local</string>
+    <string name="form_cancelar">Cancelar</string>
+    <string name="form_tipo">Tipo de producción</string>
+    <string name="form_obligatorio">*</string>
+    <string name="form_nombre">Nombre del título</string>
+    <string name="form_nombre_placeholder">Ej. Blade Runner 2049</string>
+    <string name="form_disponible">Disponible</string>
+    <string name="form_ya_registrado">Ya registrado</string>
+    <string name="form_nombre_ayuda">El sistema comprueba que no exista ya con este nombre y tipo.</string>
+    <string name="form_estado">Estado de visualización</string>
+    <string name="form_puntuacion">Puntuación Personal</string>
+    <string name="form_opcional">Opcional</string>
+    <string name="form_puntuacion_aviso">La puntuación es opcional en cualquier estado.</string>
+    <string name="form_puntuacion_placeholder">Ej. 8.5</string>
+    <string name="form_puntuacion_neutro">Introduce un valor entre 0.0 y 10 (máx 1 decimal)</string>
+    <string name="form_puntuacion_valida">Puntuación válida.</string>
+    <string name="form_saga">Saga / Universo cinematográfico</string>
+    <string name="form_crear_saga">Crear nueva saga</string>
+    <string name="form_saga_ninguna">Ninguna / Obra individual</string>
+    <string name="form_saga_nueva_titulo">Nueva saga local</string>
+    <string name="form_saga_placeholder">Nombre de la saga...</string>
+    <string name="form_saga_guardar">Guardar</string>
+    <string name="form_saga_elegir_existente">Elegir la existente</string>
+    <string name="form_generos">Géneros</string>
+    <string name="form_idiomas">Idiomas disponibles</string>
+    <plurals name="form_seleccionados">
+        <item quantity="one">%1$d seleccionado</item>
+        <item quantity="other">%1$d seleccionados</item>
+    </plurals>
+    <string name="form_comentario">Comentarios / Crítica personal</string>
+    <string name="form_comentario_opcional">(Opcional)</string>
+    <string name="form_comentario_placeholder">Notas cinematográficas, fotografía, dirección, momentos destacados...</string>
+    <string name="form_guardar">Guardar Perfil</string>
+    <string name="descartar_titulo">¿Descartar el perfil?</string>
+    <string name="descartar_texto">Se perderán los datos que has introducido.</string>
+    <string name="descartar_confirmar">Descartar</string>
+    <string name="descartar_seguir">Seguir editando</string>
+    <string name="cd_bajar_puntuacion">Bajar puntuación</string>
+    <string name="cd_subir_puntuacion">Subir puntuación</string>
+    <string name="cd_cerrar">Cerrar</string>
+    <string name="cd_puntuacion">Puntuación</string>
+
+    <!-- Detalle del perfil (design.md §7) -->
+    <string name="detalle_estado">Estado de visualización</string>
+    <string name="detalle_tu_nota">Tu nota</string>
+    <string name="detalle_en_ranking">• #%1$d en %2$s</string>
+    <string name="rango_9_10">Imprescindible</string>
+    <string name="rango_7_8">Muy buena</string>
+    <string name="rango_5_6">Correcta</string>
+    <string name="rango_3_4">Floja</string>
+    <string name="rango_0_2">Mala</string>
+    <string name="detalle_ficha">Ficha Técnica Local</string>
+    <string name="detalle_saga_etiqueta">Colección / Saga</string>
+    <string name="detalle_saga_nombre">Saga %1$s</string>
+    <string name="detalle_sin_saga">Sin saga asociada</string>
+    <plurals name="detalle_saga_peliculas">
+        <item quantity="one">%1$d película guardada en tu archivo</item>
+        <item quantity="other">%1$d películas guardadas en tu archivo</item>
+    </plurals>
+    <plurals name="detalle_saga_series">
+        <item quantity="one">%1$d serie guardada en tu archivo</item>
+        <item quantity="other">%1$d series guardadas en tu archivo</item>
+    </plurals>
+    <plurals name="detalle_saga_titulos">
+        <item quantity="one">%1$d título guardado en tu archivo</item>
+        <item quantity="other">%1$d títulos guardados en tu archivo</item>
+    </plurals>
+    <string name="detalle_generos">Géneros</string>
+    <string name="detalle_idiomas">Idiomas</string>
+    <string name="detalle_listas">En tus Listas</string>
+    <string name="detalle_sin_listas">Aún no está en ninguna lista</string>
+    <string name="detalle_lista_posicion">Posición actual: #%1$d de %2$d títulos</string>
+    <string name="detalle_lista_prioridad">Prioridad %1$s en esta lista</string>
+    <plurals name="detalle_lista_titulos">
+        <item quantity="one">%1$d título</item>
+        <item quantity="other">%1$d títulos</item>
+    </plurals>
+    <string name="detalle_insignia_ranking">Ranking #%1$d</string>
+    <string name="detalle_insignia_prioridad">Prioridad %1$s</string>
+    <string name="detalle_insignia_normal">Normal</string>
+    <string name="prioridad_alta">Alta</string>
+    <string name="prioridad_media">Media</string>
+    <string name="prioridad_baja">Baja</string>
+    <string name="detalle_critica">Mi Crítica y Notas</string>
+    <string name="detalle_critica_texto">“%1$s”</string>
+    <string name="detalle_critica_vacia">Sin reseña redactada todavía.</string>
+    <string name="detalle_critica_guardado">Guardado: %1$s</string>
+    <string name="aviso_perfil_no_existe">Este título ya no existe.</string>
+
+    <!-- Biblioteca provisional del S2 (la definitiva llega en el S4) -->
+    <string name="m22_biblioteca_vacia">Todavía no hay títulos. Añade el primero.</string>
+    <string name="biblioteca_anadir">Añadir</string>
 
     <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
     <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>

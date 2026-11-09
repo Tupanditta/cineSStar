@@ -11,6 +11,8 @@ complexity:
     ignoreAnnotated: ['Composable']
   TooManyFunctions:
     excludes: ['**/test/**']
+    # Una pantalla Compose se divide en muchas funciones pequeñas (una por bloque del prototipo).
+    ignoreAnnotatedFunctions: ['Composable']
     # Los DAO de Room agrupan todas las consultas de una tabla.
     allowedFunctionsPerInterface: 20
 style:

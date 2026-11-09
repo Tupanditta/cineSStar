@@ -64,6 +64,15 @@ data class CineTypography(
 /** `tracking-tight` de Tailwind, usado en la marca "CineTrack". */
 val TrackingTight = (-0.025).em
 
+/** `tracking-wide` de Tailwind (píldora de tipo del hero, design.md §7.1). */
+val TrackingWide = 0.025.em
+
+/** `leading-relaxed` de Tailwind (texto de la crítica, design.md §7.6). */
+val LeadingRelaxed = 1.625.em
+
+/** `leading-tight` de Tailwind (título del hero, design.md §7.1). */
+val LeadingTight = 1.25.em
+
 val LocalCineTypography = staticCompositionLocalOf { CineTypography() }
 
 /** Correspondencia con los roles de Material 3 para los componentes de la biblioteca. */

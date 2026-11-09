@@ -397,13 +397,13 @@ Barra superior secundaria con "Añadir Medio" ("Editar Medio" al editar). **Sin 
      - Derecha: valor grande `display-lg` extrabold `primary` ("—" si está vacío) + "/ 10" `label-md` `on-surface-variant`.
    - Slider a ancho completo, 0–10 paso 0.1, pista `surface-container` 8 dp, color `#38BDF8`.
    - Mensaje (alto mínimo 20 dp) `body-sm` con icono 14 dp:
-     - Neutro (`on-surface-variant`, `info`): "Introduce un valor entre 0.0 y 10 (máx 1 decimal)"; vacío: "Sin puntuación asignada."
+     - Neutro, también con el campo vacío (`on-surface-variant`, `info`): "Introduce un valor entre 0.0 y 10 (máx 1 decimal)"
      - Válido (`primary` semibold, `check_circle`): "Puntuación válida."
-     - Inválido (**`secondary`**, `error`): "Debe estar entre 0.0 y 10 con máximo un decimal."
+     - Inválido (**`secondary`**, `error`): el texto de M-03 (el prototipo dice "Debe estar entre 0.0 y 10 con máximo un decimal."; se usa el catálogo de mensajes, T2.11).
    - − / + con el campo vacío parten de **5.0** (como en el prototipo); los límites son 0.0 y 10. El 10 se muestra "10" y el resto con un decimal.
 6. **SAGA / UNIVERSO CINEMATOGRÁFICO**: etiqueta de sección; a la derecha enlace "**+ Crear nueva saga**" `label-sm` `primary` con `add` 14 dp.
    - Desplegable (§3.7) con "Ninguna / Obra individual" + sagas registradas.
-   - **Caja en línea** al pulsar "Crear nueva saga" (no es un diálogo): `rounded-xl` fondo `surface-container` padding 8, 4 dp arriba; "Nueva saga local" `label-sm` bold `primary`; fila con campo `rounded-lg` fondo `surface-container-lowest` `body-sm` placeholder "Nombre de la saga...", botón "Guardar" (`rounded-lg`, `primary-container`/`on-primary-container`, `label-sm` bold) y `close` 16 dp. Al guardar, la saga queda seleccionada.
+   - **Caja en línea** al pulsar "Crear nueva saga" (no es un diálogo): `rounded-xl` fondo `surface-container` padding 8, 4 dp arriba; "Nueva saga local" `label-sm` bold `primary`; fila con campo `rounded-lg` fondo `surface-container-lowest` `body-sm` placeholder "Nombre de la saga...", botón "Guardar" (`rounded-lg`, `primary-container`/`on-primary-container`, `label-sm` bold) y `close` 16 dp. Al guardar, la saga queda seleccionada (y se registra al guardar el perfil, CU-10 E4). Debajo de la fila, M-05 o M-04 en `secondary` con `error` 14 dp; con M-04, enlace "Elegir la existente" `label-sm` `primary` (S-13).
 7. **GÉNEROS**: etiqueta de sección + contador a la derecha `label-sm` `on-surface-variant` ("0 seleccionados", "1 seleccionado"…). Chips con salto de línea (separación 4): píldora padding 8×4 `label-md`. Sin seleccionar: fondo `surface-container-low`, texto `on-surface-variant`. Seleccionado: fondo `primary-container`, texto `on-primary-container` **bold**, `shadow-sm` (sin ✓). Lista predefinida (primeros del prototipo): Acción, Drama, Comedia, Ciencia Ficción, Terror, Suspense, Animación, Fantasía, Documental, + Crimen, Romance, Historia, Thriller, Aventura.
 8. **IDIOMAS DISPONIBLES**: igual que géneros. Lista predefinida: Español, Inglés, Francés, Japonés, Alemán, Coreano, + Italiano, Portugués, Chino.
 9. **COMENTARIOS / CRÍTICA PERSONAL (OPCIONAL)**: etiqueta de sección con "(Opcional)" en `outline` peso normal. Área de texto 4 líneas, `rounded-xl`, padding 16, fondo `surface-container-low` (§3.7), sin redimensionar, placeholder "Notas cinematográficas, fotografía, dirección, momentos destacados...".
@@ -411,6 +411,9 @@ Barra superior secundaria con "Añadir Medio" ("Editar Medio" al editar). **Sin 
     - Deshabilitado (nombre vacío, duplicado o nota inválida): fondo `surface-container-highest`, texto `on-surface-variant`, opacidad 50 %, `shadow-md`.
     - Habilitado: fondo `primary-container`, texto `on-primary-container`, `shadow-lg`.
     - Al guardar: toast de éxito (§3.5) "¡Perfil guardado correctamente en CineTrack!" y vuelta atrás.
+    - Fallo de escritura (CU-01 E4): M-25 encima del botón, `body-sm` `secondary` con `error` 14 dp.
+11. **Cancelar con datos** (botón "Cancelar", atrás de la barra o del sistema): diálogo destructivo (§3.6-2) "¿Descartar el perfil?" / "Se perderán los datos que has introducido." / "Descartar" / "Seguir editando". Sin datos, vuelve atrás directamente.
+12. **Slider**: el `<input type="range">` del prototipo ocupa 20 dp de alto (pista 8 dp, pulgar circular 18 dp); la zona táctil sigue siendo de 48 dp (§11).
 
 ---
 
@@ -542,7 +545,7 @@ Stitch generó cada pantalla por separado y hay detalles que cambian entre ellas
 | Logo | Imagen del logo exportada del prototipo como recurso | Barra superior |
 | Navegación | **Navigation Compose** (type-safe) + barra inferior propia con destino central elevado | 3 destinos con barra + pantallas secundarias sin barra |
 | Arquitectura | **MVVM + UDF**: `ViewModel`, `StateFlow`, repositorios | Mantenible por una persona |
-| Inyección | **Hilt** | |
+| Inyección | Contenedor manual (`AppContainer`) | Decidido en el S2: pocas dependencias y un solo contenedor; evita el plugin de Hilt. Los tests sustituyen el contenedor |
 | Persistencia | **Room** + `Flow` | Requisito de datos locales |
 | Búsqueda sin tildes | Columna `nombreBusqueda` normalizada (`java.text.Normalizer`) + `LIKE` con escape | RF-46 |
 | Preferencias | **DataStore (Preferences)** | Última lista abierta, avisos |

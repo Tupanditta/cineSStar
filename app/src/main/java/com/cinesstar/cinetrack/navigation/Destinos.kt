@@ -21,6 +21,12 @@ sealed interface Ruta {
     /** Pantalla secundaria de alta de perfil (sin barra inferior). */
     @Serializable
     data object Anadir : Ruta
+
+    /** Detalle de un perfil (CU-07), pantalla secundaria. */
+    @Serializable
+    data class Detalle(
+        val perfilId: Long,
+    ) : Ruta
 }
 
 /**

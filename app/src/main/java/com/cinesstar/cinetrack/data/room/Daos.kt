@@ -5,7 +5,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.cinesstar.cinetrack.domain.Prioridad
 import com.cinesstar.cinetrack.domain.RangoPuntuacion
+import com.cinesstar.cinetrack.domain.TipoLista
 import com.cinesstar.cinetrack.domain.TipoPerfil
 import kotlinx.coroutines.flow.Flow
 
@@ -28,6 +30,13 @@ interface PerfilDao {
 
     @Query("SELECT * FROM perfil WHERE id = :id")
     suspend fun obtener(id: Long): PerfilEntity?
+
+    /** RES-06: ¿hay un perfil con ese nombre normalizado y tipo? (comprobación en línea del formulario, CU-01 paso 4). */
+    @Query("SELECT EXISTS(SELECT 1 FROM perfil WHERE nombreBusqueda = :nombreBusqueda AND tipo = :tipo)")
+    suspend fun existe(
+        nombreBusqueda: String,
+        tipo: TipoPerfil,
+    ): Boolean
 
     @Query("SELECT * FROM perfil WHERE nombreBusqueda = :nombreBusqueda AND tipo = :tipo")
     suspend fun buscarPorNombre(
@@ -97,7 +106,25 @@ interface SagaDao {
 
     @Query("SELECT * FROM saga ORDER BY nombreBusqueda")
     suspend fun todas(): List<SagaEntity>
+
+    /** Perfiles de una saga de un tipo ("{n} películas/series guardadas en tu archivo", design.md §7.4). */
+    @Query("SELECT COUNT(*) FROM perfil WHERE sagaId = :sagaId AND tipo = :tipo")
+    suspend fun contarPerfiles(
+        sagaId: Long,
+        tipo: TipoPerfil,
+    ): Int
 }
+
+/** Una lista a la que pertenece un perfil, con su posición o prioridad en ella (CU-07, design.md §7.5). */
+data class PertenenciaLista(
+    val listaId: Long,
+    val nombre: String,
+    val tipo: TipoLista,
+    val posicion: Int?,
+    val prioridad: Prioridad?,
+    /** Elementos de la lista. */
+    val total: Int,
+)
 
 @Dao
 interface CatalogoDao {
@@ -178,4 +205,16 @@ interface ListaDao {
         """,
     )
     suspend fun rankingsCon(perfilId: Long): List<Long>
+
+    /** Listas que contienen un perfil, por nombre. */
+    @Query(
+        """
+        SELECT l.id AS listaId, l.nombre AS nombre, l.tipo AS tipo, li.posicion AS posicion, li.prioridad AS prioridad,
+            (SELECT COUNT(*) FROM lista_item x WHERE x.listaId = l.id) AS total
+        FROM lista_item li JOIN lista l ON l.id = li.listaId
+        WHERE li.perfilId = :perfilId
+        ORDER BY l.nombreBusqueda
+        """,
+    )
+    suspend fun listasDe(perfilId: Long): List<PertenenciaLista>
 }

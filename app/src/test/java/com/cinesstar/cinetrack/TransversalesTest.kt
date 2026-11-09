@@ -10,6 +10,8 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onRoot
 import androidx.compose.ui.test.performClick
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.cinesstar.cinetrack.domain.GENEROS_PREDEFINIDOS
+import com.cinesstar.cinetrack.domain.IDIOMAS_PREDEFINIDOS
 import com.cinesstar.cinetrack.navigation.DestinoBarra
 import com.cinesstar.cinetrack.soporte.Proyecto
 import com.cinesstar.cinetrack.ui.components.tag
@@ -56,10 +58,22 @@ class TransversalesTest {
         )
     }
 
-    /** Textos de la interfaz: todos los valores de `res/values/strings.xml`. */
-    private fun textosDeRecursos(): Set<String> {
+    /**
+     * Textos permitidos: cada `<string>` y cada `<item>` de los plurales de `res/values/strings.xml`, con sus
+     * parámetros (`%1$s`, `%1$d`) como comodín. Se comparan sin distinguir mayúsculas, porque las etiquetas de sección
+     * se pintan en MAYÚSCULAS (design.md §2.5). Los géneros e idiomas predefinidos son datos del catálogo (RF-07,
+     * RF-08), también en español.
+     */
+    private fun patronesPermitidos(): List<Regex> {
         val xml = File(Proyecto.recursosMain, "values/strings.xml").readText()
-        return Regex("<string name=\"[^\"]+\">(.*?)</string>").findAll(xml).map { it.groupValues[1] }.toSet()
+        val textos =
+            Regex("<string name=\"[^\"]+\">(.*?)</string>").findAll(xml).map { it.groupValues[1] } +
+                Regex("<item quantity=\"[^\"]+\">(.*?)</item>").findAll(xml).map { it.groupValues[1] } +
+                GENEROS_PREDEFINIDOS + IDIOMAS_PREDEFINIDOS
+        return textos
+            .map { texto -> texto.lowercase().split(Regex("""%(\d+\$)?[sd]""")).joinToString(".+") { Regex.escape(it) } }
+            .map { Regex(it, RegexOption.DOT_MATCHES_ALL) }
+            .toList()
     }
 
     private fun textosVisibles(nodo: SemanticsNode): List<String> {
@@ -74,7 +88,7 @@ class TransversalesTest {
 
     @Test
     fun tx_02_todosLosTextosVisiblesEstanEnStringsXml() {
-        val recursos = textosDeRecursos()
+        val permitidos = patronesPermitidos()
         val vistos = mutableSetOf<String>()
 
         fun recoger() {
@@ -89,7 +103,7 @@ class TransversalesTest {
         compose.onNodeWithTag(DestinoBarra.ANADIR.tag()).performClick()
         recoger()
         assertTrue("No se ha recogido ningún texto", vistos.isNotEmpty())
-        val fuera = vistos - recursos
+        val fuera = vistos.filterNot { visto -> permitidos.any { it.matches(visto.lowercase()) } }.toSet()
         assertEquals("Textos visibles que no salen de strings.xml", emptySet<String>(), fuera)
     }
 
