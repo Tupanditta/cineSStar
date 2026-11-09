@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import com.cinesstar.cinetrack.domain.Estado
 import com.cinesstar.cinetrack.domain.Prioridad
 import com.cinesstar.cinetrack.domain.RangoPuntuacion
 import com.cinesstar.cinetrack.domain.TipoLista
@@ -31,11 +32,15 @@ interface PerfilDao {
     @Query("SELECT * FROM perfil WHERE id = :id")
     suspend fun obtener(id: Long): PerfilEntity?
 
-    /** RES-06: ¿hay un perfil con ese nombre normalizado y tipo? (comprobación en línea del formulario, CU-01 paso 4). */
-    @Query("SELECT EXISTS(SELECT 1 FROM perfil WHERE nombreBusqueda = :nombreBusqueda AND tipo = :tipo)")
+    /**
+     * RES-06: ¿hay otro perfil con ese nombre normalizado y tipo? (comprobación en línea del formulario, CU-01 paso 4).
+     * [excluirId] es el perfil que se está editando (CU-02 E2); 0 al crear (los ids empiezan en 1).
+     */
+    @Query("SELECT EXISTS(SELECT 1 FROM perfil WHERE nombreBusqueda = :nombreBusqueda AND tipo = :tipo AND id != :excluirId)")
     suspend fun existe(
         nombreBusqueda: String,
         tipo: TipoPerfil,
+        excluirId: Long,
     ): Boolean
 
     @Query("SELECT * FROM perfil WHERE nombreBusqueda = :nombreBusqueda AND tipo = :tipo")
@@ -50,6 +55,28 @@ interface PerfilDao {
 
     @Query("SELECT COUNT(*) FROM perfil")
     suspend fun contar(): Int
+
+    /** CU-05: devuelve las filas cambiadas (0 si el perfil ya no existe). */
+    @Query("UPDATE perfil SET estado = :estado WHERE id = :perfilId")
+    suspend fun actualizarEstado(
+        perfilId: Long,
+        estado: Estado,
+    ): Int
+
+    /** CU-03: null quita la puntuación. */
+    @Query("UPDATE perfil SET puntuacionDecimas = :decimas WHERE id = :perfilId")
+    suspend fun actualizarPuntuacion(
+        perfilId: Long,
+        decimas: Int?,
+    ): Int
+
+    /** CU-04: null quita el comentario (y su fecha). */
+    @Query("UPDATE perfil SET comentario = :comentario, comentarioEditadoEn = :editadoEn WHERE id = :perfilId")
+    suspend fun actualizarComentario(
+        perfilId: Long,
+        comentario: String?,
+        editadoEn: Long?,
+    ): Int
 
     @Query("UPDATE perfil SET sagaId = :sagaId WHERE id = :perfilId")
     suspend fun asignarSaga(

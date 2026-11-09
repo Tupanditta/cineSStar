@@ -88,24 +88,30 @@ import com.cinesstar.cinetrack.ui.theme.DimensFormulario
 import com.cinesstar.cinetrack.ui.theme.Sombras
 import com.cinesstar.cinetrack.ui.theme.Spacing
 
-/** Pantalla "Añadir nuevo perfil" (CU-01, design.md §8). */
+/**
+ * Pantalla "Añadir nuevo perfil" (CU-01) y, con [perfilId], "Editar Medio" (CU-02), design.md §8. Al editar, el
+ * formulario se abre con los datos actuales y el tipo no se puede cambiar (S-03).
+ */
 @Composable
 fun PantallaFormularioPerfil(
     onSalir: () -> Unit,
     onAvatar: () -> Unit,
+    perfilId: Long? = null,
 ) {
     val contenedor = LocalContext.current.contenedor
     val vm: FormularioPerfilViewModel =
         viewModel {
-            FormularioPerfilViewModel(createSavedStateHandle(), contenedor.perfiles, contenedor.sagas, contenedor.catalogo)
+            FormularioPerfilViewModel(createSavedStateHandle(), contenedor.perfiles, contenedor.sagas, contenedor.catalogo, perfilId)
         }
     val estado by vm.estado.collectAsStateWithLifecycle()
     var confirmarDescarte by rememberSaveable { mutableStateOf(false) }
     val avisos = LocalAvisos.current
-    val textoGuardado = stringResource(R.string.toast_perfil_guardado)
+    val edicion = perfilId != null
+    val textoGuardado = stringResource(if (edicion) R.string.toast_cambios_guardados else R.string.toast_perfil_guardado)
+    val textoNoExiste = stringResource(R.string.aviso_perfil_no_existe)
 
-    // CU-01 A7: cancelar o atrás con datos pide confirmar el descarte.
-    val salir = { if (estado.borrador.tieneDatos && estado.guardadoId == null) confirmarDescarte = true else onSalir() }
+    // CU-01 A7 / CU-02 A4: cancelar o atrás con datos (o con cambios, al editar) pide confirmar el descarte.
+    val salir = { if (estado.hayCambios && estado.guardadoId == null) confirmarDescarte = true else onSalir() }
     BackHandler(onBack = salir)
 
     LaunchedEffect(estado.guardadoId) {
@@ -114,10 +120,16 @@ fun PantallaFormularioPerfil(
             onSalir()
         }
     }
+    LaunchedEffect(estado.noExiste) {
+        if (estado.noExiste) {
+            avisos.mostrar(Aviso(textoNoExiste))
+            onSalir()
+        }
+    }
 
     PantallaSecundaria(
-        titulo = stringResource(R.string.titulo_anadir_medio),
-        tag = DestinoBarra.ANADIR.tagPantalla(),
+        titulo = stringResource(if (edicion) R.string.titulo_editar_medio else R.string.titulo_anadir_medio),
+        tag = if (edicion) TagsFormulario.PANTALLA_EDITAR else DestinoBarra.ANADIR.tagPantalla(),
         onBack = salir,
         onAvatarClick = onAvatar,
     ) {
@@ -126,8 +138,8 @@ fun PantallaFormularioPerfil(
 
     if (confirmarDescarte) {
         DialogoConfirmacion(
-            titulo = stringResource(R.string.descartar_titulo),
-            texto = stringResource(R.string.descartar_texto),
+            titulo = stringResource(if (edicion) R.string.descartar_cambios_titulo else R.string.descartar_titulo),
+            texto = stringResource(if (edicion) R.string.descartar_cambios_texto else R.string.descartar_texto),
             confirmar = stringResource(R.string.descartar_confirmar),
             cancelar = stringResource(R.string.descartar_seguir),
             onConfirmar = {
@@ -158,8 +170,8 @@ private fun Formulario(
                 .padding(start = Spacing.Margin, end = Spacing.Margin, bottom = DimensFormulario.ContentBottom),
         verticalArrangement = Arrangement.spacedBy(Spacing.Lg),
     ) {
-        Cabecera(onCancelar)
-        SeccionTipo(estado.borrador.tipo, vm::elegirTipo)
+        Cabecera(estado.edicion, onCancelar)
+        SeccionTipo(estado.borrador.tipo, habilitado = !estado.edicion, onElegir = vm::elegirTipo)
         SeccionNombre(estado, vm)
         SeccionEstado(estado.borrador.estado, vm::elegirEstado)
         SeccionPuntuacion(estado.borrador.puntuacion, vm)
@@ -184,7 +196,10 @@ private fun Formulario(
 }
 
 @Composable
-private fun Cabecera(onCancelar: () -> Unit) {
+private fun Cabecera(
+    edicion: Boolean,
+    onCancelar: () -> Unit,
+) {
     Row(
         modifier = Modifier.fillMaxWidth().padding(vertical = Spacing.Xs),
         verticalAlignment = Alignment.CenterVertically,
@@ -192,13 +207,13 @@ private fun Cabecera(onCancelar: () -> Unit) {
     ) {
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = stringResource(R.string.form_titulo),
+                text = stringResource(if (edicion) R.string.form_titulo_editar else R.string.form_titulo),
                 style = CineTheme.typography.headlineMd,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
             )
             Text(
-                text = stringResource(R.string.form_subtitulo),
+                text = stringResource(if (edicion) R.string.form_subtitulo_editar else R.string.form_subtitulo),
                 style = CineTheme.typography.bodySm,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -221,6 +236,7 @@ private fun Cabecera(onCancelar: () -> Unit) {
 @Composable
 private fun SeccionTipo(
     tipo: TipoPerfil,
+    habilitado: Boolean,
     onElegir: (TipoPerfil) -> Unit,
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(Spacing.Xs)) {
@@ -231,6 +247,8 @@ private fun SeccionTipo(
                     .fillMaxWidth()
                     .clip(CineShapes.Xl)
                     .background(MaterialTheme.colorScheme.surfaceContainerLowest)
+                    // Al editar está deshabilitado (S-03): se ve el tipo actual, atenuado.
+                    .alpha(if (habilitado) 1f else CineAlpha.A50)
                     .padding(DimensFormulario.SegmentContainerPadding),
         ) {
             TipoPerfil.entries.forEach { opcion ->
@@ -243,7 +261,7 @@ private fun SeccionTipo(
                             .then(if (activo) Modifier.shadow(Sombras.Md, CineShapes.Lg) else Modifier)
                             .clip(CineShapes.Lg)
                             .background(if (activo) MaterialTheme.colorScheme.primaryContainer else Color.Transparent)
-                            .selectable(selected = activo, role = Role.Tab, onClick = { onElegir(opcion) })
+                            .selectable(selected = activo, enabled = habilitado, role = Role.Tab, onClick = { onElegir(opcion) })
                             .padding(vertical = DimensFormulario.SegmentButtonPaddingV)
                             .testTag(TagsFormulario.tipo(opcion)),
                     horizontalArrangement = Arrangement.spacedBy(Spacing.Xs, Alignment.CenterHorizontally),

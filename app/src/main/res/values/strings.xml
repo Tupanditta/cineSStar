@@ -20,6 +20,7 @@
     <string name="titulo_anadir_medio">Añadir Medio</string>
     <string name="titulo_detalle_pelicula">Detalle Película</string>
     <string name="titulo_detalle_serie">Detalle Serie</string>
+    <string name="titulo_editar_medio">Editar Medio</string>
 
     <!-- Valores comunes -->
     <string name="tipo_pelicula">Película</string>
@@ -31,10 +32,16 @@
     <string name="sobre_diez">/ 10</string>
     <string name="sin_puntuar">Sin puntuar</string>
     <string name="toast_perfil_guardado">¡Perfil guardado correctamente en CineTrack!</string>
+    <string name="toast_cambios_guardados">Cambios guardados</string>
+    <string name="toast_perfil_eliminado">Perfil eliminado</string>
+    <string name="comun_cancelar">Cancelar</string>
+    <string name="comun_guardar">Guardar</string>
 
     <!-- Formulario de perfil (design.md §8) -->
     <string name="form_titulo">Añadir nuevo perfil</string>
     <string name="form_subtitulo">Registra y califica en tu colección local</string>
+    <string name="form_titulo_editar">Editar perfil</string>
+    <string name="form_subtitulo_editar">Actualiza los datos de tu colección local</string>
     <string name="form_cancelar">Cancelar</string>
     <string name="form_tipo">Tipo de producción</string>
     <string name="form_obligatorio">*</string>
@@ -71,6 +78,8 @@
     <string name="descartar_texto">Se perderán los datos que has introducido.</string>
     <string name="descartar_confirmar">Descartar</string>
     <string name="descartar_seguir">Seguir editando</string>
+    <string name="descartar_cambios_titulo">¿Descartar los cambios?</string>
+    <string name="descartar_cambios_texto">Se perderán los cambios que has hecho.</string>
     <string name="cd_bajar_puntuacion">Bajar puntuación</string>
     <string name="cd_subir_puntuacion">Subir puntuación</string>
     <string name="cd_cerrar">Cerrar</string>
@@ -122,6 +131,25 @@
     <string name="detalle_critica_vacia">Sin reseña redactada todavía.</string>
     <string name="detalle_critica_guardado">Guardado: %1$s</string>
     <string name="aviso_perfil_no_existe">Este título ya no existe.</string>
+    <string name="cd_mas_opciones">Más opciones</string>
+    <string name="menu_editar">Editar</string>
+    <string name="menu_eliminar">Eliminar</string>
+    <string name="detalle_ajustar">Ajustar</string>
+    <string name="detalle_calificar">Calificar (saltos de 0.1)</string>
+    <string name="detalle_marca_min">0.0 (Pésima)</string>
+    <string name="detalle_marca_media">5.0</string>
+    <string name="detalle_marca_max">10.0 (Perfecta)</string>
+    <string name="detalle_quitar_puntuacion">Quitar puntuación</string>
+    <string name="cd_editar_critica">Editar crítica</string>
+    <string name="cd_borrar_critica">Borrar crítica</string>
+    <string name="detalle_critica_contador">%1$d / %2$d</string>
+    <string name="borrar_critica_titulo">¿Borrar la crítica?</string>
+    <string name="borrar_critica_texto">Se borrará tu crítica de este título.</string>
+    <string name="borrar_critica_confirmar">Borrar</string>
+    <string name="detalle_eliminar">Eliminar de mi catálogo</string>
+    <string name="detalle_eliminar_nota">Esta acción es irreversible y eliminará calificaciones, notas y registros de tus listas.</string>
+    <string name="eliminar_titulo">¿Eliminar del catálogo?</string>
+    <string name="eliminar_confirmar">Sí, eliminar definitivamente</string>
 
     <!-- Biblioteca provisional del S2 (la definitiva llega en el S4) -->
     <string name="m22_biblioteca_vacia">Todavía no hay títulos. Añade el primero.</string>
@@ -134,6 +162,8 @@
     <string name="m03_puntuacion_invalida">Puntuación no válida. Introduce un valor entre 0.0 y 10 con un máximo de un decimal.</string>
     <string name="m04_saga_duplicada">Ya existe una saga con ese nombre.</string>
     <string name="m05_saga_nombre_obligatorio">El nombre de la saga es obligatorio.</string>
+    <!-- M-06: el nombre se resalta en negrita (conNegrita) -->
+    <string name="m06_eliminar_perfil">¿Eliminar «%1$s»? Se quitará también de todas tus listas. Esta acción no se puede deshacer.</string>
     <string name="m07_lista_nombre_obligatorio">El nombre de la lista es obligatorio.</string>
     <string name="m08_lista_duplicada">Ya existe una lista con ese nombre.</string>
     <string name="m09_lista_solo_peliculas">Esta lista solo admite películas.</string>

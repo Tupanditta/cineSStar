@@ -16,6 +16,21 @@ object TagsDetalle {
     const val IDIOMAS = "detalle_idiomas"
     const val LISTAS = "detalle_listas"
     const val COMENTARIO = "detalle_comentario"
+    const val MENU = "detalle_menu"
+    const val MENU_EDITAR = "detalle_menu_editar"
+    const val MENU_ELIMINAR = "detalle_menu_eliminar"
+    const val AJUSTAR = "detalle_ajustar"
+    const val EDITOR_NOTA = "detalle_editor_nota"
+    const val EDITOR_NOTA_CAMPO = "detalle_editor_nota_campo"
+    const val EDITOR_NOTA_SLIDER = "detalle_editor_nota_slider"
+    const val EDITOR_NOTA_ERROR = "detalle_editor_nota_error"
+    const val EDITOR_NOTA_GUARDAR = "detalle_editor_nota_guardar"
+    const val QUITAR_NOTA = "detalle_quitar_nota"
+    const val EDITAR_CRITICA = "detalle_editar_critica"
+    const val BORRAR_CRITICA = "detalle_borrar_critica"
+    const val CRITICA_CAMPO = "detalle_critica_campo"
+    const val CRITICA_CONTADOR = "detalle_critica_contador"
+    const val ELIMINAR = "detalle_eliminar"
 
     fun estado(estado: Estado) = "detalle_estado_" + estado.name.lowercase()
 }

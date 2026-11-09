@@ -1,6 +1,7 @@
 package com.cinesstar.cinetrack.ui
 
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
@@ -35,9 +36,10 @@ import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.GraphicsMode
 import java.awt.image.BufferedImage
+import kotlin.math.abs
 
 /**
- * T2.31 (G): "Añadir perfil" y "Detalle" comparados con su `screen.png`. Método en [Capturas]; tolerancia de pantalla
+ * T2.31 y T3.32 (G): "Añadir perfil" y "Detalle" comparados con su `screen.png`. Método en [Capturas]; tolerancia de pantalla
  * completa en [PANTALLA]. Las variantes "con datos" y "con error" de "Añadir perfil" no tienen captura en el prototipo:
  * se generan en `app/build/capturas` para revisarlas a mano.
  *
@@ -58,8 +60,10 @@ class CapturasPerfilTest {
 
         /**
          * Pantalla completa. Medido en el S2 con las diferencias documentadas: Añadir 13.3 / 12.9 % (lista completa de
-         * géneros e idiomas, dos filas más que desplazan lo de abajo; texto del aviso de §12) y Detalle 14.1 / 12.1 %
-         * (sin "Ajustar" ni iconos de la crítica hasta el S3; avatar canónico de §13; textos de ejemplo distintos).
+         * géneros e idiomas, dos filas más que desplazan lo de abajo; texto del aviso de §12). Detalle, medido en el S3
+         * con "Ajustar", menú ⋮, iconos de la crítica y "Eliminar": 14.9 / 13.2 % (avatar canónico de §13; textos de
+         * ejemplo distintos; sin "+ Añadir a lista" ni flecha de saga hasta el S4/S5); el bloque "Eliminar", alineado
+         * aparte, 3.6 / 1.7 %. Detalle sin datos, hasta la ficha: 14.1 / 11.6 %.
          * Un bloque de otro color o tamaño (≈ 10 % de la pantalla) sube la media más de 3 puntos y lo detecta.
          */
         val PANTALLA = Capturas.Tolerancia(media = 15.0, maxCeldasDistintas = 0.15)
@@ -105,50 +109,52 @@ class CapturasPerfilTest {
         assertTrue("Añadir perfil: $resultado fuera de $PANTALLA", resultado.cumple(PANTALLA))
     }
 
+    /** Mismos datos que el prototipo, salvo los que no existen en la app (design.md §12). */
+    private fun crearPerfilDelPrototipo(): Long =
+        enBd {
+            val saga = sagas.crear("Dune")
+            val p =
+                perfiles.crear(
+                    NuevoPerfil(
+                        "Dune: Parte Dos",
+                        TipoPerfil.PELICULA,
+                        Estado.VISTO,
+                        Puntuacion.of(94),
+                        comentario =
+                            "Experiencia audiovisual abrumadora. El diseño sonoro de Hans Zimmer en IMAX te hace sentir la " +
+                                "vibración de los gusanos de arena. Feyd-Rautha es intimidante y el clímax político prepara " +
+                                "a la perfección la tercera entrega.",
+                        sagaId = saga,
+                        generoIds =
+                            catalogo
+                                .generos()
+                                .filter {
+                                    it.nombre in
+                                        setOf(
+                                            "Ciencia Ficción",
+                                            "Aventura",
+                                            "Drama",
+                                        )
+                                }.map { it.id }
+                                .toSet(),
+                        idiomaIds =
+                            catalogo
+                                .idiomas()
+                                .filter { it.nombre in setOf("Español", "Inglés") }
+                                .map { it.id }
+                                .toSet(),
+                    ),
+                )
+            perfiles.crear(NuevoPerfil("Dune", TipoPerfil.PELICULA, sagaId = saga))
+            listas.anadir(listas.crear("Favoritas 2024", TipoLista.RANKING), p)
+            listas.anadir(listas.crear("Maratón Otoño", TipoLista.PRIORIDAD), p, prioridad = Prioridad.ALTA)
+            p
+        }
+
     @Test
     @Config(qualifiers = "w390dp-h1572dp-xhdpi")
     fun t2_31_detalleComoEnElPrototipo() {
-        // Mismos datos que el prototipo, salvo los que no existen en la app (design.md §12).
-        val id =
-            enBd {
-                val saga = sagas.crear("Dune")
-                val p =
-                    perfiles.crear(
-                        NuevoPerfil(
-                            "Dune: Parte Dos",
-                            TipoPerfil.PELICULA,
-                            Estado.VISTO,
-                            Puntuacion.of(94),
-                            comentario =
-                                "Experiencia audiovisual abrumadora. El diseño sonoro de Hans Zimmer en IMAX te hace sentir la " +
-                                    "vibración de los gusanos de arena. Feyd-Rautha es intimidante y el clímax político prepara " +
-                                    "a la perfección la tercera entrega.",
-                            sagaId = saga,
-                            generoIds =
-                                catalogo
-                                    .generos()
-                                    .filter {
-                                        it.nombre in
-                                            setOf(
-                                                "Ciencia Ficción",
-                                                "Aventura",
-                                                "Drama",
-                                            )
-                                    }.map { it.id }
-                                    .toSet(),
-                            idiomaIds =
-                                catalogo
-                                    .idiomas()
-                                    .filter { it.nombre in setOf("Español", "Inglés") }
-                                    .map { it.id }
-                                    .toSet(),
-                        ),
-                    )
-                perfiles.crear(NuevoPerfil("Dune", TipoPerfil.PELICULA, sagaId = saga))
-                listas.anadir(listas.crear("Favoritas 2024", TipoLista.RANKING), p)
-                listas.anadir(listas.crear("Maratón Otoño", TipoLista.PRIORIDAD), p, prioridad = Prioridad.ALTA)
-                p
-            }
+        val id = crearPerfilDelPrototipo()
         compose.esperar { compose.existe(TagsBiblioteca.fila(id)) }
         compose.onNodeWithTag(TagsBiblioteca.fila(id)).performClick()
         compose.esperar {
@@ -164,11 +170,49 @@ class CapturasPerfilTest {
         guardar("detalle_prototipo", ref)
         // El hero del prototipo es una foto con carátula; en la app no hay carátulas (design.md §12).
         val hero = (BARRA_SUPERIOR_DP until BARRA_SUPERIOR_DP + ALTO_HERO_DP)
-        // "Eliminar de mi catálogo" (design.md §7.7) llega con CU-06 en el S3.
-        val eliminar = (INICIO_ELIMINAR_DP until Int.MAX_VALUE)
-        val resultado = comparar(app, ref, excluirFilasDp = listOf(hero, eliminar))
-        println("T2.31 Detalle: $resultado")
+        // El contenido de la app es más bajo (sin "+ Añadir a lista" hasta el S5, textos de ejemplo más cortos): el
+        // bloque "Eliminar" (§7.7) queda a otra altura y se compara aparte, alineado por su fondo `error-container`.
+        val eliminarApp = filaEliminar(app)
+        val eliminarRef = filaEliminar(ref)
+        val resultado = comparar(app, ref, excluirFilasDp = listOf(hero, minOf(eliminarApp, eliminarRef) until Int.MAX_VALUE))
+        val eliminar = comparar(app.recorte(eliminarApp, ALTO_ELIMINAR_DP), ref.recorte(eliminarRef, ALTO_ELIMINAR_DP))
+        println("T2.31/T3.32 Detalle: $resultado; bloque Eliminar: $eliminar")
+        assertTrue("Bloque Eliminar: $eliminar fuera de ${Capturas.BARRAS}", eliminar.cumple(Capturas.BARRAS))
+
+        // T3.32: variantes sin captura en el prototipo, para revisión manual (estados, editor de nota abierto).
+        compose.onNodeWithTag(TagsDetalle.estado(Estado.VIENDO)).performClick()
+        compose.esperar { runCatching { compose.onNodeWithTag(TagsDetalle.estado(Estado.VIENDO)).assertIsSelected() }.isSuccess }
+        compose.onNodeWithTag(TagsDetalle.AJUSTAR).performClick()
+        compose.esperar { compose.existe(TagsDetalle.EDITOR_NOTA) }
+        guardar("detalle_viendo_editor_nota_app", captura(ANCHO_DP))
+
         assertTrue("Detalle: $resultado fuera de $PANTALLA", resultado.cumple(PANTALLA))
+    }
+
+    @Test
+    @Config(qualifiers = "w390dp-h1572dp-xhdpi")
+    fun t3_32_detalleSinPuntuacionNiCriticaEnPendiente() {
+        val id = enBd { perfiles.crear(NuevoPerfil("Solo nombre", TipoPerfil.SERIE)) }
+        compose.esperar { compose.existe(TagsBiblioteca.fila(id)) }
+        compose.onNodeWithTag(TagsBiblioteca.fila(id)).performClick()
+        compose.esperar { compose.existe(TagsDetalle.TITULO) }
+        val app = captura(ANCHO_DP)
+        guardar("detalle_sin_datos_app", app)
+        // Sin datos del prototipo que comparar: solo se comprueba la estructura (fondo, tarjetas y botón Eliminar) en
+        // la parte de arriba, que es igual al prototipo salvo los valores (hero, estado, nota y ficha).
+        val ref = referencia("detalle_del_perfil", ANCHO_DP, app.height)
+        val resultado =
+            comparar(
+                app,
+                ref,
+                excluirFilasDp =
+                    listOf(
+                        BARRA_SUPERIOR_DP until BARRA_SUPERIOR_DP + ALTO_HERO_DP,
+                        FIN_FICHA_DP until Int.MAX_VALUE,
+                    ),
+            )
+        println("T3.32 Detalle sin datos (hasta la ficha): $resultado")
+        assertTrue("Detalle sin datos: $resultado fuera de $PANTALLA", resultado.cumple(PANTALLA))
     }
 }
 
@@ -177,5 +221,20 @@ private const val BARRA_SUPERIOR_DP = 52
 /** 224 dp de fondo + 160 de póster − 64 de solape + 16 de padding (design.md §7.1). */
 private const val ALTO_HERO_DP = 336
 
-/** Primera fila del bloque "Eliminar de mi catálogo" en la captura del prototipo, sin la barra de estado falsa. */
-private const val INICIO_ELIMINAR_DP = 1450
+/** Botón "Eliminar de mi catálogo" y su nota (design.md §7.7). */
+private const val ALTO_ELIMINAR_DP = 100
+
+/** Primera fila (dp) en la que más de la mitad del ancho es `error-container` (#93000A): el botón "Eliminar". */
+private fun filaEliminar(imagen: BufferedImage): Int =
+    (0 until imagen.height).first { y ->
+        (0 until imagen.width).count { x ->
+            val rgb = imagen.getRGB(x, y)
+            abs((rgb shr 16 and 0xFF) - 0x93) < 24 && (rgb shr 8 and 0xFF) < 24 && abs((rgb and 0xFF) - 0x0A) < 24
+        } > imagen.width / 2
+    }
+
+/**
+ * Fin de la tarjeta "Ficha Técnica Local" en la captura del prototipo. Por debajo, un perfil sin listas ni crítica
+ * tiene tarjetas más bajas y todo sube: no se compara.
+ */
+private const val FIN_FICHA_DP = 900

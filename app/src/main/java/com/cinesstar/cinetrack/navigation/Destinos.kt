@@ -22,6 +22,12 @@ sealed interface Ruta {
     @Serializable
     data object Anadir : Ruta
 
+    /** Formulario de edición de un perfil (CU-02), pantalla secundaria. */
+    @Serializable
+    data class Editar(
+        val perfilId: Long,
+    ) : Ruta
+
     /** Detalle de un perfil (CU-07), pantalla secundaria. */
     @Serializable
     data class Detalle(

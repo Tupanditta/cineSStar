@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cinesstar.cinetrack.data.repository.CatalogoRepository
 import com.cinesstar.cinetrack.data.repository.NuevoPerfil
+import com.cinesstar.cinetrack.data.repository.PerfilDetalle
 import com.cinesstar.cinetrack.data.repository.PerfilRepository
 import com.cinesstar.cinetrack.data.repository.SagaRepository
 import com.cinesstar.cinetrack.data.room.GeneroEntity
@@ -56,9 +57,26 @@ data class Borrador(
     /** El usuario ya intentó guardar: se muestran los errores pendientes (M-01). */
     val intentoGuardar: Boolean = false,
 ) {
+    /** Solo los datos del perfil, sin el estado de la interfaz (caja de saga, intento de guardar). */
+    fun datos(): Borrador = copy(editorSagaAbierto = false, editorSagaTexto = "", intentoGuardar = false)
+
     /** Hay datos introducidos: cancelar pide confirmación (CU-01 A7). */
-    val tieneDatos: Boolean
-        get() = copy(editorSagaAbierto = false, editorSagaTexto = "", intentoGuardar = false) != Borrador()
+    val tieneDatos: Boolean get() = datos() != Borrador()
+
+    companion object {
+        /** Borrador con los datos actuales de un perfil, para editarlo (CU-02 paso 1). */
+        fun de(detalle: PerfilDetalle): Borrador =
+            Borrador(
+                tipo = detalle.perfil.tipo,
+                nombre = detalle.perfil.nombre,
+                estado = detalle.perfil.estado,
+                puntuacion = detalle.puntuacion?.formatear().orEmpty(),
+                sagaId = detalle.perfil.sagaId,
+                generoIds = detalle.generos.map { it.id }.toSet(),
+                idiomaIds = detalle.idiomas.map { it.id }.toSet(),
+                comentario = detalle.perfil.comentario.orEmpty(),
+            )
+    }
 }
 
 /** Resultado de la comprobación en línea del nombre (design.md §8.3). */
@@ -84,6 +102,12 @@ data class OpcionSaga(
 
 data class EstadoFormulario(
     val borrador: Borrador = Borrador(),
+    /** Al editar (CU-02), los datos guardados del perfil; null al crear o mientras se cargan. */
+    val original: Borrador? = null,
+    /** Se está editando un perfil existente: el tipo no se puede cambiar (S-03). */
+    val edicion: Boolean = false,
+    /** El perfil que se editaba ya no existe: la pantalla vuelve atrás con un aviso. */
+    val noExiste: Boolean = false,
     val generos: List<GeneroEntity> = emptyList(),
     val idiomas: List<IdiomaEntity> = emptyList(),
     val sagas: List<SagaEntity> = emptyList(),
@@ -100,9 +124,13 @@ data class EstadoFormulario(
     /** E1: nombre vacío o solo espacios. */
     val nombreVacio: Boolean get() = borrador.nombre.isBlank()
 
-    /** M-01: se ve si el nombre tiene solo espacios o si se intentó guardar sin nombre. */
+    /** M-01: se ve si el nombre tiene solo espacios, si se intentó guardar sin nombre o si se vació al editar (CU-02 E1). */
     val mostrarNombreObligatorio: Boolean
-        get() = nombreVacio && (borrador.nombre.isNotEmpty() || borrador.intentoGuardar)
+        get() = nombreVacio && (borrador.nombre.isNotEmpty() || borrador.intentoGuardar || (edicion && original != null))
+
+    /** Cancelar pide confirmación: al crear, si hay datos (CU-01 A7); al editar, si hay cambios (CU-02 A4). */
+    val hayCambios: Boolean
+        get() = if (edicion) original != null && borrador.datos() != original.datos() else borrador.tieneDatos
 
     /** "Guardar perfil" habilitado (design.md §8.10). */
     val puedeGuardar: Boolean
@@ -126,16 +154,26 @@ data class EstadoFormulario(
             }
 }
 
-/** CU-01 Crear perfil, con CU-03 (puntuación) y CU-10 (saga) incluidos. Una función por evento del formulario (UDF). */
+/**
+ * CU-01 Crear perfil y, con [perfilId], CU-02 Editar datos del perfil. Incluye CU-03 (puntuación), CU-04 (comentario),
+ * CU-05 (estado) y CU-10 (saga). Una función por evento del formulario (UDF).
+ */
 @Suppress("TooManyFunctions")
 class FormularioPerfilViewModel(
     private val handle: SavedStateHandle,
     private val perfiles: PerfilRepository,
     private val sagas: SagaRepository,
     private val catalogo: CatalogoRepository,
+    private val perfilId: Long? = null,
 ) : ViewModel() {
     private val estadoInterno =
-        MutableStateFlow(EstadoFormulario(borrador = handle.get<String>(CLAVE_BORRADOR)?.let(::leerBorrador) ?: Borrador()))
+        MutableStateFlow(
+            EstadoFormulario(
+                borrador = handle.get<String>(CLAVE_BORRADOR)?.let(::leerBorrador) ?: Borrador(),
+                original = handle.get<String>(CLAVE_ORIGINAL)?.let(::leerBorrador),
+                edicion = perfilId != null,
+            ),
+        )
     val estado: StateFlow<EstadoFormulario> get() = estadoInterno
 
     init {
@@ -145,10 +183,25 @@ class FormularioPerfilViewModel(
             val registradas = sagas.todas()
             estadoInterno.update { it.copy(generos = generos, idiomas = idiomas, sagas = registradas) }
         }
+        if (perfilId != null && estadoInterno.value.original == null) cargar(perfilId)
         comprobarDisponibilidad()
         // Cada cambio del borrador se guarda para restaurarlo (S-21).
         viewModelScope.launch {
             estadoInterno.map { it.borrador }.distinctUntilChanged().collect { handle[CLAVE_BORRADOR] = Json.encodeToString(it) }
+        }
+    }
+
+    /** CU-02 paso 1: el formulario se abre con los datos actuales del perfil. */
+    private fun cargar(id: Long) {
+        viewModelScope.launch {
+            val detalle = perfiles.obtener(id)
+            if (detalle == null) {
+                estadoInterno.update { it.copy(noExiste = true) }
+                return@launch
+            }
+            val original = Borrador.de(detalle)
+            handle[CLAVE_ORIGINAL] = Json.encodeToString(original)
+            estadoInterno.update { it.copy(borrador = original, original = original) }
         }
     }
 
@@ -163,7 +216,9 @@ class FormularioPerfilViewModel(
                     emit(Disponibilidad.VACIO)
                 } else {
                     emit(Disponibilidad.COMPROBANDO)
-                    emit(if (perfiles.existe(nombre, tipo)) Disponibilidad.YA_REGISTRADO else Disponibilidad.DISPONIBLE)
+                    // Al editar, el propio nombre (o el mismo con otras mayúsculas o tildes) está disponible (CU-02 E2).
+                    val ocupado = perfiles.existe(nombre, tipo, excluirId = perfilId)
+                    emit(if (ocupado) Disponibilidad.YA_REGISTRADO else Disponibilidad.DISPONIBLE)
                 }
             }.onEach { d -> estadoInterno.update { it.copy(disponibilidad = d) } }
             .launchIn(viewModelScope)
@@ -173,7 +228,10 @@ class FormularioPerfilViewModel(
         estadoInterno.update { it.copy(borrador = cambio(it.borrador), errorEscritura = false) }
     }
 
-    fun elegirTipo(tipo: TipoPerfil) = editar { it.copy(tipo = tipo) }
+    /** El tipo solo se elige al crear (S-03). */
+    fun elegirTipo(tipo: TipoPerfil) {
+        if (!estadoInterno.value.edicion) editar { it.copy(tipo = tipo) }
+    }
 
     fun cambiarNombre(nombre: String) = editar { it.copy(nombre = nombre) }
 
@@ -236,31 +294,37 @@ class FormularioPerfilViewModel(
         editar { it.copy(sagaId = saga.id, sagaNuevaElegida = false, editorSagaAbierto = false, editorSagaTexto = "") }
     }
 
-    /** CU-01 pasos 5–6. Una doble pulsación crea un solo perfil (E6). */
-    @Suppress("TooGenericExceptionCaught") // Cualquier fallo de escritura se muestra como M-25 (CU-01 E4).
+    /**
+     * CU-01 pasos 5–6 y CU-02 pasos 3–4. Una doble pulsación guarda una sola vez (CU-01 E6). Al editar, guardar sin
+     * cambios no escribe nada (CU-02 A3).
+     */
+    @Suppress("TooGenericExceptionCaught") // Cualquier fallo de escritura se muestra como M-25 (CU-01 E4, CU-02 E3).
     fun guardar() {
         val actual = estadoInterno.value
         if (actual.guardando || actual.guardadoId != null) return
         editar { it.copy(intentoGuardar = true) }
         if (!actual.puedeGuardar) return
+        if (perfilId != null && !actual.hayCambios) {
+            estadoInterno.update { it.copy(guardadoId = perfilId) }
+            return
+        }
         estadoInterno.update { it.copy(guardando = true) }
         val b = actual.borrador
+        val datos =
+            NuevoPerfil(
+                nombre = b.nombre,
+                tipo = b.tipo,
+                estado = b.estado,
+                puntuacion = (actual.lecturaPuntuacion as? Puntuacion.Lectura.Valida)?.puntuacion,
+                comentario = b.comentario,
+                sagaId = b.sagaId.takeUnless { b.sagaNuevaElegida },
+                sagaNueva = b.sagaNueva.takeIf { b.sagaNuevaElegida },
+                generoIds = b.generoIds,
+                idiomaIds = b.idiomaIds,
+            )
         viewModelScope.launch {
             try {
-                val id =
-                    perfiles.crear(
-                        NuevoPerfil(
-                            nombre = b.nombre,
-                            tipo = b.tipo,
-                            estado = b.estado,
-                            puntuacion = (actual.lecturaPuntuacion as? Puntuacion.Lectura.Valida)?.puntuacion,
-                            comentario = b.comentario,
-                            sagaId = b.sagaId.takeUnless { b.sagaNuevaElegida },
-                            sagaNueva = b.sagaNueva.takeIf { b.sagaNuevaElegida },
-                            generoIds = b.generoIds,
-                            idiomaIds = b.idiomaIds,
-                        ),
-                    )
+                val id = perfilId?.also { perfiles.actualizar(it, datos) } ?: perfiles.crear(datos)
                 estadoInterno.update { it.copy(guardando = false, guardadoId = id) }
             } catch (e: CancellationException) {
                 throw e
@@ -279,10 +343,11 @@ class FormularioPerfilViewModel(
 
     companion object {
         const val CLAVE_BORRADOR = "borrador"
+        const val CLAVE_ORIGINAL = "original"
         private const val TAG = "FormularioPerfil"
 
         /** Longitud máxima del comentario (S-06). */
-        const val MAX_COMENTARIO = 10_000
+        const val MAX_COMENTARIO = PerfilRepository.MAX_COMENTARIO
 
         private val json = Json { ignoreUnknownKeys = true }
 

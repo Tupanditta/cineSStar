@@ -17,7 +17,7 @@ App Android 100 % local para catalogar películas y series. Especificación en [
 | Formatear | `./gradlew :app:ktlintFormat` |
 | Puerta completa de un sprint | `./gradlew :app:ktlintCheck :app:detekt :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease` |
 
-Los tests de interfaz y de base de datos usan Robolectric, sin emulador. Los tests de capturas (T0.08, T2.31) dejan las imágenes de la app y del prototipo en `app/build/capturas/`.
+Los tests de interfaz y de base de datos usan Robolectric, sin emulador. Los tests de capturas (T0.08, T2.31, T3.32) dejan las imágenes de la app y del prototipo en `app/build/capturas/`.
 
 ## Estructura
 
@@ -28,10 +28,10 @@ app/src/main/java/com/cinesstar/cinetrack/
   navigation/  rutas y NavHost
   ui/theme/    tokens de design.md §2 (único sitio con colores y medidas)
   ui/components/ barras, iconos Material Symbols, campos, slider, toasts y diálogos
-  ui/perfilform/ alta de perfil (CU-01, CU-10) y su ViewModel
-  ui/perfil/   detalle del perfil (CU-07)
+  ui/perfilform/ alta y edición de perfil (CU-01, CU-02, CU-10) y su ViewModel
+  ui/perfil/   detalle del perfil (CU-07) con estado, nota, crítica y eliminar (CU-03..CU-06)
   ui/biblioteca/ biblioteca provisional (lista simple; la pantalla completa llega en el S4)
-app/src/test/  tests de los sprints (T0.xx, T1.xx, T2.xx, TX.xx) y fixtures
+app/src/test/  tests de los sprints (T0.xx, T1.xx, T2.xx, T3.xx, TX.xx) y fixtures
 app/schemas/   esquema exportado de Room (migraciones)
 third_party/   licencias de las fuentes empaquetadas
 ```

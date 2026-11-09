@@ -26,6 +26,12 @@ object DimensComunes {
     val DialogIcon = 28.dp
     val DialogButtonPaddingV = 10.dp
 
+    // §3.6-3 Hoja inferior
+    val SheetPadding = 20.dp
+    val SheetIconCircle = 40.dp
+    val SheetIcon = 20.dp
+    val SheetButtonPaddingV = 10.dp
+
     // §3.7 Campos de formulario
     val FieldPaddingH = 16.dp
     val FieldPaddingV = 8.dp
@@ -120,6 +126,8 @@ object DimensDetalle {
     val PosterIcon = 40.dp
     val TitleBottom = 4.dp
     val StarIcon = 16.dp
+    val MenuButton = 36.dp
+    val MenuIcon = 20.dp
 
     // 7.2 Estado
     val EstadoPaddingV = 10.dp
@@ -130,6 +138,12 @@ object DimensDetalle {
     // 7.3 Nota
     val ScoreBox = 56.dp
     val ScoreBoxIcon = 24.dp
+    val AjustarPaddingH = 16.dp
+    val AjustarPaddingV = 8.dp
+    val AjustarIcon = 18.dp
+    val EditorNotaCampo = 64.dp
+    val EditorBotonPaddingH = 16.dp
+    val EditorBotonPaddingV = 6.dp
 
     // 7.4–7.6 Tarjetas
     val CardPadding = 16.dp
@@ -138,6 +152,18 @@ object DimensDetalle {
     val SagaIcon = 20.dp
     val ChipGap = 6.dp
     val ListDot = 10.dp
+
+    // 7.6 Crítica
+    val CriticaIconPadding = 4.dp
+    val CriticaIcon = 18.dp
+    val CriticaCampoMinHeight = 160.dp
+    val CriticaCampoMaxHeight = 320.dp
+
+    // 7.7 Eliminar
+    val EliminarTop = 8.dp
+    val EliminarPaddingH = 16.dp
+    val EliminarPaddingV = 14.dp
+    val EliminarIcon = 20.dp
 }
 
 /** Biblioteca provisional del S2 (la definitiva es la del S4, design.md §4). */

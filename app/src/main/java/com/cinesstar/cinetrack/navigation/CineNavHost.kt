@@ -69,7 +69,16 @@ fun CineNavHost(
                 composable<Ruta.Ajustes> { PantallaPrincipal(DestinoBarra.AJUSTES, irA) }
                 composable<Ruta.Anadir> { PantallaFormularioPerfil(onSalir = atras, onAvatar = ajustes) }
                 composable<Ruta.Detalle> { entradaDetalle ->
-                    PantallaDetallePerfil(perfilId = entradaDetalle.toRoute<Ruta.Detalle>().perfilId, onBack = atras, onAvatar = ajustes)
+                    val perfilId = entradaDetalle.toRoute<Ruta.Detalle>().perfilId
+                    PantallaDetallePerfil(
+                        perfilId = perfilId,
+                        onBack = atras,
+                        onAvatar = ajustes,
+                        onEditar = { navController.navigate(Ruta.Editar(perfilId)) { launchSingleTop = true } },
+                    )
+                }
+                composable<Ruta.Editar> { entradaEditar ->
+                    PantallaFormularioPerfil(onSalir = atras, onAvatar = ajustes, perfilId = entradaEditar.toRoute<Ruta.Editar>().perfilId)
                 }
             }
             CineToastHost(avisos, conBarraInferior)

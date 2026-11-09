@@ -193,15 +193,15 @@ Usuario ─┬─ Perfiles ──── CU-01 Crear perfil
 - **Precondiciones**: el perfil existe.
 - **Disparador**: menú "Editar" en el detalle del perfil.
 - **Flujo principal**
-  1. El sistema abre el formulario con los datos actuales.
-  2. El usuario cambia nombre, géneros, idiomas y/o saga.
+  1. El sistema abre el formulario "Editar Medio" con los datos actuales.
+  2. El usuario cambia nombre, géneros, idiomas y/o saga. El mismo formulario permite cambiar también estado, puntuación y comentario (con las reglas de CU-05, CU-03 y CU-04) y crear una saga (CU-10).
   3. El usuario pulsa "Guardar".
   4. El sistema valida y guarda; vuelve al detalle con los cambios visibles.
 - **Flujos alternativos**
   - **A1 Quitar la saga**: elige "Ninguna / Obra individual"; el perfil queda sin saga.
   - **A2 Quitar todos los géneros o idiomas**: válido; el perfil queda sin ellos.
-  - **A3 Sin cambios**: guardar no modifica nada.
-  - **A4 Cancelar**: se descartan los cambios (con confirmación si los hay).
+  - **A3 Sin cambios**: guardar no modifica nada (no se escribe en la base de datos).
+  - **A4 Cancelar**: se descartan los cambios (con confirmación "¿Descartar los cambios?" si los hay; sin cambios vuelve directamente).
   - **A5 Cambiar el tipo**: no se permite cambiar película↔serie (S-03).
 - **Flujos de excepción**
   - **E1 Nombre vacío**: M-01.
@@ -213,7 +213,7 @@ Usuario ─┬─ Perfiles ──── CU-01 Crear perfil
 ### CU-03 Puntuar / modificar puntuación
 - **Objetivo**: añadir, cambiar o quitar la puntuación de un perfil.
 - **Precondiciones**: el perfil existe (o se está creando).
-- **Disparador**: botón "Ajustar"/"Puntuar" en el detalle, o campo de puntuación del formulario.
+- **Disparador**: botón "Ajustar" en el detalle (abre el editor con campo, slider, "Quitar puntuación" y "Guardar"), o campo de puntuación del formulario.
 - **Flujo principal**
   1. El usuario abre el editor de puntuación (valor actual o vacío).
   2. El usuario introduce un valor (teclado numérico, − / +, o slider).
@@ -254,7 +254,7 @@ Usuario ─┬─ Perfiles ──── CU-01 Crear perfil
 - **Alternativos**
   - **A1 Tocar el estado ya activo**: no cambia nada.
   - **A2 Pendiente → Visto sin puntuación**: válido.
-- **Excepciones**: **E1** fallo de escritura → M-25 y el selector vuelve al estado anterior.
+- **Excepciones**: **E1** fallo de escritura → M-25 y el selector vuelve al estado anterior (el selector solo muestra el estado guardado).
 - **Postcondiciones**: estado persistente; el perfil cambia de grupo en CU-09 y se refleja en CU-08.
 - **Cubre**: RF-15, RF-17, RF-22, RF-12, RF-03.
 

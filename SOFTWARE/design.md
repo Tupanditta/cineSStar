@@ -324,7 +324,7 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
 - Tarjeta `rounded-xl` fondo `surface-container` `shadow-md`, recorta el contenido.
 - **Fondo** de 224 dp de alto (`h-56`) con la carátula a pantalla completa y degradado de abajo arriba: `surface-container` → `surface-container` 60 % → transparente. Sin carátula: fondo `surface-container-high` con el icono `movie`/`tv` 64 dp `surface-container-highest` centrado.
 - Arriba-izquierda (8 dp): píldoras `label-sm`, padding 8×2, fondo `surface-container-lowest` 80 % con desenfoque: "Película"/"Serie" (`on-surface`, `tracking-wide`) y, al lado, el estado ("Visto", "Viendo", "Pendiente") en `on-surface-variant` (en el prototipo: "2024 • 166 min", §12).
-- Arriba-derecha (8 dp): botón 36 dp circular, mismo fondo, `more_vert` 20 dp: menú **Editar** / **Añadir a lista** / **Eliminar**.
+- Arriba-derecha (8 dp): botón 36 dp circular, mismo fondo, `more_vert` 20 dp: menú **Editar** / **Añadir a lista** / **Eliminar** (desplegable `surface-container-high`, opciones `body-md` con icono 20 dp `edit` / `delete`). "Editar" abre "Editar Medio" (§8, CU-02). "Añadir a lista" llega con las listas (S5).
 - Bloque inferior (padding 16, sin padding superior), fila con separación 16 subida **64 dp** sobre el fondo (`-mt-16`), alineada abajo:
   - **Póster** 112×160 dp (`w-28 h-40`), `rounded-xl`, `shadow-xl`, fondo `surface-container-high`. (La insignia "4K" no se implementa.)
   - Columna (4 dp inferior): título `headline-lg-mobile` bold truncado `leading-tight`; línea `body-sm` `on-surface-variant` truncada con los géneros (en el prototipo "Dir. …"); fila (4 dp arriba): `star` 16 dp FILL 1 + nota `label-md` en `primary`, y "• #{n} en {lista de ranking}" `label-sm` `outline` si el perfil está en algún ranking (mejor posición). Sin nota: "Sin puntuar".
@@ -345,7 +345,8 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
   - Fila: "Calificar (saltos de 0.1)" `label-md` semibold + valor `title-md` bold `primary`.
   - Slider 0–10 paso 0.1, pista `surface-container` 8 dp `rounded-lg`, color `primary-container`.
   - Marcas `label-sm` `on-surface-variant`: "0.0 (Pésima)", "5.0", "10.0 (Perfecta)".
-  - Añadido por requisito (RF-13): enlace "Quitar puntuación" `label-md` `error` alineado a la derecha.
+  - Añadido por requisito (RF-13): enlace "Quitar puntuación" `label-md` `error`.
+  - Añadido por CU-03 (confirmar, E1, T3.12): el valor de la cabecera es un **campo editable** (teclado decimal, 64 dp, `title-md` bold `primary`, alineado a la derecha, sin fondo; al enfocar `surface-container`) sincronizado con el slider; con un valor inválido aparece M-03 (`body-sm` `secondary` con `error` 14 dp) y "Guardar" se deshabilita (50 %). Última fila: "Quitar puntuación" a la izquierda y botón "**Guardar**" a la derecha (`rounded-lg`, padding 16×6, `primary-container` / `on-primary-container`, `label-md` bold). Guardar el campo vacío quita la nota. Guardar o quitar cierra el editor; "Ajustar" lo abre y lo cierra.
 
 ### 7.4 Ficha Técnica Local
 - Tarjeta `rounded-xl` `surface-container` padding 16 separación 16 `shadow-sm`.
@@ -366,13 +367,17 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
 - Cabecera: `rate_review` 20 dp `primary` + "Mi Crítica y Notas" `title-md` bold; a la derecha dos botones de icono 18 dp con padding 4 `rounded-md`: `edit_note` y `delete_outline` (pulsado `error`).
 - Caja `rounded-xl` padding 16 fondo `surface-container-lowest`: texto `body-md` **cursiva** `leading-relaxed` `on-surface`, entre comillas. Pie (8 dp arriba) `label-sm` `on-surface-variant`: a la derecha "Guardado: {fecha}" (fecha de la última edición). El texto de la izquierda del prototipo ("Visto en Cine Gran Vía (Sala 1)") no se implementa (§12).
 - Vacía: "Sin reseña redactada todavía." en `on-surface-variant` cursiva.
-- Editar abre una hoja inferior con un campo multilínea del estilo de §8.8 y botones "Cancelar"/"Guardar".
+- Editar abre una hoja inferior (§3.6-3) con la cabecera de la tarjeta (`rate_review` + "Mi Crítica y Notas"), un campo multilínea del estilo de §8.9 (6 líneas, alto 160–320 dp con desplazamiento interno) y, debajo, el contador "{n} / 10000" `label-sm` `on-surface-variant` a la derecha; botones "Cancelar" (`surface-container-highest`) y "Guardar" (`primary-container` / `on-primary-container`). No deja escribir más de 10 000 caracteres (S-06). Guardar el texto vacío borra la crítica.
+- `delete_outline` pide una confirmación breve con el diálogo de §3.6-2: "¿Borrar la crítica?" / "Se borrará tu crítica de este título." / "Borrar" / "Cancelar". Sin crítica, el botón está deshabilitado (40 %).
+- `edit_note` y `delete_outline` llevan `contentDescription` ("Editar crítica", "Borrar crítica").
 
 ### 7.7 Eliminar
 - Bloque (8 dp arriba, separación 8):
   - Botón a ancho completo `rounded-xl` padding 16×14 fondo `error-container` texto `on-error-container` `title-sm` semibold, `delete_forever` 20 dp, `shadow-sm`, pulsado `scale(0.98)`. Texto "**Eliminar de mi catálogo**".
   - Nota centrada `label-sm` `outline`: "Esta acción es irreversible y eliminará calificaciones, notas y registros de tus listas."
-- Diálogo destructivo (§3.6-2): "¿Eliminar del catálogo?" / "Se quitará "{nombre}" de tu base de datos local y de las {n} listas personalizadas asociadas." / "Sí, eliminar definitivamente" / "Cancelar".
+- Diálogo destructivo (§3.6-2): "¿Eliminar del catálogo?" / texto de **M-06** con el nombre en negrita ("¿Eliminar «**{nombre}**»? Se quitará también de todas tus listas. Esta acción no se puede deshacer.") / "Sí, eliminar definitivamente" / "Cancelar". El prototipo dice "Se quitará "{nombre}" de tu base de datos local y de las {n} listas personalizadas asociadas."; se usa el catálogo de mensajes (T3.23).
+- Al confirmar: se borra (CU-06) y se vuelve atrás con el toast canónico (§3.5) "Perfil eliminado". Si falla, toast con M-25 y el perfil sigue.
+- Cambios del detalle que fallan al guardarse (estado, nota, crítica, eliminar): toast canónico con M-25; la pantalla sigue mostrando lo guardado (el selector de estado no cambia).
 
 ### 7.8 Iconos de género
 Del prototipo: Ciencia Ficción `rocket_launch`, Aventura `explore`, Drama `theater_comedy`. Propuesta para el resto: Acción `sports_martial_arts`, Comedia `sentiment_very_satisfied`, Terror `skull`, Suspense `visibility`, Animación `animation`, Fantasía `auto_fix_high`, Documental `videocam`, Crimen `local_police`, Romance `favorite`, Historia `history_edu`, Thriller `psychology`. Género sin icono asignado: `movie`.
@@ -382,6 +387,8 @@ Del prototipo: Ciencia Ficción `rocket_launch`, Aventura `explore`, Drama `thea
 ## 8. Pantalla Añadir / editar perfil (`a_adir_nuevo_perfil`)
 
 Barra superior secundaria con "Añadir Medio" ("Editar Medio" al editar). **Sin barra inferior.** Formulario con padding 16 lateral, 40 inferior y **separación 24**.
+
+**Al editar (CU-02)** es el mismo formulario con los datos actuales del perfil (también estado, puntuación y comentario): cabecera "Editar perfil" / "Actualiza los datos de tu colección local"; el tipo, deshabilitado (50 %, S-03); el indicador "Disponible" no cuenta el propio perfil (cambiar solo mayúsculas o tildes es válido) y M-01 aparece en cuanto se vacía el nombre. Guardar sin cambios vuelve sin escribir; al guardar, toast de éxito "Cambios guardados" y vuelta al detalle. Cancelar con cambios: "¿Descartar los cambios?" / "Se perderán los cambios que has hecho." / "Descartar" / "Seguir editando".
 
 1. **Cabecera** (4 dp arriba y abajo): "Añadir nuevo perfil" `headline-md` bold + "Registra y califica en tu colección local" `body-sm` `on-surface-variant`. A la derecha botón "**Cancelar**": píldora padding 16×4, fondo `surface-container-high`, `label-md`.
 2. **TIPO DE PRODUCCIÓN \***: etiqueta de sección con asterisco `secondary`. Segmentado de 2: contenedor `rounded-xl` fondo `surface-container-lowest` padding 4; botones `rounded-lg` padding vertical 8, `label-lg`, icono 18 dp (`movie`, `tv`), separación 4. Activo: `primary-container` / `on-primary-container` **bold** `shadow-md`. Inactivo: `on-surface-variant`. En edición está deshabilitado (S-03).
@@ -497,6 +504,10 @@ Contenido (padding 16 lateral, separación 16):
 | Barra de estado dibujada | Barra de estado real del sistema | Es parte del mockup |
 | Avatar de usuario | Decorativo / acceso a Ajustes | No hay cuentas |
 | Sin opción de quitar la puntuación ni de agrupar | "Quitar puntuación" (§7.3) y "Agrupar" (§4.2) | RF-13, RF-23..26 |
+| Editor de nota del detalle solo con slider, que cambia la nota al moverlo | Campo editable + slider, M-03 y botón "Guardar" (§7.3) | CU-03 pasos 2–4 y E1 (T3.12, T3.31) |
+| Editar/borrar la crítica con `prompt()` / `confirm()` del navegador | Hoja inferior con contador y diálogo de confirmación (§7.6) | CU-04, S-06 |
+| Diálogo de eliminar con "{n} listas personalizadas asociadas" | Texto de M-06 (§7.7) | Catálogo de mensajes (T3.23) |
+| Menú ⋮ con "Añadir a lista" | Solo "Editar" y "Eliminar" hasta el S5 | CU-15 llega en el S5 |
 
 ---
 

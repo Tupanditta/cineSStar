@@ -29,6 +29,9 @@ object TagsFormulario {
     const val CANCELAR = "form_cancelar"
     const val SCROLL = "form_scroll"
 
+    /** Pantalla "Editar Medio" (CU-02); al crear se usa la etiqueta del destino "Añadir". */
+    const val PANTALLA_EDITAR = "pantalla_editar"
+
     fun tipo(tipo: TipoPerfil) = "form_tipo_" + tipo.name.lowercase()
 
     fun estado(estado: Estado) = "form_estado_" + estado.name.lowercase()

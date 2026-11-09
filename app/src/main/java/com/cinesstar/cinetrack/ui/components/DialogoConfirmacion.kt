@@ -19,8 +19,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.cinesstar.cinetrack.ui.theme.CineAlpha
@@ -37,6 +41,17 @@ import com.cinesstar.cinetrack.ui.theme.Spacing
 fun DialogoConfirmacion(
     titulo: String,
     texto: String,
+    confirmar: String,
+    cancelar: String,
+    onConfirmar: () -> Unit,
+    onCancelar: () -> Unit,
+) = DialogoConfirmacion(titulo, AnnotatedString(texto), confirmar, cancelar, onConfirmar, onCancelar)
+
+/** Variante con partes del texto en negrita (el nombre del perfil en M-06, design.md §3.6-2). */
+@Composable
+fun DialogoConfirmacion(
+    titulo: String,
+    texto: AnnotatedString,
     confirmar: String,
     cancelar: String,
     onConfirmar: () -> Unit,
@@ -86,6 +101,7 @@ fun DialogoConfirmacion(
                         style = CineTheme.typography.bodySm,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.testTag(TagsDialogo.TEXTO),
                     )
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(Spacing.Sm)) {
@@ -134,3 +150,21 @@ private fun BotonDialogo(
         Text(text = texto, style = CineTheme.typography.titleSm, fontWeight = if (negrita) FontWeight.Bold else null, color = color)
     }
 }
+
+/**
+ * [plantilla] (con un único `%1$s`) con [valor] en negrita: "¿Eliminar «**Dune**»? …". Se usa con `stringResource`
+ * para no partir los textos del catálogo de mensajes.
+ */
+fun conNegrita(
+    plantilla: String,
+    valor: String,
+): AnnotatedString {
+    val partes = plantilla.split(MARCADOR, limit = 2)
+    return buildAnnotatedString {
+        append(partes[0])
+        withStyle(SpanStyle(fontWeight = FontWeight.Bold)) { append(valor) }
+        if (partes.size > 1) append(partes[1])
+    }
+}
+
+private const val MARCADOR = "%1\$s"
