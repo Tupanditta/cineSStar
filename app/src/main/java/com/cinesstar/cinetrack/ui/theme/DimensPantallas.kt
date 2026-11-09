@@ -166,10 +166,55 @@ object DimensDetalle {
     val EliminarIcon = 20.dp
 }
 
-/** Biblioteca provisional del S2 (la definitiva es la del S4, design.md §4). */
+/** Pantalla Biblioteca (design.md §4). */
 object DimensBiblioteca {
-    val RowPadding = 16.dp
+    // Vacío (§11)
     val EmptyIcon = 48.dp
     val EmptyButtonPaddingH = 16.dp
     val EmptyButtonPaddingV = 12.dp
+
+    // 2. Chips de tipo
+    val TipoPaddingH = 16.dp
+    val TipoPaddingV = 8.dp
+    val TipoGap = 6.dp
+    val TipoIcon = 18.dp
+
+    // 3. Contadores
+    val ContadoresPadding = 4.dp
+    val ContadorPadding = 8.dp
+    val ContadorIcon = 16.dp
+
+    // 4. Escala y agrupar
+    val EscalaHeaderIcon = 20.dp
+    val EscalaHeaderGap = 6.dp
+    val EscalaChipPaddingH = 10.dp
+    val EscalaChipPaddingV = 6.dp
+    val EscalaChipBorde = 1.dp
+    val GrupoIcon = 22.dp
+
+    // 5. Catálogo y §4.1 Tarjeta de medio
+    val MostrandoPaddingH = 10.dp
+    val MostrandoPaddingV = 3.dp
+    val CardPadding = 8.dp
+
+    /** Alto del contenido de la tarjeta: el del póster del prototipo (144), así la tarjeta no crece. */
+    val CardContentHeight = 144.dp
+    val IconoTipoColumna = 56.dp
+    val IconoTipoCaja = 48.dp
+    val IconoTipo = 28.dp
+    val CardIcon = 16.dp
+    val ColumnaPaddingV = 2.dp
+    val NotaPaddingH = 8.dp
+    val NotaPaddingV = 3.dp
+    val NotaGap = 2.dp
+    val SagaTop = 2.dp
+    val GenerosTop = 6.dp
+    val GeneroGap = 6.dp
+    val GeneroPaddingH = 8.dp
+    val GeneroPaddingV = 3.dp
+    val FilaInferiorTop = 8.dp
+    val EstadoIcon = 15.dp
+    val EstadoPunto = 7.dp
+    val InsigniaPaddingH = 10.dp
+    val InsigniaPaddingV = 3.dp
 }

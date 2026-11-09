@@ -18,6 +18,27 @@ data class PerfilRango(
     val rango: RangoPuntuacion,
 )
 
+/** Fila de la Biblioteca: el perfil con el nombre de su saga (CU-08). */
+data class FilaBiblioteca(
+    val id: Long,
+    val nombre: String,
+    val tipo: TipoPerfil,
+    val estado: Estado,
+    val puntuacionDecimas: Int?,
+    val sagaId: Long?,
+    val sagaNombre: String?,
+    val caratulaUri: String?,
+    val creadoEn: Long,
+)
+
+/** Un género o idioma de un perfil, con su posición en el catálogo. */
+data class EtiquetaPerfil(
+    val perfilId: Long,
+    val id: Long,
+    val nombre: String,
+    val orden: Int,
+)
+
 @Dao
 interface PerfilDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -118,6 +139,41 @@ interface PerfilDao {
         """,
     )
     suspend fun rangos(): List<PerfilRango>
+}
+
+/** Lectura de la Biblioteca (CU-08, CU-09): tres consultas para todos los perfiles, sin una por perfil (RNF-08). */
+@Dao
+interface BibliotecaDao {
+    /** CU-08: todos los perfiles con su saga, más recientes primero (S-10). */
+    @Query(
+        """
+        SELECT p.id, p.nombre, p.tipo, p.estado, p.puntuacionDecimas, p.sagaId, s.nombre AS sagaNombre, p.caratulaUri,
+            p.creadoEn
+        FROM perfil p LEFT JOIN saga s ON s.id = p.sagaId
+        ORDER BY p.creadoEn DESC, p.id DESC
+        """,
+    )
+    suspend fun filasBiblioteca(): List<FilaBiblioteca>
+
+    /** Géneros de todos los perfiles, en el orden del catálogo (una consulta para toda la Biblioteca, RNF-08). */
+    @Query(
+        """
+        SELECT pg.perfilId AS perfilId, g.id AS id, g.nombre AS nombre, g.orden AS orden
+        FROM perfil_genero pg JOIN genero g ON g.id = pg.generoId
+        ORDER BY g.orden
+        """,
+    )
+    suspend fun generosDeTodos(): List<EtiquetaPerfil>
+
+    /** Idiomas de todos los perfiles, en el orden del catálogo. */
+    @Query(
+        """
+        SELECT pi.perfilId AS perfilId, i.id AS id, i.nombre AS nombre, i.orden AS orden
+        FROM perfil_idioma pi JOIN idioma i ON i.id = pi.idiomaId
+        ORDER BY i.orden
+        """,
+    )
+    suspend fun idiomasDeTodos(): List<EtiquetaPerfil>
 }
 
 @Dao

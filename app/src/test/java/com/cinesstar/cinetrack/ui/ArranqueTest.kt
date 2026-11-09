@@ -1,7 +1,9 @@
 package com.cinesstar.cinetrack.ui
 
+import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsSelected
+import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
@@ -32,7 +34,9 @@ class ArranqueTest {
         compose.onNodeWithTag(DestinoBarra.BIBLIOTECA.tagPantalla()).assertIsDisplayed()
         compose.onNodeWithTag(DestinoBarra.BIBLIOTECA.tag()).assertIsSelected()
         compose.onNode(hasTestTag(TagsBarra.SUPERIOR)).assertIsDisplayed()
-        compose.onNode(hasText("CineTrack"), useUnmergedTree = true).assertIsDisplayed()
-        compose.onNode(hasText("100% Local"), useUnmergedTree = true).assertIsDisplayed()
+        compose.onNode(hasContentDescription("Logo de CineTrack"), useUnmergedTree = true).assertIsDisplayed()
+        compose.onNode(hasTestTag(TagsBarra.AVATAR)).assertIsDisplayed()
+        // Sin marca ni píldora "100% Local" en la barra (design.md §12).
+        compose.onAllNodes(hasText("100% Local"), useUnmergedTree = true).assertCountEquals(0)
     }
 }

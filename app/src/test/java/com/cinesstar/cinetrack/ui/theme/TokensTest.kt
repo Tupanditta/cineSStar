@@ -169,7 +169,7 @@ class TokensTest {
         }
         // Notas de §2.5: etiquetas de sección con tracking-wider y headline-lg (30/36) para tablet.
         assertEquals(0.05.em, tipografia.sectionLabel.letterSpacing)
-        assertEquals(12.sp, tipografia.sectionLabel.fontSize)
+        assertEquals(13.sp, tipografia.sectionLabel.fontSize)
         assertEquals(30.sp, tipografia.headlineLg.fontSize)
         assertEquals(36.sp, tipografia.headlineLg.lineHeight)
     }

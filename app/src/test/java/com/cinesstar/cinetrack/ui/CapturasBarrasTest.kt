@@ -16,6 +16,7 @@ import com.cinesstar.cinetrack.soporte.Capturas.escalada
 import com.cinesstar.cinetrack.soporte.Capturas.guardar
 import com.cinesstar.cinetrack.soporte.Capturas.prototipo
 import com.cinesstar.cinetrack.soporte.Capturas.recorte
+import com.cinesstar.cinetrack.soporte.Capturas.sinTextosBarraSuperior
 import com.cinesstar.cinetrack.ui.components.tag
 import org.junit.Assert.assertTrue
 import org.junit.Rule
@@ -29,7 +30,7 @@ import org.robolectric.annotation.GraphicsMode
  * que tiene las dos barras sin contenido superpuesto en esas zonas).
  *
  * Método y tolerancia en [Capturas] ([Capturas.BARRAS]): 411 dp de ancho, celdas de 4×4 dp. La barra de estado falsa
- * del prototipo (28 dp, §3.1) se descarta.
+ * del prototipo (28 dp, §3.1) se descarta. En la superior no se compara la zona de textos que la app ya no tiene (§12).
  * Las imágenes generadas y las de referencia recortadas quedan en `app/build/capturas` para revisarlas.
  */
 @RunWith(AndroidJUnit4::class)
@@ -66,7 +67,7 @@ class CapturasBarrasTest {
         guardar("barra_inferior_app", inferiorApp)
         guardar("barra_inferior_prototipo", inferiorRef)
 
-        val superior = comparar(superiorApp, superiorRef)
+        val superior = comparar(sinTextosBarraSuperior(superiorApp), sinTextosBarraSuperior(superiorRef))
         val inferior = comparar(inferiorApp, inferiorRef)
         println("T0.08 barra superior: $superior · barra inferior: $inferior")
         listOf("superior" to superior, "inferior" to inferior).forEach { (nombre, r) ->

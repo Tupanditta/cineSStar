@@ -42,7 +42,7 @@ private fun estilo(
     letterSpacing = trackingEm.em,
 )
 
-/** Escala tipográfica del prototipo (design.md §2.5). */
+/** Escala tipográfica (design.md §2.5): la del prototipo, con los estilos de título, cuerpo y etiqueta algo mayores. */
 @Immutable
 data class CineTypography(
     val displayLg: TextStyle = estilo(36, 44, 800, -0.02),
@@ -50,15 +50,19 @@ data class CineTypography(
     val headlineLg: TextStyle = estilo(30, 36, 700, -0.01),
     val headlineLgMobile: TextStyle = estilo(24, 32, 700, -0.01),
     val headlineMd: TextStyle = estilo(20, 28, 600, -0.01),
-    val titleMd: TextStyle = estilo(16, 24, 600),
-    val titleSm: TextStyle = estilo(14, 20, 600),
-    val bodyMd: TextStyle = estilo(14, 20, 400),
-    val bodySm: TextStyle = estilo(12, 16, 400),
-    val labelLg: TextStyle = estilo(14, 20, 600, 0.01),
-    val labelMd: TextStyle = estilo(12, 16, 600, 0.02),
-    val labelSm: TextStyle = estilo(10, 14, 700, 0.04),
+    val titleMd: TextStyle = estilo(17, 24, 600),
+    val titleSm: TextStyle = estilo(15, 22, 600),
+    val bodyMd: TextStyle = estilo(15, 22, 400),
+    val bodySm: TextStyle = estilo(13, 18, 400),
+    val labelLg: TextStyle = estilo(15, 22, 600, 0.01),
+    val labelMd: TextStyle = estilo(13, 18, 600, 0.02),
+    val labelSm: TextStyle = estilo(12, 16, 700, 0.04),
     /** Etiquetas de sección: label-md en MAYÚSCULAS con `tracking-wider` (0.05em). */
-    val sectionLabel: TextStyle = estilo(12, 16, 600, 0.05),
+    val sectionLabel: TextStyle = estilo(13, 18, 600, 0.05),
+    /** Título de la tarjeta de medio de la Biblioteca (design.md §4.1). */
+    val tituloTarjeta: TextStyle = estilo(18, 24, 600),
+    /** Etiqueta de los contadores de la Biblioteca: conserva el `label-sm` del prototipo (design.md §4-3). */
+    val etiquetaContador: TextStyle = estilo(10, 14, 700, 0.04),
 )
 
 /** `tracking-tight` de Tailwind, usado en la marca "CineTrack". */
@@ -66,6 +70,9 @@ val TrackingTight = (-0.025).em
 
 /** `tracking-wide` de Tailwind (píldora de tipo del hero, design.md §7.1). */
 val TrackingWide = 0.025.em
+
+/** `tracking-wider` de Tailwind (etiquetas de los contadores de la Biblioteca, design.md §4-3). */
+val TrackingWider = 0.05.em
 
 /** `leading-relaxed` de Tailwind (texto de la crítica, design.md §7.6). */
 val LeadingRelaxed = 1.625.em

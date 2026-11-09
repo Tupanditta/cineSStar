@@ -91,15 +91,16 @@ Píldora, `label-sm` semibold, padding 6×2 dp:
 | display-lg | 36/44 | 800 | −0.02em | Nota grande del Detalle y del formulario |
 | headline-lg-mobile | 24/32 | 700 | −0.01em | Título del Detalle y de la lista abierta |
 | headline-md | 20/28 | 600 (se usa en bold) | −0.01em | "CineTrack", títulos de diálogo y de "Añadir nuevo perfil", cifras de contadores, `#n` del ranking |
-| title-md | 16/24 | 600 | – | Títulos de tarjeta de Biblioteca, cabeceras de sección, título de barra secundaria |
-| title-sm | 14/20 | 600 | – | Títulos de fila, nombre de pantalla bajo la marca |
-| body-md | 14/20 | 400 | – | Campos de texto, crítica |
-| body-sm | 12/16 | 400 | – | Descripciones y textos de ayuda |
-| label-lg | 14/20 | 600 | 0.01em | Botones principales |
-| label-md | 12/16 | 600 | 0.02em | Pestañas, chips, etiquetas de sección |
-| label-sm | 10/14 | 700 | 0.04em | Insignias, metadatos, barra inferior |
+| title-md | 17/24 | 600 | – | Cabeceras de sección, título de barra secundaria |
+| title-sm | 15/22 | 600 | – | Títulos de fila, nombre de pantalla bajo la marca |
+| body-md | 15/22 | 400 | – | Campos de texto, crítica |
+| body-sm | 13/18 | 400 | – | Descripciones y textos de ayuda |
+| label-lg | 15/22 | 600 | 0.01em | Botones principales |
+| label-md | 13/18 | 600 | 0.02em | Pestañas, chips, etiquetas de sección |
+| label-sm | 12/16 | 700 | 0.04em | Insignias, metadatos, barra inferior |
 
-- Etiquetas de sección ("TIPO DE PRODUCCIÓN", "ESTADO DE VISUALIZACIÓN", "GÉNEROS"…): `label-md`, **MAYÚSCULAS**, `tracking-wider` (0.05em), `on-surface-variant`.
+- **Escala ajustada a petición del usuario**: los estilos de título, cuerpo y etiqueta son 1–2 sp mayores que en el prototipo (10 sp de `label-sm` era ilegible en el móvil). Los `display` y `headline` no cambian. Dos estilos propios: título de la tarjeta de Biblioteca 18/24 600 y etiqueta de los contadores de Biblioteca 10/14 700 (conserva el tamaño del prototipo).
+- Etiquetas de sección ("TIPO DE PRODUCCIÓN", "ESTADO DE VISUALIZACIÓN", "GÉNEROS"…): `label-md` (13/18), **MAYÚSCULAS**, `tracking-wider` (0.05em), `on-surface-variant`.
 - Insignia de tipo sobre el póster del ranking: 9 sp, mayúsculas, bold.
 - `headline-lg` (30/36) solo para tablet.
 
@@ -142,11 +143,8 @@ Las capturas dibujan una barra falsa (12:45, wifi_off, sd_card, 92 %, batería) 
 ### 3.2 Barra superior — pantallas principales (Biblioteca, Listas, Buscar)
 - Fondo `surface` al 80 % + desenfoque (`backdrop-blur-xl`, 24 dp) + sombra de barra. Fija arriba.
 - Fila de contenido de **52 dp** (80 dp del prototipo − 28 de la barra de estado falsa), padding lateral 16, padding inferior 8.
-- Izquierda (separación 8 dp):
-  - **Logo** de 32 dp de alto (imagen `CineTrack Logo`; hay que exportarla del prototipo y empaquetarla).
-  - Columna:
-    - Fila 1 (separación 4): "**CineTrack**" `headline-md` bold `tracking-tight` color `#38BDF8`; píldora "**100% Local**" `label-sm`, fondo `surface-container-high`, texto `on-surface-variant`, padding 4×2.
-    - Fila 2: nombre de la pantalla ("Biblioteca", "Listas", "Buscar", "Ajustes") `title-sm` `on-surface`.
+- Izquierda: **Logo** de 32 dp de alto (imagen `CineTrack Logo` del prototipo, empaquetada).
+- Sin texto: la marca "CineTrack", la píldora "100% Local" y el nombre de la pantalla se quitaron a petición del usuario (§12). El nombre de la pantalla se mantiene como encabezado para lectores de pantalla.
 - Derecha: **avatar** 32 dp circular con icono `person` 18 dp. Canónico: fondo `#38BDF8`, icono `slate-950` (ver variantes en §13). No tiene cuentas detrás: decorativo (o acceso a Ajustes).
 
 ### 3.3 Barra superior — pantallas secundarias (Detalle, Lista abierta, Añadir)
@@ -185,37 +183,43 @@ Variante de **éxito al guardar un perfil**: fondo `primary-container`, texto `o
 
 Barra superior principal (§3.2) con "Biblioteca" y barra inferior con Biblioteca activa.
 
-1. **Franja de estado** a ancho completo, fondo `surface-container-lowest`, padding 16×8, margen inferior 4:
-   - Izquierda: punto 8 dp `#38BDF8` con onda + icono `database` 14 dp `#38BDF8` + texto `label-sm` `on-surface-variant` "Base de datos local • {N} entradas".
-   - Derecha: píldora "Sin telemetría" `label-sm` medium `sky-300`, fondo `surface-container-high`, padding 4×2.
-2. **Chips de tipo** (scroll horizontal, separación 4, padding 16 lateral y 8 inferior): píldoras 16×6, `label-md`, icono 16 dp a la izquierda:
+1. ~~Franja de estado~~ ("Base de datos local • {N} entradas" / "Sin telemetría"): **quitada** a petición del usuario (§12). El contenido empieza 8 dp bajo la barra.
+2. **Chips de tipo** (scroll horizontal, separación 4, padding 16 lateral y 8 inferior): píldoras 16×8, `label-md`, icono 18 dp a la izquierda:
    - "Todas ({n})" `auto_awesome` · "Solo Películas ({n})" `movie` · "Solo Series ({n})" `tv`.
    - Activo: fondo `#38BDF8`, texto `slate-950` semibold, `shadow-sm`. Inactivo: fondo `surface-container`, texto `on-surface-variant`.
 3. **Contadores** (margen inferior 16): contenedor `rounded-xl` fondo `surface-container-low` padding 4, rejilla de 3 con separación 4. Cada celda: `rounded-lg`, fondo `surface-container`, padding 8, centrada:
    - Fila: icono 16 dp + número `headline-md` bold, ambos del color del estado: **Viendo** `sky-400` (`play_circle` FILL 1), **Pendientes** `secondary` (`schedule`), **Vistas** `on-surface` (`check_circle`).
-   - Debajo: etiqueta `label-sm` MAYÚSCULAS `tracking-wider` `on-surface-variant`.
+   - Debajo: etiqueta MAYÚSCULAS 10/14 bold (tamaño del prototipo; los contadores no se agrandan) `tracking-wider` `on-surface-variant`.
    - Pulsar una celda filtra por ese estado (en el prototipo son botones).
 4. **Filtrar por escala** (margen inferior 16):
-   - Cabecera: icono `star` 18 dp `sky-400` + "Filtrar por escala" `title-sm`; a la derecha "5 rangos" `label-sm` `on-surface-variant`.
-   - Chips en scroll horizontal (separación 8): `rounded-lg`, padding 8×4, `label-sm`. Seleccionado: fondo `sky-950` 60 %, borde 1 dp `sky-500` 30 %, texto `sky-300`, `shadow-sm`. Resto: fondo `surface-container`, texto `on-surface-variant`.
+   - Cabecera: icono `star` 20 dp `sky-400` + "Filtrar por escala" `title-sm`; a la derecha "5 rangos" `label-sm` `on-surface-variant`.
+   - Chips en scroll horizontal (separación 8): `rounded-lg`, padding 10×6, `label-sm`. Seleccionado: fondo `sky-950` 60 %, borde 1 dp `sky-500` 30 %, texto `sky-300`, `shadow-sm`. Resto: fondo `surface-container`, texto `on-surface-variant`.
    - Textos: "9 - 10 • Imprescindibles", "7 - 8.9 • Muy buenas", "5 - 6.9", "3 - 4.9", "0 - 2.9" y, por requisito, "Sin puntuar" al final. Pulsar un chip seleccionado lo deselecciona.
 5. **Catálogo de Medios** (padding lateral 16, separación 16):
-   - Cabecera: "Catálogo de Medios" `title-md` bold `tracking-tight`; a la derecha píldora "Mostrando {x} de {N}" `label-sm` fondo `surface-container` padding 8×2.
+   - Cabecera: "Catálogo de Medios" `title-md` bold `tracking-tight`; a la derecha píldora "Mostrando {x} de {N}" `label-sm` fondo `surface-container` padding 10×3.
    - **Tarjeta de medio** (§4.1) por perfil.
-6. **Pie**: píldora centrada (24 dp arriba, 16 abajo), fondo `surface-container`, padding 16×6, icono `offline_pin` 16 dp `sky-400` + "Base de datos al día • Almacenamiento local seguro" `label-sm`.
+6. ~~Pie~~ ("Base de datos al día • Almacenamiento local seguro"): **quitado** a petición del usuario (§12).
 7. **Selector "Agrupar por"** (requisito, no aparece en el prototipo): ver §4.2.
 
 ### 4.1 Tarjeta de medio
 - `article`: fila con separación 8, padding 8, `rounded-xl`, fondo **`surface-container-low`**, `shadow-sm`; al pulsar fondo `surface-container`.
-- **Póster** 96×144 dp (`w-24 h-36`), `rounded-lg`, fondo `surface-container-highest`, imagen recortada. Insignia de tipo arriba-izquierda (4 dp): "Película"/"Serie" `label-sm`, texto `on-surface`, fondo `surface-container-lowest` 80 % con desenfoque, `rounded`, padding 6×2.
+- **Icono de tipo** (sustituye al póster, a petición del usuario, §12): columna de 56 dp alineada arriba con una caja 48×48 `rounded-lg` fondo `surface-container-highest` e icono 28 dp `sky-400` (`movie` para películas, `tv` para series, los mismos de los chips de tipo) y debajo "Película"/"Serie" `label-sm` `on-surface-variant`. El contenido conserva el alto del póster (144 dp): la tarjeta mide lo mismo (160 dp) y la columna de datos gana ancho.
 - **Columna** (ocupa el resto, distribuida arriba/abajo, padding vertical 2):
-  - Fila 1: título `title-md` semibold `leading-tight` truncado; a la derecha **chip de nota**: píldora fondo `surface-container-highest`, padding 6×2, `star` 14 dp FILL 1 `sky-400` + valor `label-sm` bold `sky-200`. **Sin nota**: píldora "Sin puntuar" `label-sm` `on-surface-variant` fondo `surface-container` padding 8×2.
+  - Fila 1: título 18/24 semibold truncado; a la derecha **chip de nota**: píldora fondo `surface-container-highest`, padding 8×3, `star` 16 dp FILL 1 `sky-400` + valor `label-sm` bold `sky-200`. **Sin nota**: píldora "Sin puntuar" `label-sm` `on-surface-variant` fondo `surface-container` padding 8×2.
   - Fila 2 (2 dp arriba): "Saga: {nombre}" `label-sm` medium `sky-300`, o "Sin saga asociada" `on-surface-variant`. Truncado.
-  - Fila 3 (6 dp arriba): chips de género, separación 6, con salto de línea: `rounded`, padding 6×2, fondo `surface-container`, texto `on-surface-variant` `label-sm`.
-  - Fila inferior (8 dp arriba), extremos: idioma con `translate` 14 dp + nombre `label-sm` `on-surface-variant` (si hay varios: el primero y "+n"); a la derecha **insignia de estado** (§2.3).
+  - Fila 3 (6 dp arriba): chips de género, separación 6, con salto de línea: `rounded`, padding 8×3, fondo `surface-container`, texto `on-surface-variant` `label-sm`.
+  - Fila inferior (8 dp arriba), extremos: idioma con `translate` 16 dp + nombre `label-sm` `on-surface-variant` (si hay varios: el primero y "+n"); a la derecha **insignia de estado** (§2.3) con padding 10×3 e iconos de 15 dp (punto de 7 dp).
 
 ### 4.2 Agrupar (requisito RF-23..26)
 No existe en el prototipo. Para no romper el diseño se añade, entre "Filtrar por escala" y el catálogo, una fila con el mismo estilo que los chips de escala: "Agrupar: Ninguno · Puntuación · Saga · Idioma · Género · Estado". Al agrupar, el catálogo se divide en secciones con cabecera `title-md` bold + recuento en píldora (mismo estilo que "Mostrando x de N"). El ámbito (todo/películas/series) lo dan los chips de tipo.
+
+**Decisiones del S4** (no fijadas por el prototipo):
+- La fila es una cabecera "Agrupar por" (icono `category`, mismo estilo que "Filtrar por escala") con los chips debajo.
+- Los filtros se combinan: tipo, estado (contadores) y escala se aplican a la vez y después se agrupa. Los recuentos de los chips de tipo y "{N} entradas" son de toda la biblioteca; los contadores, del tipo elegido; "Mostrando {x} de {N}" = perfiles que pasan los filtros / total.
+- Si los filtros no dejan ningún perfil se muestra M-13 en el catálogo.
+- Orden de los grupos: puntuación de mayor a menor (como los chips) con "Sin puntuación" al final; saga por nombre; género e idioma en el orden del catálogo; estado Pendiente, Viendo, Visto; los "Sin …" siempre al final. Dentro de cada grupo, más recientes primero (S-10).
+- Cada cabecera de grupo se pliega al pulsarla (icono `expand_less`/`expand_more`); cambiar de criterio despliega todo.
+- Error de lectura (CU-08 E1): icono `error` 48 dp, M-25 y botón "Reintentar" con el estilo del botón "Añadir" del vacío.
 
 ---
 
@@ -508,6 +512,10 @@ Contenido (padding 16 lateral, separación 16):
 | Editar/borrar la crítica con `prompt()` / `confirm()` del navegador | Hoja inferior con contador y diálogo de confirmación (§7.6) | CU-04, S-06 |
 | Diálogo de eliminar con "{n} listas personalizadas asociadas" | Texto de M-06 (§7.7) | Catálogo de mensajes (T3.23) |
 | Menú ⋮ con "Añadir a lista" | Solo "Editar" y "Eliminar" hasta el S5 | CU-15 llega en el S5 |
+| Franja "SQLite cifrado local • 60 entradas · Sin telemetría" y pie "Base de datos SQLite al día…" en la Biblioteca | Quitados | Decisión del usuario (S4) |
+| Barra superior con "CineTrack", "100% Local" y nombre de la pantalla | Solo logo y avatar | Decisión del usuario (S4) |
+| Póster 96×144 en las tarjetas de Biblioteca | Icono de tipo 48 dp (§4.1); la tarjeta mantiene su alto | Decisión del usuario (S4): no hay carátulas y el hueco no aportaba |
+| Escala tipográfica del prototipo (`label-sm` 10 sp…) | Estilos de título, cuerpo y etiqueta 1–2 sp mayores (§2.5) | Decisión del usuario (S4): textos demasiado pequeños en el móvil. Las capturas G se miden con esta escala |
 
 ---
 

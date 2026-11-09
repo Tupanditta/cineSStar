@@ -3,8 +3,6 @@
     <string name="app_name">CineTrack</string>
 
     <!-- Barra superior (design.md §3.2 y §3.3) -->
-    <string name="marca">CineTrack</string>
-    <string name="pildora_local">100% Local</string>
     <string name="cd_logo">Logo de CineTrack</string>
     <string name="cd_avatar">Ir a Ajustes</string>
     <string name="cd_atras">Volver</string>
@@ -151,9 +149,46 @@
     <string name="eliminar_titulo">¿Eliminar del catálogo?</string>
     <string name="eliminar_confirmar">Sí, eliminar definitivamente</string>
 
-    <!-- Biblioteca provisional del S2 (la definitiva llega en el S4) -->
+    <!-- Biblioteca (design.md §4) -->
+    <string name="m13_sin_resultados">No se han encontrado resultados.</string>
     <string name="m22_biblioteca_vacia">Todavía no hay títulos. Añade el primero.</string>
     <string name="biblioteca_anadir">Añadir</string>
+    <string name="biblioteca_todas">Todas (%1$d)</string>
+    <string name="biblioteca_solo_peliculas">Solo Películas (%1$d)</string>
+    <string name="biblioteca_solo_series">Solo Series (%1$d)</string>
+    <string name="biblioteca_contador_viendo">Viendo</string>
+    <string name="biblioteca_contador_pendientes">Pendientes</string>
+    <string name="biblioteca_contador_vistas">Vistas</string>
+    <string name="biblioteca_escala">Filtrar por escala</string>
+    <string name="biblioteca_escala_rangos">5 rangos</string>
+    <string name="biblioteca_escala_9_10">9 - 10 • Imprescindibles</string>
+    <string name="biblioteca_escala_7_8">7 - 8.9 • Muy buenas</string>
+    <string name="biblioteca_escala_5_6">5 - 6.9</string>
+    <string name="biblioteca_escala_3_4">3 - 4.9</string>
+    <string name="biblioteca_escala_0_2">0 - 2.9</string>
+    <string name="biblioteca_agrupar">Agrupar por</string>
+    <string name="biblioteca_agrupar_ninguno">Ninguno</string>
+    <string name="biblioteca_agrupar_puntuacion">Puntuación</string>
+    <string name="biblioteca_agrupar_saga">Saga</string>
+    <string name="biblioteca_agrupar_idioma">Idioma</string>
+    <string name="biblioteca_agrupar_genero">Género</string>
+    <string name="biblioteca_agrupar_estado">Estado</string>
+    <string name="biblioteca_catalogo">Catálogo de Medios</string>
+    <string name="biblioteca_mostrando">Mostrando %1$d de %2$d</string>
+    <string name="biblioteca_saga">Saga: %1$s</string>
+    <string name="biblioteca_mas_idiomas">%1$s +%2$d</string>
+    <string name="biblioteca_reintentar">Reintentar</string>
+    <string name="grupo_9_10">9 - 10</string>
+    <string name="grupo_7_8">7 - 8.9</string>
+    <string name="grupo_5_6">5 - 6.9</string>
+    <string name="grupo_3_4">3 - 4.9</string>
+    <string name="grupo_0_2">0 - 2.9</string>
+    <string name="grupo_sin_puntuacion">Sin puntuación</string>
+    <string name="grupo_sin_saga">Sin saga</string>
+    <string name="grupo_sin_genero">Sin género</string>
+    <string name="grupo_sin_idioma">Sin idioma</string>
+    <string name="cd_plegar_grupo">Plegar grupo</string>
+    <string name="cd_desplegar_grupo">Desplegar grupo</string>
 
     <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
     <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>

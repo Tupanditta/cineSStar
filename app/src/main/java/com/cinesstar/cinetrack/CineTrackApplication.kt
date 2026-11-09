@@ -3,6 +3,7 @@ package com.cinesstar.cinetrack
 import android.app.Application
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.cinesstar.cinetrack.data.repository.BibliotecaRepository
 import com.cinesstar.cinetrack.data.repository.CatalogoRepository
 import com.cinesstar.cinetrack.data.repository.ListaRepository
 import com.cinesstar.cinetrack.data.repository.PerfilRepository
@@ -23,6 +24,7 @@ class AppContainer(
     val sagas: SagaRepository = SagaRepository(database),
     val listas: ListaRepository = ListaRepository(database),
     val catalogo: CatalogoRepository = CatalogoRepository(database),
+    val biblioteca: BibliotecaRepository = BibliotecaRepository(database),
 ) {
     constructor(context: Context) : this(CineDatabase.construir(context))
 }

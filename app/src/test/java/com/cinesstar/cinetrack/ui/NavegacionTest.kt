@@ -5,8 +5,10 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotSelected
 import androidx.compose.ui.test.assertIsSelected
 import androidx.compose.ui.test.hasAnyAncestor
+import androidx.compose.ui.test.hasAnyDescendant
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.isHeading
 import androidx.compose.ui.test.junit4.v2.createAndroidComposeRule
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onNodeWithTag
@@ -64,10 +66,13 @@ class NavegacionTest {
                 val nodo = compose.onNodeWithTag(otro.tag())
                 if (otro == destino) nodo.assertIsSelected() else nodo.assertIsNotSelected()
             }
-            // El nombre de la pantalla aparece bajo la marca (fila 2 de la barra superior, §3.2).
+            // La barra no muestra el nombre de la pantalla (design.md §12), pero lo anuncia como encabezado.
             compose
-                .onNode(hasText(etiqueta(destino)) and hasAnyAncestor(hasTestTag(TagsBarra.SUPERIOR)), useUnmergedTree = true)
-                .assertIsDisplayed()
+                .onNode(hasTestTag(TagsBarra.SUPERIOR) and hasAnyDescendant(isHeading()), useUnmergedTree = true)
+                .assertExists()
+            compose
+                .onAllNodes(hasText(etiqueta(destino)) and hasAnyAncestor(hasTestTag(TagsBarra.SUPERIOR)), useUnmergedTree = true)
+                .assertCountEquals(0)
         }
     }
 

@@ -107,6 +107,24 @@ object Capturas {
         return DoubleArray(3) { suma[it] / n }
     }
 
+    /**
+     * Copia de [imagen] con la zona de la barra superior entre el logo y el avatar tapada: allí el prototipo tiene la
+     * marca, "100% Local" y el nombre de la pantalla, que la app no muestra (design.md §12). Logo: 16 + 32 dp; avatar:
+     * 32 + 16 dp desde la derecha.
+     */
+    fun sinTextosBarraSuperior(imagen: BufferedImage): BufferedImage {
+        val copia = BufferedImage(imagen.width, imagen.height, BufferedImage.TYPE_INT_RGB)
+        val g = copia.createGraphics()
+        g.drawImage(imagen, 0, 0, null)
+        g.color = java.awt.Color.BLACK
+        g.fillRect(FIN_LOGO_DP, 0, imagen.width - FIN_LOGO_DP - ANCHO_AVATAR_DP, imagen.height)
+        g.dispose()
+        return copia
+    }
+
+    private const val FIN_LOGO_DP = 52
+    private const val ANCHO_AVATAR_DP = 52
+
     fun guardar(
         nombre: String,
         imagen: BufferedImage,

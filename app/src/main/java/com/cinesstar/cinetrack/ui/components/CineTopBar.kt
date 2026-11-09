@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +26,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import com.cinesstar.cinetrack.R
@@ -34,7 +36,6 @@ import com.cinesstar.cinetrack.ui.theme.CineShapes
 import com.cinesstar.cinetrack.ui.theme.CineTheme
 import com.cinesstar.cinetrack.ui.theme.Dimens
 import com.cinesstar.cinetrack.ui.theme.Spacing
-import com.cinesstar.cinetrack.ui.theme.TrackingTight
 import dev.chrisbanes.haze.HazeState
 
 /** Contenedor común de las barras superiores: fondo translúcido con desenfoque, inset de estado y 52 dp de contenido. */
@@ -86,7 +87,10 @@ private fun Avatar(onClick: () -> Unit) {
     }
 }
 
-/** Barra superior de las pantallas principales: logo, marca, píldora "100% Local", nombre de pantalla y avatar (§3.2). */
+/**
+ * Barra superior de las pantallas principales: logo y avatar (§3.2). La marca, la píldora "100% Local" y el nombre de la
+ * pantalla se quitaron a petición del usuario (§12); [titulo] queda como encabezado para lectores de pantalla.
+ */
 @Composable
 fun CineTopBar(
     titulo: String,
@@ -96,47 +100,18 @@ fun CineTopBar(
 ) {
     ContenedorBarraSuperior(hazeState, modifier) {
         Row(
-            modifier = Modifier.fillMaxWidth().wrapContentHeight(Alignment.Top, unbounded = true),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight(Alignment.Top, unbounded = true)
+                    .semantics {
+                        heading()
+                        paneTitle = titulo
+                    },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Row(
-                modifier = Modifier.weight(1f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(Spacing.Sm),
-            ) {
-                Logo()
-                Column {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Spacing.Xs)) {
-                        Text(
-                            text = stringResource(R.string.marca),
-                            style = CineTheme.typography.headlineMd,
-                            fontWeight = FontWeight.Bold,
-                            letterSpacing = TrackingTight,
-                            color = CineTheme.colors.sky400,
-                            maxLines = 1,
-                        )
-                        Text(
-                            text = stringResource(R.string.pildora_local),
-                            style = CineTheme.typography.labelSm,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            maxLines = 1,
-                            modifier =
-                                Modifier
-                                    .clip(CineShapes.Full)
-                                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                                    .padding(horizontal = Dimens.PillPaddingH, vertical = Dimens.PillPaddingV),
-                        )
-                    }
-                    Text(
-                        text = titulo,
-                        style = CineTheme.typography.titleSm,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                }
-            }
+            Logo()
             Avatar(onAvatarClick)
         }
     }
