@@ -20,6 +20,8 @@ import com.cinesstar.cinetrack.ui.components.Avisos
 import com.cinesstar.cinetrack.ui.components.CineToastHost
 import com.cinesstar.cinetrack.ui.components.LocalAvisos
 import com.cinesstar.cinetrack.ui.components.PantallaPrincipal
+import com.cinesstar.cinetrack.ui.lista.PantallaLista
+import com.cinesstar.cinetrack.ui.listas.ContenidoListas
 import com.cinesstar.cinetrack.ui.perfil.PantallaDetallePerfil
 import com.cinesstar.cinetrack.ui.perfilform.PantallaFormularioPerfil
 
@@ -64,7 +66,17 @@ fun CineNavHost(
                         )
                     }
                 }
-                composable<Ruta.Listas> { PantallaPrincipal(DestinoBarra.LISTAS, irA) }
+                composable<Ruta.Listas> {
+                    PantallaPrincipal(DestinoBarra.LISTAS, irA) { ContenidoListas(onLista = { navController.navigate(Ruta.Lista(it)) }) }
+                }
+                composable<Ruta.Lista> { entradaLista ->
+                    PantallaLista(
+                        listaId = entradaLista.toRoute<Ruta.Lista>().listaId,
+                        onBack = atras,
+                        onAvatar = ajustes,
+                        onPerfil = { navController.navigate(Ruta.Detalle(it)) },
+                    )
+                }
                 composable<Ruta.Buscar> { PantallaPrincipal(DestinoBarra.BUSCAR, irA) }
                 composable<Ruta.Ajustes> { PantallaPrincipal(DestinoBarra.AJUSTES, irA) }
                 composable<Ruta.Anadir> { PantallaFormularioPerfil(onSalir = atras, onAvatar = ajustes) }
@@ -75,6 +87,7 @@ fun CineNavHost(
                         onBack = atras,
                         onAvatar = ajustes,
                         onEditar = { navController.navigate(Ruta.Editar(perfilId)) { launchSingleTop = true } },
+                        onLista = { navController.navigate(Ruta.Lista(it)) },
                     )
                 }
                 composable<Ruta.Editar> { entradaEditar ->

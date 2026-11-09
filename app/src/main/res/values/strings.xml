@@ -190,6 +190,97 @@
     <string name="cd_plegar_grupo">Plegar grupo</string>
     <string name="cd_desplegar_grupo">Desplegar grupo</string>
 
+    <!-- Listas (design.md §5) -->
+    <string name="listas_mis_listas">Mis Listas</string>
+    <string name="listas_contador">%1$d</string>
+    <string name="listas_top_ranking">Top Ranking</string>
+    <string name="listas_sin_ranking">Todavía no tienes ningún ranking.</string>
+    <string name="listas_coleccion">Colección personal</string>
+    <string name="listas_banner_titulo">Organiza tu Cineverso</string>
+    <string name="listas_banner_texto">Crea rankings rigurosos, listas con priorización de visionado y colecciones temáticas offline.</string>
+    <plurals name="listas_n_listas">
+        <item quantity="one">%1$d Lista</item>
+        <item quantity="other">%1$d Listas</item>
+    </plurals>
+    <plurals name="listas_obras">
+        <item quantity="one">%1$d Obra catalogada</item>
+        <item quantity="other">%1$d Obras catalogadas</item>
+    </plurals>
+    <string name="listas_colecciones_activas">Colecciones Activas</string>
+    <string name="listas_mostradas">%1$d de %2$d mostradas</string>
+    <string name="listas_insignia">[%1$s]</string>
+    <string name="listas_restringida_peliculas">Restringida: Solo Películas</string>
+    <string name="listas_restringida_series">Restringida: Solo Series</string>
+    <plurals name="listas_peliculas">
+        <item quantity="one">%1$d película</item>
+        <item quantity="other">%1$d películas</item>
+    </plurals>
+    <plurals name="listas_series">
+        <item quantity="one">%1$d serie</item>
+        <item quantity="other">%1$d series</item>
+    </plurals>
+    <string name="listas_primero">#1 %1$s</string>
+    <string name="listas_altas">%1$d Alta</string>
+    <string name="listas_nueva">+ Nueva Lista</string>
+    <string name="listas_vacia">Aún no has creado ninguna lista.</string>
+    <string name="cd_opciones_lista">Opciones de la lista</string>
+    <string name="menu_renombrar">Renombrar</string>
+    <string name="tipo_lista_normal">Normal</string>
+    <string name="tipo_lista_prioridad">Prioridad</string>
+    <string name="tipo_lista_ranking">Ranking</string>
+    <string name="restriccion_mixto">Mixto</string>
+    <string name="restriccion_peliculas">Películas</string>
+    <string name="restriccion_series">Series</string>
+    <string name="restriccion_solo_peliculas">Solo Películas</string>
+    <string name="restriccion_solo_series">Solo Series</string>
+    <string name="nueva_lista_titulo">Nueva Lista</string>
+    <string name="nueva_lista_nombre">Nombre de la colección</string>
+    <string name="nueva_lista_placeholder">Ej. Joyas Ocultas, Maratón Fin de Semana...</string>
+    <string name="nueva_lista_tipo">Tipo de Lista</string>
+    <string name="nueva_lista_restriccion">Restricción de contenido (Opcional)</string>
+    <string name="nueva_lista_guardar">Guardar Lista</string>
+    <string name="toast_lista_creada">Lista creada con éxito</string>
+    <string name="renombrar_titulo">Renombrar lista</string>
+    <string name="toast_lista_renombrada">Lista renombrada</string>
+    <string name="eliminar_lista_titulo">¿Eliminar la lista?</string>
+    <string name="eliminar_lista_confirmar">Eliminar lista</string>
+    <string name="toast_lista_eliminada">Lista eliminada</string>
+
+    <!-- Lista abierta (design.md §6) -->
+    <string name="titulo_lista">Lista</string>
+    <string name="lista_chip_restriccion">%1$s • %2$s</string>
+    <string name="lista_desc_ranking">Orden por posición personal. La posición solo rige en esta lista.</string>
+    <string name="lista_desc_prioridad">Ordenada por prioridad: alta, media y baja.</string>
+    <string name="lista_desc_normal">Colección sin orden especial.</string>
+    <string name="lista_anadir_titulo">Añadir título</string>
+    <string name="lista_eliminar">Eliminar esta lista</string>
+    <string name="lista_puesto">#%1$d</string>
+    <string name="cd_renombrar_lista">Renombrar lista</string>
+    <string name="cd_quitar_de_lista">Quitar de la lista</string>
+    <string name="quitar_titulo_lista">Quitar de la lista</string>
+    <string name="quitar_titulo_ranking">Quitar del ranking</string>
+    <string name="quitar_texto">¿Deseas desvincular este título de «%1$s»? Su ficha y estado en tu biblioteca general permanecerán intactos.</string>
+    <string name="quitar_accion">Quitar</string>
+    <string name="toast_titulo_quitado">Título quitado de la lista (permanece en biblioteca)</string>
+    <string name="m11_mantener">Mantener lista</string>
+    <string name="aviso_lista_no_existe">Esta lista ya no existe.</string>
+    <string name="aviso_elemento_no_existe">Este título ya no está en la lista.</string>
+
+    <!-- Añadir título / Añadir a lista (design.md §6.6, §7.5) -->
+    <string name="selector_titulo">Añadir a %1$s</string>
+    <string name="selector_buscar">Buscar en tu biblioteca local</string>
+    <string name="selector_placeholder">Título...</string>
+    <string name="selector_detalle">%1$s • %2$s</string>
+    <string name="selector_ya_en_lista">Ya está en la lista</string>
+    <string name="selector_no_admitido">No admitido en esta lista</string>
+    <string name="cd_anadir">Añadir</string>
+    <string name="comun_cerrar">Cerrar</string>
+    <string name="toast_anadido">«%1$s» añadido a la lista</string>
+    <string name="toast_anadido_puesto">«%1$s» añadido al puesto #%2$d</string>
+    <string name="toast_anadido_a">«%1$s» añadido a «%2$s»</string>
+    <string name="menu_anadir_a_lista">Añadir a lista</string>
+    <string name="anadir_a_lista_titulo">Añadir a lista</string>
+
     <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
     <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>
     <string name="m02_perfil_duplicado_pelicula">Ya existe una película con ese nombre.</string>
@@ -204,6 +295,10 @@
     <string name="m09_lista_solo_peliculas">Esta lista solo admite películas.</string>
     <string name="m09_lista_solo_series">Esta lista solo admite series.</string>
     <string name="m10_ya_en_lista">«%1$s» ya está en esta lista.</string>
+    <!-- M-11 y M-12: el nombre de la lista se resalta en negrita (conNegrita) -->
+    <string name="m11_ultimo_elemento">Has quitado el último elemento. ¿Quieres eliminar también la lista «%1$s»?</string>
+    <string name="m12_eliminar_lista">¿Eliminar la lista «%1$s»? Los títulos no se borrarán.</string>
+    <string name="m23_lista_vacia">Esta lista está vacía.</string>
     <string name="m24_posicion_invalida">Posición no válida.</string>
     <string name="m25_error_inesperado">Error inesperado. Tus datos no se han modificado.</string>
 </resources>

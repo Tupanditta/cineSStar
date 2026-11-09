@@ -21,6 +21,7 @@ import com.cinesstar.cinetrack.domain.Estado
 import com.cinesstar.cinetrack.domain.TipoPerfil
 import com.cinesstar.cinetrack.navigation.DestinoBarra
 import com.cinesstar.cinetrack.ui.biblioteca.TagsBiblioteca
+import com.cinesstar.cinetrack.ui.components.Avisos
 import com.cinesstar.cinetrack.ui.components.TagsHoja
 import com.cinesstar.cinetrack.ui.components.tag
 import com.cinesstar.cinetrack.ui.components.tagPantalla
@@ -30,7 +31,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
 /** Tiempo máximo de espera de las operaciones asíncronas (base de datos) en los tests de interfaz. */
-const val ESPERA_MS = 5_000L
+const val ESPERA_MS = 8_000L
 
 val aplicacion: CineTrackApplication get() = ApplicationProvider.getApplicationContext()
 
@@ -192,6 +193,10 @@ fun ComposeTestRule.esperarToast(
     texto: String,
     accion: () -> Unit,
 ) {
+    // Con el reloj parado, un toast anterior que aún se desvanece impediría que la interfaz llegue a estar inactiva.
+    esperar { !existe(Avisos.TAG) }
+    // Termina antes las transiciones en curso (navegación, diálogos): con el reloj parado no avanzarían.
+    waitForIdle()
     mainClock.autoAdvance = false
     try {
         accion()

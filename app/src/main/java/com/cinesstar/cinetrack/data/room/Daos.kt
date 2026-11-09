@@ -8,6 +8,7 @@ import androidx.room.Update
 import com.cinesstar.cinetrack.domain.Estado
 import com.cinesstar.cinetrack.domain.Prioridad
 import com.cinesstar.cinetrack.domain.RangoPuntuacion
+import com.cinesstar.cinetrack.domain.Restriccion
 import com.cinesstar.cinetrack.domain.TipoLista
 import com.cinesstar.cinetrack.domain.TipoPerfil
 import kotlinx.coroutines.flow.Flow
@@ -209,6 +210,39 @@ data class PertenenciaLista(
     val total: Int,
 )
 
+/** Una lista con los datos de su tarjeta en "Mis Listas" (CU-12, design.md §5.2). */
+data class FilaResumenLista(
+    val id: Long,
+    val nombre: String,
+    val tipo: TipoLista,
+    val restriccion: Restriccion,
+    val total: Int,
+    val altas: Int,
+    val primero: String?,
+)
+
+/** Un elemento de lista con los datos del perfil que pinta su fila (design.md §6.2). */
+data class FilaElementoLista(
+    val perfilId: Long,
+    val nombre: String,
+    val tipo: TipoPerfil,
+    val puntuacionDecimas: Int?,
+    val sagaNombre: String?,
+    val posicion: Int?,
+    val prioridad: Prioridad?,
+    val anadidoEn: Long,
+)
+
+/** Un perfil del selector "Añadir título" (design.md §6.6) y si ya está en la lista. */
+data class FilaCandidato(
+    val id: Long,
+    val nombre: String,
+    val nombreBusqueda: String,
+    val tipo: TipoPerfil,
+    val sagaNombre: String?,
+    val enLista: Boolean,
+)
+
 @Dao
 interface CatalogoDao {
     @Query("SELECT * FROM genero ORDER BY orden")
@@ -218,6 +252,8 @@ interface CatalogoDao {
     suspend fun idiomas(): List<IdiomaEntity>
 }
 
+/** Listas y sus elementos: todas las consultas de `lista` y `lista_item` (CU-11..CU-19). */
+@Suppress("TooManyFunctions")
 @Dao
 interface ListaDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -300,4 +336,69 @@ interface ListaDao {
         """,
     )
     suspend fun listasDe(perfilId: Long): List<PertenenciaLista>
+
+    /** CU-14. Devuelve las filas cambiadas (0 si la lista ya no existe). */
+    @Query("UPDATE lista SET nombre = :nombre, nombreBusqueda = :nombreBusqueda WHERE id = :id")
+    suspend fun renombrar(
+        id: Long,
+        nombre: String,
+        nombreBusqueda: String,
+    ): Int
+
+    /** S-17: marca (o desmarca) que ya se mostró el aviso de lista vacía en este vaciado. */
+    @Query("UPDATE lista SET avisoVaciaMostrado = :mostrado WHERE id = :id")
+    suspend fun marcarAvisoVacia(
+        id: Long,
+        mostrado: Boolean,
+    ): Int
+
+    /**
+     * CU-12: todas las listas con su número de elementos, sus elementos de prioridad Alta y el #1 de los rankings.
+     * Las más recientes primero.
+     */
+    @Query(
+        """
+        SELECT l.id, l.nombre, l.tipo, l.restriccion,
+            (SELECT COUNT(*) FROM lista_item li WHERE li.listaId = l.id) AS total,
+            (SELECT COUNT(*) FROM lista_item li WHERE li.listaId = l.id AND li.prioridad = 'ALTA') AS altas,
+            (SELECT p.nombre FROM lista_item li JOIN perfil p ON p.id = li.perfilId
+                WHERE li.listaId = l.id AND li.posicion = 1) AS primero
+        FROM lista l
+        ORDER BY l.creadoEn DESC, l.id DESC
+        """,
+    )
+    suspend fun resumenes(): List<FilaResumenLista>
+
+    /** CU-13: elementos de una lista con los datos de su perfil (sin orden: lo da el tipo de lista). */
+    @Query(
+        """
+        SELECT li.perfilId, p.nombre, p.tipo, p.puntuacionDecimas, s.nombre AS sagaNombre, li.posicion, li.prioridad,
+            li.anadidoEn
+        FROM lista_item li JOIN perfil p ON p.id = li.perfilId LEFT JOIN saga s ON s.id = p.sagaId
+        WHERE li.listaId = :listaId
+        """,
+    )
+    suspend fun filasElementos(listaId: Long): List<FilaElementoLista>
+
+    /** Géneros de los perfiles de una lista, en el orden del catálogo (una consulta para toda la lista, RNF-08). */
+    @Query(
+        """
+        SELECT pg.perfilId AS perfilId, g.id AS id, g.nombre AS nombre, g.orden AS orden
+        FROM perfil_genero pg JOIN genero g ON g.id = pg.generoId
+        WHERE pg.perfilId IN (SELECT perfilId FROM lista_item WHERE listaId = :listaId)
+        ORDER BY g.orden
+        """,
+    )
+    suspend fun generosDeLista(listaId: Long): List<EtiquetaPerfil>
+
+    /** CU-15: perfiles de la Biblioteca para el selector, más recientes primero, indicando si ya están en la lista. */
+    @Query(
+        """
+        SELECT p.id, p.nombre, p.nombreBusqueda, p.tipo, s.nombre AS sagaNombre,
+            EXISTS(SELECT 1 FROM lista_item li WHERE li.listaId = :listaId AND li.perfilId = p.id) AS enLista
+        FROM perfil p LEFT JOIN saga s ON s.id = p.sagaId
+        ORDER BY p.creadoEn DESC, p.id DESC
+        """,
+    )
+    suspend fun candidatos(listaId: Long): List<FilaCandidato>
 }

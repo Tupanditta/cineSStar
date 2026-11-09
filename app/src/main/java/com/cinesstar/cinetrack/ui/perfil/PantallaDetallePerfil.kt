@@ -112,15 +112,16 @@ fun PantallaDetallePerfil(
     onBack: () -> Unit,
     onAvatar: () -> Unit,
     onEditar: () -> Unit = {},
+    onLista: (Long) -> Unit = {},
 ) {
     val contenedor = LocalContext.current.contenedor
-    val vm: DetallePerfilViewModel = viewModel(key = "detalle_$perfilId") { DetallePerfilViewModel(perfilId, contenedor.perfiles) }
+    val vm: DetallePerfilViewModel =
+        viewModel(key = "detalle_$perfilId") { DetallePerfilViewModel(perfilId, contenedor.perfiles, contenedor.listas) }
     val estado by vm.estado.collectAsStateWithLifecycle()
     val edicion by vm.edicion.collectAsStateWithLifecycle()
     val avisos = LocalAvisos.current
     val textoNoExiste = stringResource(R.string.aviso_perfil_no_existe)
     val textoEliminado = stringResource(R.string.toast_perfil_eliminado)
-    val textoError = stringResource(R.string.m25_error_inesperado)
     var confirmarEliminar by rememberSaveable { mutableStateOf(false) }
     var confirmarBorrarCritica by rememberSaveable { mutableStateOf(false) }
 
@@ -133,7 +134,8 @@ fun PantallaDetallePerfil(
         }
         onBack()
     }
-    LaunchedEffect(vm) { vm.eventos.collect { avisos.mostrar(Aviso(textoError)) } }
+    val textoEvento = textosEventos()
+    LaunchedEffect(vm) { vm.eventos.collect { avisos.mostrar(Aviso(textoEvento(it))) } }
 
     val ficha = (estado as? EstadoDetalle.Listo)?.ficha
     val tipo = ficha?.detalle?.perfil?.tipo ?: TipoPerfil.PELICULA
@@ -152,12 +154,15 @@ fun PantallaDetallePerfil(
                     onEditar = onEditar,
                     onEliminar = { confirmarEliminar = true },
                     onBorrarCritica = { confirmarBorrarCritica = true },
+                    onAnadirALista = vm::abrirAnadirALista,
+                    onLista = onLista,
                 ),
             )
         }
     }
 
     if (ficha != null && edicion.critica != null) HojaCritica(edicion, vm)
+    SelectorListasDetalle(ficha != null, edicion, vm)
     if (ficha != null && confirmarEliminar) {
         DialogoConfirmacion(
             titulo = stringResource(R.string.eliminar_titulo),
@@ -186,11 +191,46 @@ fun PantallaDetallePerfil(
     }
 }
 
+/** "Añadir a lista" (CU-15) mientras el detalle muestra un perfil. */
+@Composable
+private fun SelectorListasDetalle(
+    visible: Boolean,
+    edicion: EdicionDetalle,
+    vm: DetallePerfilViewModel,
+) {
+    val opciones = edicion.opcionesLista
+    if (visible && opciones != null) SelectorListas(opciones, vm::anadirALista, vm::cerrarAnadirALista)
+}
+
+/** Texto del toast de cada evento del detalle (M-25, "«X» añadido a «Lista»", M-09, M-10). */
+@Composable
+private fun textosEventos(): (EventoDetalle) -> String {
+    val m25 = stringResource(R.string.m25_error_inesperado)
+    val anadido = stringResource(R.string.toast_anadido_a)
+    val m09Peliculas = stringResource(R.string.m09_lista_solo_peliculas)
+    val m09Series = stringResource(R.string.m09_lista_solo_series)
+    val m10 = stringResource(R.string.m10_ya_en_lista)
+    return { evento ->
+        when (evento) {
+            EventoDetalle.ErrorEscritura -> m25
+            is EventoDetalle.AnadidoALista -> anadido.format(evento.perfil, evento.lista)
+            is EventoDetalle.ErrorLista ->
+                when (val e = evento.error) {
+                    is ErrorDominio.RestriccionLista -> if (e.admitido == TipoPerfil.PELICULA) m09Peliculas else m09Series
+                    is ErrorDominio.YaEnLista -> m10.format(e.nombrePerfil)
+                    else -> m25
+                }
+        }
+    }
+}
+
 /** Acciones del detalle que abren otra pantalla o un diálogo. */
 private class Acciones(
     val onEditar: () -> Unit,
     val onEliminar: () -> Unit,
     val onBorrarCritica: () -> Unit,
+    val onAnadirALista: () -> Unit,
+    val onLista: (Long) -> Unit,
 )
 
 @Composable
@@ -217,7 +257,7 @@ private fun Contenido(
         TarjetaNota(ficha, vm::alternarEditorNota)
         if (edicion.nota != null) EditorNota(edicion, vm)
         FichaTecnica(ficha)
-        EnTusListas(ficha.listas)
+        EnTusListas(ficha.listas, acciones)
         Critica(ficha.detalle.perfil.comentario, ficha.detalle.perfil.comentarioEditadoEn, vm::abrirEditorCritica, acciones.onBorrarCritica)
         BloqueEliminar(acciones.onEliminar)
     }
@@ -374,7 +414,7 @@ private fun LineaNota(ficha: FichaPerfil) {
     }
 }
 
-/** Botón ⋮ del hero (design.md §7.1): menú Editar (CU-02) / Eliminar (CU-06). "Añadir a lista" llega con las listas (S5). */
+/** Botón ⋮ del hero (design.md §7.1): menú Editar (CU-02) / Añadir a lista (CU-15) / Eliminar (CU-06). */
 @Composable
 private fun MenuHero(
     acciones: Acciones,
@@ -402,6 +442,10 @@ private fun MenuHero(
             OpcionMenu(stringResource(R.string.menu_editar), "edit", TagsDetalle.MENU_EDITAR) {
                 abierto = false
                 acciones.onEditar()
+            }
+            OpcionMenu(stringResource(R.string.menu_anadir_a_lista), "playlist_add", TagsDetalle.MENU_ANADIR_LISTA) {
+                abierto = false
+                acciones.onAnadirALista()
             }
             OpcionMenu(stringResource(R.string.menu_eliminar), "delete", TagsDetalle.MENU_ELIMINAR) {
                 abierto = false
@@ -712,11 +756,33 @@ private fun textoPerfilesSaga(porTipo: Map<TipoPerfil, Int>): String {
     }
 }
 
-/** design.md §7.5. "+ Añadir a lista" llega con las listas (S5). */
+/** design.md §7.5: listas del perfil (pulsar una la abre, CU-13) y "+ Añadir a lista" (CU-15). */
 @Composable
-private fun EnTusListas(listas: List<PertenenciaLista>) {
+private fun EnTusListas(
+    listas: List<PertenenciaLista>,
+    acciones: Acciones,
+) {
     Tarjeta(modifier = Modifier.testTag(TagsDetalle.LISTAS)) {
-        CabeceraTarjeta("folder_special", stringResource(R.string.detalle_listas))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.weight(1f)) { CabeceraTarjeta("folder_special", stringResource(R.string.detalle_listas)) }
+            Row(
+                modifier =
+                    Modifier
+                        .clip(CineShapes.Lg)
+                        .clickable(role = Role.Button, onClick = acciones.onAnadirALista)
+                        .padding(Spacing.Xs)
+                        .testTag(TagsDetalle.ANADIR_A_LISTA),
+                horizontalArrangement = Arrangement.spacedBy(Spacing.Xxs),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                SymbolIcon("add", null, DimensDetalle.StarIcon, MaterialTheme.colorScheme.primary)
+                Text(
+                    text = stringResource(R.string.menu_anadir_a_lista),
+                    style = CineTheme.typography.labelMd,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
         if (listas.isEmpty()) {
             Text(
                 text = stringResource(R.string.detalle_sin_listas),
@@ -724,13 +790,18 @@ private fun EnTusListas(listas: List<PertenenciaLista>) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         } else {
-            Column(verticalArrangement = Arrangement.spacedBy(Spacing.Xs)) { listas.forEach { FilaLista(it) } }
+            Column(verticalArrangement = Arrangement.spacedBy(Spacing.Xs)) {
+                listas.forEach { lista -> FilaLista(lista) { acciones.onLista(lista.listaId) } }
+            }
         }
     }
 }
 
 @Composable
-private fun FilaLista(lista: PertenenciaLista) {
+private fun FilaLista(
+    lista: PertenenciaLista,
+    onClick: () -> Unit,
+) {
     val (punto, detalle, insignia) =
         when (lista.tipo) {
             TipoLista.RANKING ->
@@ -760,7 +831,9 @@ private fun FilaLista(lista: PertenenciaLista) {
                 .fillMaxWidth()
                 .clip(CineShapes.Lg)
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                .padding(Spacing.Sm),
+                .clickable(role = Role.Button, onClick = onClick)
+                .padding(Spacing.Sm)
+                .testTag(TagsDetalle.lista(lista.listaId)),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Row(

@@ -19,6 +19,9 @@ object TagsDetalle {
     const val MENU = "detalle_menu"
     const val MENU_EDITAR = "detalle_menu_editar"
     const val MENU_ELIMINAR = "detalle_menu_eliminar"
+    const val MENU_ANADIR_LISTA = "detalle_menu_anadir_lista"
+    const val ANADIR_A_LISTA = "detalle_anadir_a_lista"
+    const val SELECTOR_LISTAS = "detalle_selector_listas"
     const val AJUSTAR = "detalle_ajustar"
     const val EDITOR_NOTA = "detalle_editor_nota"
     const val EDITOR_NOTA_CAMPO = "detalle_editor_nota_campo"
@@ -33,4 +36,10 @@ object TagsDetalle {
     const val ELIMINAR = "detalle_eliminar"
 
     fun estado(estado: Estado) = "detalle_estado_" + estado.name.lowercase()
+
+    /** Fila de una lista en "En tus Listas". */
+    fun lista(listaId: Long) = "detalle_lista_$listaId"
+
+    /** Opción de una lista en el selector "Añadir a lista". */
+    fun opcionLista(listaId: Long) = "detalle_opcion_lista_$listaId"
 }

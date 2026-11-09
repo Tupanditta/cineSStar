@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.cinesstar.cinetrack.data.repository.FichaPerfil
+import com.cinesstar.cinetrack.data.repository.ListaRepository
 import com.cinesstar.cinetrack.data.repository.PerfilRepository
+import com.cinesstar.cinetrack.domain.DominioException
+import com.cinesstar.cinetrack.domain.ErrorDominio
 import com.cinesstar.cinetrack.domain.Estado
+import com.cinesstar.cinetrack.domain.OpcionLista
 import com.cinesstar.cinetrack.domain.PasoPuntuacion
 import com.cinesstar.cinetrack.domain.Puntuacion
 import kotlinx.coroutines.CancellationException
@@ -40,6 +44,8 @@ data class EdicionDetalle(
     val nota: String? = null,
     /** Texto de la hoja de la crítica (CU-04, design.md §7.6). */
     val critica: String? = null,
+    /** Listas del selector "Añadir a lista" (CU-15 desde el perfil); null = cerrado. */
+    val opcionesLista: List<OpcionLista>? = null,
     /** Hay una escritura en curso: se ignoran nuevas pulsaciones. */
     val guardando: Boolean = false,
 ) {
@@ -50,6 +56,17 @@ data class EdicionDetalle(
 sealed interface EventoDetalle {
     /** M-25: falló una escritura; los datos no han cambiado (CU-03 E2, CU-04 E1, CU-05 E1, CU-06 E1). */
     data object ErrorEscritura : EventoDetalle
+
+    /** CU-15 paso 3 desde el perfil. */
+    data class AnadidoALista(
+        val perfil: String,
+        val lista: String,
+    ) : EventoDetalle
+
+    /** CU-15 E1/E2: M-10 o M-09; no se añade nada. */
+    data class ErrorLista(
+        val error: ErrorDominio,
+    ) : EventoDetalle
 }
 
 /**
@@ -61,6 +78,7 @@ sealed interface EventoDetalle {
 class DetallePerfilViewModel(
     private val perfilId: Long,
     private val perfiles: PerfilRepository,
+    private val listas: ListaRepository,
 ) : ViewModel() {
     private val eliminadoPorUsuario = MutableStateFlow(false)
 
@@ -146,6 +164,39 @@ class DetallePerfilViewModel(
 
     /** CU-04 A1: borrar con el botón (tras la confirmación breve). */
     fun borrarCritica() = escribir { perfiles.comentar(perfilId, null) }
+
+    /** CU-15 desde el perfil, paso 1: "+ Añadir a lista" abre el selector con todas las listas. */
+    fun abrirAnadirALista() =
+        ejecutar {
+            val opciones = listas.opcionesPara(perfilId)
+            edicionInterna.update { it.copy(opcionesLista = opciones) }
+        }
+
+    fun cerrarAnadirALista() = edicionInterna.update { it.copy(opcionesLista = null) }
+
+    /**
+     * CU-15 desde el perfil, pasos 2–3: se añade con la posición o prioridad por defecto (al final, Media; RF-39, S-16)
+     * y se cierra el selector. Una lista no disponible también se intenta: responde con M-10 o M-09 y no añade nada.
+     */
+    fun anadirALista(opcion: OpcionLista) {
+        val nombre = ficha?.detalle?.perfil?.nombre ?: return
+        ejecutar {
+            listas.anadir(opcion.lista.id, perfilId)
+            edicionInterna.update { it.copy(opcionesLista = null) }
+            eventosInternos.send(EventoDetalle.AnadidoALista(nombre, opcion.lista.nombre))
+        }
+    }
+
+    /** Como [escribir], pero los errores de negocio de las listas se muestran con su mensaje (M-09, M-10). */
+    private fun ejecutar(operacion: suspend () -> Unit) =
+        escribir {
+            try {
+                operacion()
+            } catch (e: DominioException) {
+                if (e.error == ErrorDominio.NoEncontrado) throw e
+                eventosInternos.send(EventoDetalle.ErrorLista(e.error))
+            }
+        }
 
     /** CU-06 pasos 2–5, ya confirmado (M-06). Si falla no se borra nada (E1). */
     fun eliminar() {

@@ -39,7 +39,8 @@ import com.cinesstar.cinetrack.ui.theme.Spacing
 
 /**
  * Hoja inferior (design.md §3.6-3): pegada abajo, `rounded-2xl`, padding 20, fondo `surface-container-high`, scrim
- * `background` 80 %. El [contenido] va encima de la fila de botones ("Cancelar" y la acción, a partes iguales).
+ * `background` 80 %. El [contenido] va encima de la fila de botones ("Cancelar" y la acción, a partes iguales). La
+ * acción es `primary-container` salvo en "Quitar" de las listas (§3.6-3: `secondary-container` + `on-secondary`).
  */
 @Composable
 fun HojaInferior(
@@ -49,6 +50,8 @@ fun HojaInferior(
     onCancelar: () -> Unit,
     modifier: Modifier = Modifier,
     accionHabilitada: Boolean = true,
+    fondoAccion: Color = MaterialTheme.colorScheme.primaryContainer,
+    textoAccion: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     contenido: @Composable ColumnScope.() -> Unit,
 ) {
     Dialog(onDismissRequest = onCancelar, properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false)) {
@@ -90,8 +93,8 @@ fun HojaInferior(
                     )
                     BotonHoja(
                         accion,
-                        MaterialTheme.colorScheme.primaryContainer,
-                        MaterialTheme.colorScheme.onPrimaryContainer,
+                        fondoAccion,
+                        textoAccion,
                         accionHabilitada,
                         TagsHoja.ACCION,
                         onAccion,

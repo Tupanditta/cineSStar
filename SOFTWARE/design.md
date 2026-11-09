@@ -262,6 +262,15 @@ Barra superior principal con "Listas" y barra inferior con Listas activa.
 - "Restricción de contenido (Opcional)": 3 segmentos **Mixto / Películas / Series**, `rounded-lg`, padding vertical 6, `label-sm`, fondo `surface-container`. Seleccionado: fondo `surface-bright`, texto `on-surface`, anillo 1 dp `sky-400` 40 %.
 - Acciones a la derecha (separación 8): "Cancelar" (`rounded-lg`, padding 16×8, fondo `surface-container`, `on-surface-variant` `label-md`) y "Guardar Lista" (fondo `#38BDF8`, `slate-950` bold, `shadow`). Toast "Lista creada con éxito".
 
+**Decisiones del S5** (no fijadas por el prototipo):
+- "Mis Listas" ordena las listas de más reciente a más antigua (como S-10 en la Biblioteca). "{x} de {n} mostradas" muestra siempre todas (no hay filtro).
+- Las pestañas de §5.1 quedan fijas bajo la barra superior y la lista se desplaza debajo. "Top Ranking" abre el primer ranking de "Mis Listas" (el más reciente); sin rankings, toast "Todavía no tienes ningún ranking.". No se guarda el último ranking visitado (no hay DataStore hasta que haga falta).
+- Las tarjetas no tienen descripción (no es un dato de la lista): debajo del título solo va el chip de restricción. Icono de la fila inferior: `theaters` (`live_tv` en listas de solo series).
+- Sin listas (CU-12 A1): el banner y, debajo, icono `bookmarks` 48 dp, "Aún no has creado ninguna lista." y "+ Nueva Lista".
+- Errores M-07 / M-08: bajo el campo, `body-sm` `secondary` con `error` 14 dp; el diálogo sigue abierto. Un fallo de escritura (M-25) es un toast y tampoco cierra el diálogo.
+- "Renombrar" (menú ⋮ de la tarjeta y botón `edit` de la lista abierta) usa el mismo diálogo de formulario con el campo "Nombre de la colección", icono `edit`, título "Renombrar lista" y botón "Guardar". Toast "Lista renombrada"; con el mismo nombre se cierra sin aviso (CU-14 A2).
+- "Eliminar" usa el diálogo destructivo (§3.6-2) con título "¿Eliminar la lista?" y el texto de M-12 con el nombre en negrita; botón "Eliminar lista". Toast "Lista eliminada".
+
 ---
 
 ## 6. Pantalla Lista abierta (`lista_ranking_top_10_hist_rico`)
@@ -318,6 +327,14 @@ Barra superior secundaria (§3.3), sin barra inferior. Contenido con padding 16 
 - Botón "Cerrar" (`rounded-lg`, `surface-container`, `on-surface-variant`).
 - Toast: "«{título}» añadido al puesto #{n}" (ranking) o "«{título}» añadido a la lista".
 
+**Decisiones del S5** (la elección de posición o prioridad y el reordenado llegan en el S6):
+- En el S5 se añade siempre con los valores por defecto: al final del ranking (RF-39) y prioridad Media (S-16). La fila "Posición" y los segmentos Alta/Media/Baja del selector, las flechas ▲▼, el arrastre, "Reordenar puestos" y el menú de la píldora de prioridad son del S6. La columna de puesto con medallas (§6.2) y la píldora de prioridad (§2.4) ya se muestran.
+- Póster sin carátula (§12): caja 56×80 `surface-container` con el icono del tipo 24 dp en `surface-container-highest` y la insignia "PELÍCULA"/"SERIE". La línea 2 son los géneros separados por " • " y se omite si no tiene. El botón "Quitar" mantiene el icono de 18 dp con zona táctil de 48 dp (§11).
+- Selector "Añadir título": la búsqueda lleva el icono `search` dentro del campo. Sin resultados (o biblioteca vacía): M-13. Los perfiles no disponibles (ya están o la restricción no los admite) se ven al 40 % y sin `add_circle`, y anuncian "Ya está en la lista" / "No admitido en esta lista"; si se tocan igualmente, toast con M-10 o M-09 y no se añaden (CU-15 E1/E2).
+- Hoja "Quitar" y aviso M-11: botón de acción `secondary-container` con texto `on-secondary` (§3.6-3). El aviso M-11 usa la misma hoja con el título "Eliminar lista", el nombre de la lista en `primary`, el texto de M-11 y los botones "Mantener lista" / "Eliminar lista".
+- La lista abierta lleva un menú ⋮ en la cabecera con "Eliminar lista" (mismo efecto que el pie). Tocar una fila abre el perfil (CU-13 A3).
+- Si la lista desaparece mientras está abierta (CU-13 E1), vuelve a "Mis Listas" con el toast "Esta lista ya no existe."; si desaparece el elemento que se iba a quitar (CU-16 E1), toast "Este título ya no está en la lista." y la lista se refresca.
+
 ---
 
 ## 7. Pantalla Detalle del perfil (`detalle_del_perfil`)
@@ -328,7 +345,7 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
 - Tarjeta `rounded-xl` fondo `surface-container` `shadow-md`, recorta el contenido.
 - **Fondo** de 224 dp de alto (`h-56`) con la carátula a pantalla completa y degradado de abajo arriba: `surface-container` → `surface-container` 60 % → transparente. Sin carátula: fondo `surface-container-high` con el icono `movie`/`tv` 64 dp `surface-container-highest` centrado.
 - Arriba-izquierda (8 dp): píldoras `label-sm`, padding 8×2, fondo `surface-container-lowest` 80 % con desenfoque: "Película"/"Serie" (`on-surface`, `tracking-wide`) y, al lado, el estado ("Visto", "Viendo", "Pendiente") en `on-surface-variant` (en el prototipo: "2024 • 166 min", §12).
-- Arriba-derecha (8 dp): botón 36 dp circular, mismo fondo, `more_vert` 20 dp: menú **Editar** / **Añadir a lista** / **Eliminar** (desplegable `surface-container-high`, opciones `body-md` con icono 20 dp `edit` / `delete`). "Editar" abre "Editar Medio" (§8, CU-02). "Añadir a lista" llega con las listas (S5).
+- Arriba-derecha (8 dp): botón 36 dp circular, mismo fondo, `more_vert` 20 dp: menú **Editar** / **Añadir a lista** / **Eliminar** (desplegable `surface-container-high`, opciones `body-md` con icono 20 dp `edit` / `delete`). "Editar" abre "Editar Medio" (§8, CU-02). "Añadir a lista" abre el selector de listas (§7.5).
 - Bloque inferior (padding 16, sin padding superior), fila con separación 16 subida **64 dp** sobre el fondo (`-mt-16`), alineada abajo:
   - **Póster** 112×160 dp (`w-28 h-40`), `rounded-xl`, `shadow-xl`, fondo `surface-container-high`. (La insignia "4K" no se implementa.)
   - Columna (4 dp inferior): título `headline-lg-mobile` bold truncado `leading-tight`; línea `body-sm` `on-surface-variant` truncada con los géneros (en el prototipo "Dir. …"); fila (4 dp arriba): `star` 16 dp FILL 1 + nota `label-md` en `primary`, y "• #{n} en {lista de ranking}" `label-sm` `outline` si el perfil está en algún ranking (mejor posición). Sin nota: "Sin puntuar".
@@ -365,6 +382,7 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
   - Izquierda (separación 8): punto 10 dp (ranking `secondary-container`, prioridad `primary`, normal `on-surface-variant`); nombre `title-sm` semibold; debajo `label-sm` `on-surface-variant`: ranking "Posición actual: #{p} de {n} títulos", prioridad "Prioridad {nivel} en esta lista", normal "{n} títulos".
   - Derecha: insignia `rounded` padding 8×2 fondo `surface-container-lowest` texto `primary` `label-sm` semibold: "Ranking #{p}", "Prioridad {Alta/Media/Baja}", "Normal".
 - Sin listas: texto `body-sm` `on-surface-variant` "Aún no está en ninguna lista".
+- **Añadir a lista** (S5, CU-15 desde el perfil): diálogo de formulario (§3.6-1) "Añadir a lista" con todas las listas (punto del tipo, nombre, "{Tipo} • {n} títulos" y `add_circle` 18 dp `sky-400`). Tocar una lista añade el perfil con los valores por defecto y cierra el diálogo (2 pasos, RNF-09); toast "«{título}» añadido a «{lista}»". Las que ya lo contienen o no lo admiten se ven al 40 % sin icono; tocarlas da M-10 o M-09. Sin listas: "Aún no has creado ninguna lista.". Tocar una fila de "En tus Listas" abre esa lista.
 
 ### 7.6 Mi Crítica y Notas
 - Tarjeta `rounded-xl` `surface-container` padding 16 separación 8.
@@ -511,7 +529,6 @@ Contenido (padding 16 lateral, separación 16):
 | Editor de nota del detalle solo con slider, que cambia la nota al moverlo | Campo editable + slider, M-03 y botón "Guardar" (§7.3) | CU-03 pasos 2–4 y E1 (T3.12, T3.31) |
 | Editar/borrar la crítica con `prompt()` / `confirm()` del navegador | Hoja inferior con contador y diálogo de confirmación (§7.6) | CU-04, S-06 |
 | Diálogo de eliminar con "{n} listas personalizadas asociadas" | Texto de M-06 (§7.7) | Catálogo de mensajes (T3.23) |
-| Menú ⋮ con "Añadir a lista" | Solo "Editar" y "Eliminar" hasta el S5 | CU-15 llega en el S5 |
 | Franja "SQLite cifrado local • 60 entradas · Sin telemetría" y pie "Base de datos SQLite al día…" en la Biblioteca | Quitados | Decisión del usuario (S4) |
 | Barra superior con "CineTrack", "100% Local" y nombre de la pantalla | Solo logo y avatar | Decisión del usuario (S4) |
 | Póster 96×144 en las tarjetas de Biblioteca | Icono de tipo 48 dp (§4.1); la tarjeta mantiene su alto | Decisión del usuario (S4): no hay carátulas y el hueco no aportaba |

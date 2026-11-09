@@ -63,10 +63,15 @@ data class CineTypography(
     val tituloTarjeta: TextStyle = estilo(18, 24, 600),
     /** Etiqueta de los contadores de la Biblioteca: conserva el `label-sm` del prototipo (design.md §4-3). */
     val etiquetaContador: TextStyle = estilo(10, 14, 700, 0.04),
+    /** Insignia "PELÍCULA"/"SERIE" sobre el póster de las filas de lista (design.md §2.5, §6.2): 9 sp bold. */
+    val insigniaPoster: TextStyle = estilo(9, 12, 700),
 )
 
 /** `tracking-tight` de Tailwind, usado en la marca "CineTrack". */
 val TrackingTight = (-0.025).em
+
+/** `tracking-tighter` de Tailwind (`#1`…`#3` del ranking, design.md §6.2). */
+val TrackingTighter = (-0.05).em
 
 /** `tracking-wide` de Tailwind (píldora de tipo del hero, design.md §7.1). */
 val TrackingWide = 0.025.em

@@ -52,6 +52,7 @@ object TailwindPalette {
 
 /** Opacidades del prototipo (sufijos de Tailwind como /15, /20 o /80). */
 object CineAlpha {
+    const val A10 = 0.10f
     const val A15 = 0.15f
     const val A20 = 0.20f
     const val A30 = 0.30f

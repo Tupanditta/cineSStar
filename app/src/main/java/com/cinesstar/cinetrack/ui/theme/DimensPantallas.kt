@@ -218,3 +218,128 @@ object DimensBiblioteca {
     val InsigniaPaddingH = 10.dp
     val InsigniaPaddingV = 3.dp
 }
+
+/** Diálogo de formulario (design.md §3.6-1): Nueva Lista, Añadir título, Añadir a lista, Renombrar. */
+object DimensDialogoFormulario {
+    val Padding = 16.dp
+    val HeaderIcon = 22.dp
+    val CloseIcon = 20.dp
+    val Borde = 1.dp
+    val CampoPadding = 8.dp
+    val BotonPaddingH = 16.dp
+    val BotonPaddingV = 8.dp
+    val ErrorIcon = 14.dp
+}
+
+/** Pantalla Listas (design.md §5). */
+object DimensListas {
+    // 5.1 Pestañas
+    val TabsPaddingTop = 4.dp
+    val TabsPaddingBottom = 8.dp
+    val TabsContainerPadding = 4.dp
+    val TabPaddingH = 8.dp
+    val TabPaddingV = 4.dp
+    val TabIcon = 18.dp
+    val TabPunto = 8.dp
+    val TabContadorPaddingH = 6.dp
+
+    // 5.2-1 Banner
+    val BannerPadding = 16.dp
+    val BannerIcon = 18.dp
+    val BannerCaja = 48.dp
+    val BannerCajaIcon = 28.dp
+    val BannerBorde = 1.dp
+    val BannerPunto = 8.dp
+    val BannerPieTop = 16.dp
+
+    /** El texto del banner ocupa como máximo el 70 % del ancho (`max-w-[70%]`). */
+    const val BANNER_FRACCION_TEXTO = 0.7f
+
+    // 5.2-3 Tarjeta de lista
+    val CardPadding = 16.dp
+    val CajaIcono = 40.dp
+    val CajaIconoIcon = 22.dp
+    val InsigniaPaddingH = 8.dp
+    val InsigniaPaddingV = 2.dp
+    val RestriccionPaddingH = 6.dp
+    val RestriccionPaddingV = 1.dp
+    val RestriccionTop = 2.dp
+    val PieTop = 16.dp
+    val PieIcon = 16.dp
+    val PuntoSeparador = 4.dp
+    val MasIcon = 18.dp
+    val AltaPaddingH = 6.dp
+    val AltaPaddingV = 1.dp
+
+    // 5.2-4 Botón "+ Nueva Lista"
+    val NuevaPaddingH = 16.dp
+    val NuevaPaddingV = 12.dp
+    val NuevaIcon = 22.dp
+
+    /** Padding inferior del contenido (32) además del hueco de la barra inferior. */
+    val ContentBottom = 32.dp
+
+    // Vacío (CU-12 A1)
+    val VacioIcon = 48.dp
+
+    // 5.3 Nueva Lista
+    val MosaicoPadding = 8.dp
+    val MosaicoIcon = 18.dp
+    val SegmentoPaddingV = 6.dp
+    val Anillo = 1.dp
+}
+
+/** Pantalla Lista abierta (design.md §6). */
+object DimensLista {
+    val ContentBottom = 40.dp
+
+    // 6.1 Cabecera
+    val CabeceraTop = 16.dp
+    val CabeceraBottom = 8.dp
+    val InsigniaPaddingH = 8.dp
+    val InsigniaPaddingV = 2.dp
+    val ChipIcon = 13.dp
+    val BotonRedondo = 36.dp
+    val BotonRedondoIcon = 18.dp
+    val AccionPaddingH = 12.dp
+    val AccionPaddingV = 8.dp
+    val AccionIcon = 18.dp
+
+    // 6.2 Fila
+    val FilaPadding = 8.dp
+    val PuestoAncho = 32.dp
+    val MedallaIcon = 14.dp
+    val PosterAncho = 56.dp
+    val PosterAlto = 80.dp
+    val PosterIcon = 24.dp
+    val PosterInsigniaPaddingH = 3.dp
+    val PosterInsigniaInset = 2.dp
+    val NotaPaddingH = 6.dp
+    val NotaPaddingV = 2.dp
+    val NotaIcon = 12.dp
+    val PrioridadPaddingH = 6.dp
+    val PrioridadPaddingV = 2.dp
+    val QuitarBoton = 32.dp
+    val QuitarIcon = 18.dp
+
+    // 6.3 Vacía
+    val VaciaPadding = 16.dp
+    val VaciaIcon = 32.dp
+
+    // 6.4 Pie
+    val PieTop = 24.dp
+    val EliminarPaddingH = 16.dp
+    val EliminarPaddingV = 8.dp
+    val EliminarIcon = 18.dp
+
+    // 6.6 Añadir título
+    val ResultadosMaxAlto = 192.dp
+    val ResultadoPadding = 8.dp
+    val MiniaturaAncho = 32.dp
+    val MiniaturaAlto = 44.dp
+    val MiniaturaIcon = 16.dp
+    val ResultadoIcon = 18.dp
+    val BuscarIcon = 18.dp
+    val BuscarIconStart = 10.dp
+    val BuscarPaddingStart = 36.dp
+}

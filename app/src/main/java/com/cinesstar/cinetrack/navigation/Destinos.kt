@@ -28,6 +28,12 @@ sealed interface Ruta {
         val perfilId: Long,
     ) : Ruta
 
+    /** Lista abierta (CU-13), pantalla secundaria. */
+    @Serializable
+    data class Lista(
+        val listaId: Long,
+    ) : Ruta
+
     /** Detalle de un perfil (CU-07), pantalla secundaria. */
     @Serializable
     data class Detalle(

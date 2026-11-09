@@ -6,4 +6,5 @@ object TagsDialogo {
     const val CONFIRMAR = "dialogo_confirmar"
     const val CANCELAR = "dialogo_cancelar"
     const val TEXTO = "dialogo_texto"
+    const val CERRAR = "dialogo_cerrar"
 }
