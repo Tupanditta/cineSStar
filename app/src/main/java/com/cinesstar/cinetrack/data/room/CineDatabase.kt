@@ -35,6 +35,8 @@ abstract class CineDatabase : RoomDatabase() {
 
     abstract fun bibliotecaDao(): BibliotecaDao
 
+    abstract fun busquedaDao(): BusquedaDao
+
     companion object {
         const val NOMBRE_ARCHIVO = "cinetrack.db"
 

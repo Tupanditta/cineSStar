@@ -353,3 +353,69 @@ object DimensLista {
     val SegmentoPaddingV = 6.dp
     val Anillo = 1.dp
 }
+
+/** Pantalla Buscar (design.md §9). */
+object DimensBuscar {
+    // 9.1 Pestañas
+    val TabsPaddingV = 8.dp
+    val TabsContainerPadding = 4.dp
+    val TabPaddingV = 8.dp
+    val TabIcon = 18.dp
+
+    // 9.2-1 Buscador
+    val BuscadorPaddingH = 16.dp
+    val BuscadorPaddingV = 10.dp
+    val BuscadorIcon = 22.dp
+    val BorrarIcon = 20.dp
+    val AyudaTop = 4.dp
+    val AyudaPaddingH = 8.dp
+
+    // 9.2-2 Tipo
+    val TipoPaddingH = 16.dp
+    val TipoPaddingV = 6.dp
+
+    // 9.2-3 Rango
+    val RangoPadding = 16.dp
+    val RangoIcon = 20.dp
+    val ValoresPaddingH = 8.dp
+    val ValoresPaddingV = 2.dp
+
+    /** Ancho de cada valor editable de la píldora ("10" o "7.5" en `label-md` bold). */
+    val ValorAncho = 30.dp
+
+    // 9.2-4 Géneros
+    val GeneroPaddingH = 12.dp
+    val GeneroPaddingV = 6.dp
+
+    // 9.2-5 Idioma y saga
+    val DesplegablePadding = 8.dp
+    val DesplegableIcon = 16.dp
+
+    // 9.2-6 Estado
+    val EstadoPadding = 10.dp
+    val EstadoIcon = 20.dp
+
+    // 9.2-7 Acciones
+    val AccionesTop = 8.dp
+    val LimpiarPaddingV = 12.dp
+    val LimpiarIcon = 18.dp
+    val AplicarPaddingH = 16.dp
+    val AplicarPaddingV = 12.dp
+    val AplicarIcon = 22.dp
+
+    // 9.2-8 Resultados
+    val ResultadosTop = 8.dp
+    val ResultadoPadding = 8.dp
+    val PosterAncho = 64.dp
+    val PosterAlto = 96.dp
+    val PosterIcon = 28.dp
+    val ChipsBottom = 4.dp
+    val ChipsGap = 6.dp
+    val ChipTipoPaddingH = 6.dp
+    val ChipTipoPaddingV = 2.dp
+    val EstadoTop = 8.dp
+    val ChevronIcon = 20.dp
+    val ChevronPadding = 8.dp
+    val SinResultadosIcon = 40.dp
+    val SinResultadosPadding = 24.dp
+}

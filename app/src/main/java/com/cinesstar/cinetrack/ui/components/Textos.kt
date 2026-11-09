@@ -11,6 +11,7 @@ import com.cinesstar.cinetrack.domain.RangoPuntuacion
 import com.cinesstar.cinetrack.domain.TipoPerfil
 
 /** Texto del catálogo de mensajes (casosUso.md §1.3) para un error de dominio. */
+@Suppress("CyclomaticComplexMethod") // Un caso por mensaje del catálogo.
 @Composable
 fun textoError(error: ErrorDominio): String =
     when (error) {
@@ -27,6 +28,7 @@ fun textoError(error: ErrorDominio): String =
         is ErrorDominio.RestriccionLista ->
             stringResource(if (error.admitido == TipoPerfil.PELICULA) R.string.m09_lista_solo_peliculas else R.string.m09_lista_solo_series)
         is ErrorDominio.YaEnLista -> stringResource(R.string.m10_ya_en_lista, error.nombrePerfil)
+        ErrorDominio.RangoInvertido -> stringResource(R.string.m14_minimo_mayor_que_maximo)
         ErrorDominio.PosicionInvalida -> stringResource(R.string.m24_posicion_invalida)
         ErrorDominio.NoEncontrado -> stringResource(R.string.m25_error_inesperado)
     }

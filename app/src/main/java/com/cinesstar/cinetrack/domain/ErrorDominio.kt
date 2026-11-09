@@ -40,6 +40,9 @@ sealed class ErrorDominio(
         val nombrePerfil: String,
     ) : ErrorDominio("M-10")
 
+    /** M-14: en la búsqueda, la puntuación mínima es mayor que la máxima (CU-20 E2). */
+    data object RangoInvertido : ErrorDominio("M-14")
+
     /** M-24 */
     data object PosicionInvalida : ErrorDominio("M-24")
 

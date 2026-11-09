@@ -410,3 +410,45 @@ interface ListaDao {
     )
     suspend fun candidatos(listaId: Long): List<FilaCandidato>
 }
+
+/**
+ * Búsqueda combinada (CU-20) en una sola consulta. Cada criterio se desactiva con su parámetro nulo (o con su
+ * indicador `con...` para las colecciones); entre criterios, AND; entre géneros o estados, OR (S-19, S-18).
+ * El nombre se compara con `nombreBusqueda` (sin tildes ni mayúsculas, RF-46) mediante un patrón `LIKE` ya escapado
+ * ([com.cinesstar.cinetrack.domain.patronContiene], CU-20 E4). Los límites de puntuación están en décimas; una
+ * comparación con NULL es falsa, así que con rango activo los perfiles sin nota quedan fuera (RF-44).
+ */
+@Dao
+interface BusquedaDao {
+    @Query(
+        """
+        SELECT p.id, p.nombre, p.tipo, p.estado, p.puntuacionDecimas, p.sagaId, s.nombre AS sagaNombre, p.caratulaUri,
+            p.creadoEn
+        FROM perfil p LEFT JOIN saga s ON s.id = p.sagaId
+        WHERE (:patron IS NULL OR p.nombreBusqueda LIKE :patron ESCAPE '\')
+            AND (:tipo IS NULL OR p.tipo = :tipo)
+            AND (:minimo IS NULL OR p.puntuacionDecimas >= :minimo)
+            AND (:maximo IS NULL OR p.puntuacionDecimas <= :maximo)
+            AND (NOT :conGeneros OR EXISTS(
+                SELECT 1 FROM perfil_genero pg WHERE pg.perfilId = p.id AND pg.generoId IN (:generoIds)))
+            AND (:idiomaId IS NULL OR EXISTS(
+                SELECT 1 FROM perfil_idioma pi WHERE pi.perfilId = p.id AND pi.idiomaId = :idiomaId))
+            AND (:sagaId IS NULL OR p.sagaId = :sagaId)
+            AND (NOT :conEstados OR p.estado IN (:estados))
+        ORDER BY p.creadoEn DESC, p.id DESC
+        """,
+    )
+    @Suppress("LongParameterList")
+    suspend fun buscar(
+        patron: String?,
+        tipo: TipoPerfil?,
+        minimo: Int?,
+        maximo: Int?,
+        conGeneros: Boolean,
+        generoIds: List<Long>,
+        idiomaId: Long?,
+        sagaId: Long?,
+        conEstados: Boolean,
+        estados: List<Estado>,
+    ): List<FilaBiblioteca>
+}

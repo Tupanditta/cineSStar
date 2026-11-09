@@ -485,6 +485,15 @@ Barra superior principal con "Buscar" y barra inferior con Buscar activa.
      - `chevron_right` 20 dp `on-surface-variant` con padding 8.
    - Sin resultados: caja centrada con `search_off` 40 dp `on-surface-variant`, "No se han encontrado resultados." `title-sm` y "Prueba a quitar algún filtro." `body-sm`.
 
+**Decisiones del S7** (búsqueda):
+- Los resultados se actualizan al cambiar cualquier criterio y cuando cambian los datos (CU-20 paso 3). "Aplicar Filtros ({n})" muestra el recuento actual, cierra el teclado y desplaza la pantalla hasta "Resultados"; la tecla de búsqueda del teclado hace lo mismo.
+- Los dos valores de la píldora del rango ("7.0 - 10") son campos editables (`label-md` bold `primary`, 30 dp de ancho, teclado decimal) sincronizados con el slider. Un campo vacío es "sin límite" (0.0 / 10). Un valor no válido da M-03 y uno mínimo mayor que el máximo M-14 (CU-20 E2, E3): en lugar de los resultados aparece una caja `rounded-xl` `surface-container` padding 16 con `error` 20 dp y el mensaje en `error` `body-sm`, sin recuento; no se busca.
+- Con el rango en 0.0–10 el filtro está inactivo y los perfiles sin nota aparecen; cualquier otro rango los excluye y muestra "★ Excluye títulos sin puntuar".
+- Idioma y saga: desplegable de una opción (menú `surface-container-high`, `body-sm`, la elegida en negrita). Los géneros del catálogo completo (§8.7), varios a la vez (basta uno, S-19); "Deseleccionar" los quita todos. Estado: mosaicos de selección múltiple (S-18).
+- Póster de la tarjeta de resultado: caja 64×96 `rounded-lg` `surface-container-highest` con el icono de tipo (`movie`/`tv`) 28 dp `sky-400`, como en la Biblioteca. La línea bajo el título es "{saga} • {géneros separados por comas}" (cada parte solo si existe). Chip de estado según §2.3, sin icono.
+- Texto bajo el buscador: "Búsqueda insensible a tildes y mayúsculas" y "{n} coincidencias" (sin "Modo local SQLite", §12). Con la escala tipográfica mayor, las ayudas de buscador y slider pueden ocupar dos líneas en lugar de truncarse.
+- La pestaña "Datos Locales" se ve y se puede elegir; su contenido (§10) llega en el S8.
+
 ---
 
 ## 10. Datos Locales (pestaña de Buscar) y Ajustes
@@ -528,6 +537,8 @@ Contenido (padding 16 lateral, separación 16):
 | "Top #1 Cine 2024" en el hero | "#n en {lista}" (mejor puesto del perfil en sus rankings) | Dato real equivalente |
 | Slider de Buscar con un solo pulgar y paso 0.5 | Dos pulgares (mínimo y máximo), paso 0.1 | RF-44, RNF-05 |
 | Placeholder "Título, director o palabra clave..." | "Buscar por título..." | Solo se busca por nombre (RF-44) |
+| Valores del rango de Buscar solo informativos | Mínimo y máximo editables en la píldora, con M-03 / M-14 | CU-20 E2, E3 (T7.15, T7.16) |
+| "Idioma Original"; géneros "Thriller Psicológico", "Neo-Noir"…; "Resultados Locales (SQLite)"; "Director • año" en los resultados | "Idioma"; géneros del catálogo (§8.7); "Resultados"; "{saga} • {géneros}" | RF-07, RF-08; sin director ni año; sin jerga técnica |
 | "Restaurar copia de seguridad" | "Importar copia de seguridad" (fusiona) | CU-22 / S-20 |
 | "SQLite cifrado", "Commit OK", "Modo local SQLite", "Listas sincronizadas", "Resultados Locales (SQLite)" | Textos sin cifrado ni sincronización ni jerga técnica | No se implementa cifrado ni sincronización |
 | Carátulas y fotogramas | Carátula opcional elegida de la galería; sin ella, marcador con icono `movie`/`tv` | Sin API de catálogo (RES-05). **Requiere añadir el requisito** |

@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.cinesstar.cinetrack.ui.biblioteca.ContenidoBiblioteca
+import com.cinesstar.cinetrack.ui.buscar.ContenidoBuscar
 import com.cinesstar.cinetrack.ui.components.Avisos
 import com.cinesstar.cinetrack.ui.components.CineToastHost
 import com.cinesstar.cinetrack.ui.components.LocalAvisos
@@ -77,7 +78,9 @@ fun CineNavHost(
                         onPerfil = { navController.navigate(Ruta.Detalle(it)) },
                     )
                 }
-                composable<Ruta.Buscar> { PantallaPrincipal(DestinoBarra.BUSCAR, irA) }
+                composable<Ruta.Buscar> {
+                    PantallaPrincipal(DestinoBarra.BUSCAR, irA) { ContenidoBuscar(onPerfil = { navController.navigate(Ruta.Detalle(it)) }) }
+                }
                 composable<Ruta.Ajustes> { PantallaPrincipal(DestinoBarra.AJUSTES, irA) }
                 composable<Ruta.Anadir> { PantallaFormularioPerfil(onSalir = atras, onAvatar = ajustes) }
                 composable<Ruta.Detalle> { entradaDetalle ->

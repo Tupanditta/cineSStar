@@ -299,6 +299,44 @@
     <string name="toast_posicion_actualizada">Posición actualizada</string>
     <string name="toast_prioridad_actualizada">Prioridad actualizada</string>
 
+    <!-- Buscar (design.md §9; S7) -->
+    <string name="buscar_tab_filtros">Filtros Cine</string>
+    <string name="buscar_tab_datos">Datos Locales</string>
+    <string name="buscar_placeholder">Buscar por título...</string>
+    <string name="buscar_insensible">Búsqueda insensible a tildes y mayúsculas</string>
+    <plurals name="buscar_coincidencias">
+        <item quantity="one">%1$d coincidencia</item>
+        <item quantity="other">%1$d coincidencias</item>
+    </plurals>
+    <string name="buscar_tipo">Tipo de Producción</string>
+    <string name="buscar_tipo_todas">Todas</string>
+    <string name="buscar_tipo_peliculas">Solo Películas</string>
+    <string name="buscar_tipo_series">Solo Series</string>
+    <string name="buscar_rango">Rango de Calificación</string>
+    <string name="buscar_rango_separador">-</string>
+    <string name="buscar_marca_min">0.0</string>
+    <string name="buscar_marca_media">5.0</string>
+    <string name="buscar_marca_max">10.0</string>
+    <string name="buscar_rango_ayuda">Desliza para fijar mínimo y máximo</string>
+    <string name="buscar_rango_excluye">★ Excluye títulos sin puntuar</string>
+    <string name="buscar_generos">Géneros Cinematográficos</string>
+    <string name="buscar_deseleccionar">Deseleccionar</string>
+    <string name="buscar_genero_marcado">✓ %1$s</string>
+    <string name="buscar_idioma">Idioma</string>
+    <string name="buscar_idioma_todos">Todos los idiomas</string>
+    <string name="buscar_saga">Saga / Franquicia</string>
+    <string name="buscar_saga_cualquiera">Cualquier saga</string>
+    <string name="buscar_estado">Estado en tu Colección</string>
+    <string name="buscar_limpiar">Limpiar</string>
+    <string name="buscar_aplicar">Aplicar Filtros (%1$d)</string>
+    <string name="buscar_resultados">Resultados</string>
+    <string name="buscar_nota">★ %1$s</string>
+    <string name="buscar_sin_resultados_ayuda">Prueba a quitar algún filtro.</string>
+    <string name="cd_borrar_busqueda">Borrar búsqueda</string>
+    <string name="cd_puntuacion_minima">Puntuación mínima</string>
+    <string name="cd_puntuacion_maxima">Puntuación máxima</string>
+    <string name="cd_ver_detalle">Ver detalle</string>
+
     <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
     <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>
     <string name="m02_perfil_duplicado_pelicula">Ya existe una película con ese nombre.</string>
@@ -316,6 +354,7 @@
     <!-- M-11 y M-12: el nombre de la lista se resalta en negrita (conNegrita) -->
     <string name="m11_ultimo_elemento">Has quitado el último elemento. ¿Quieres eliminar también la lista «%1$s»?</string>
     <string name="m12_eliminar_lista">¿Eliminar la lista «%1$s»? Los títulos no se borrarán.</string>
+    <string name="m14_minimo_mayor_que_maximo">La puntuación mínima no puede ser mayor que la máxima.</string>
     <string name="m23_lista_vacia">Esta lista está vacía.</string>
     <string name="m24_posicion_invalida">Posición no válida.</string>
     <string name="m25_error_inesperado">Error inesperado. Tus datos no se han modificado.</string>
