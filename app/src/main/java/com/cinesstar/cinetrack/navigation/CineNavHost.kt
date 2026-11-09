@@ -21,6 +21,7 @@ import com.cinesstar.cinetrack.ui.components.Avisos
 import com.cinesstar.cinetrack.ui.components.CineToastHost
 import com.cinesstar.cinetrack.ui.components.LocalAvisos
 import com.cinesstar.cinetrack.ui.components.PantallaPrincipal
+import com.cinesstar.cinetrack.ui.datos.ContenidoAjustes
 import com.cinesstar.cinetrack.ui.lista.PantallaLista
 import com.cinesstar.cinetrack.ui.listas.ContenidoListas
 import com.cinesstar.cinetrack.ui.perfil.PantallaDetallePerfil
@@ -81,7 +82,7 @@ fun CineNavHost(
                 composable<Ruta.Buscar> {
                     PantallaPrincipal(DestinoBarra.BUSCAR, irA) { ContenidoBuscar(onPerfil = { navController.navigate(Ruta.Detalle(it)) }) }
                 }
-                composable<Ruta.Ajustes> { PantallaPrincipal(DestinoBarra.AJUSTES, irA) }
+                composable<Ruta.Ajustes> { PantallaPrincipal(DestinoBarra.AJUSTES, irA) { ContenidoAjustes() } }
                 composable<Ruta.Anadir> { PantallaFormularioPerfil(onSalir = atras, onAvatar = ajustes) }
                 composable<Ruta.Detalle> { entradaDetalle ->
                     val perfilId = entradaDetalle.toRoute<Ruta.Detalle>().perfilId

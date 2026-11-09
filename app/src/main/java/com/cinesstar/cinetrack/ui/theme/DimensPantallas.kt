@@ -1,6 +1,7 @@
 package com.cinesstar.cinetrack.ui.theme
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 /** Sombras de Tailwind (design.md §2.8), como elevación aproximada. En tema oscuro apenas se ven. */
 object Sombras {
@@ -418,4 +419,44 @@ object DimensBuscar {
     val ChevronPadding = 8.dp
     val SinResultadosIcon = 40.dp
     val SinResultadosPadding = 24.dp
+}
+
+/** Datos Locales y Ajustes (design.md §10). */
+object DimensDatos {
+    /** Separación entre bloques y padding lateral (16). */
+    val BloquePadding = 16.dp
+
+    // 1. Banner de privacidad
+    val BannerIcon = 24.dp
+    val BannerIconTop = 2.dp
+    val BannerTextoTop = 4.dp
+
+    // 2. Métricas
+    val MetricaPadding = 16.dp
+    val MetricaIcon = 24.dp
+    val MetricaIconBottom = 4.dp
+    val EtiquetaGap = 4.dp
+
+    /** Tamaño mínimo de la etiqueta de una métrica cuando no cabe (se reduce en vez de partir la palabra). */
+    val EtiquetaMetricaMin = 9.sp
+
+    // 3. Distribución
+    val BarraAlto = 8.dp
+    val BarraTextoBottom = 4.dp
+    val PieTop = 4.dp
+    val PieIcon = 16.dp
+    val PieGap = 6.dp
+
+    // 4. Acciones
+    val CirculoPadding = 10.dp
+    val CirculoIcon = 24.dp
+    val ArchivoPaddingH = 8.dp
+    val ArchivoPaddingV = 8.dp
+    val BotonPaddingV = 12.dp
+    val BotonIcon = 20.dp
+
+    // 5. Aviso en línea y progreso
+    val AvisoPadding = 16.dp
+    val AvisoIcon = 22.dp
+    val ProgresoAlto = 4.dp
 }

@@ -452,3 +452,35 @@ interface BusquedaDao {
         estados: List<Estado>,
     ): List<FilaBiblioteca>
 }
+
+/** Recuento de perfiles de un tipo (distribución de "Datos Locales", design.md §10). */
+data class TotalTipo(
+    val tipo: TipoPerfil,
+    val total: Int,
+)
+
+/** Lectura completa de los datos para la copia de seguridad (CU-21) y la fusión (CU-22), y métricas de §10. */
+@Dao
+interface CopiaDao {
+    /** Más antiguos primero: al importar en una base vacía los perfiles se crean en el mismo orden. */
+    @Query("SELECT * FROM perfil ORDER BY creadoEn, id")
+    suspend fun perfiles(): List<PerfilEntity>
+
+    @Query("SELECT * FROM perfil_genero")
+    suspend fun perfilGeneros(): List<PerfilGeneroEntity>
+
+    @Query("SELECT * FROM perfil_idioma")
+    suspend fun perfilIdiomas(): List<PerfilIdiomaEntity>
+
+    @Query("SELECT * FROM lista ORDER BY creadoEn, id")
+    suspend fun listas(): List<ListaEntity>
+
+    @Query("SELECT * FROM lista_item")
+    suspend fun items(): List<ListaItemEntity>
+
+    @Query("SELECT tipo, COUNT(*) AS total FROM perfil GROUP BY tipo")
+    suspend fun totalesPorTipo(): List<TotalTipo>
+
+    @Query("SELECT COUNT(*) FROM lista")
+    suspend fun contarListas(): Int
+}

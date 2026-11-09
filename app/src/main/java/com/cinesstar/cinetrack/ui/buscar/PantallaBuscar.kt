@@ -72,6 +72,9 @@ import com.cinesstar.cinetrack.ui.components.SymbolIcon
 import com.cinesstar.cinetrack.ui.components.etiqueta
 import com.cinesstar.cinetrack.ui.components.icono
 import com.cinesstar.cinetrack.ui.components.textoError
+import com.cinesstar.cinetrack.ui.datos.SeguirAviso
+import com.cinesstar.cinetrack.ui.datos.datosLocales
+import com.cinesstar.cinetrack.ui.datos.rememberPanelDatos
 import com.cinesstar.cinetrack.ui.theme.CineAlpha
 import com.cinesstar.cinetrack.ui.theme.CineShapes
 import com.cinesstar.cinetrack.ui.theme.CineTheme
@@ -81,7 +84,7 @@ import com.cinesstar.cinetrack.ui.theme.Sombras
 import com.cinesstar.cinetrack.ui.theme.Spacing
 import kotlinx.coroutines.launch
 
-/** Pestañas de Buscar (design.md §9.1). "Datos Locales" (copia de seguridad) llega en el S8. */
+/** Pestañas de Buscar (design.md §9.1): "Filtros Cine" (CU-20) y "Datos Locales" (copia de seguridad, §10). */
 private enum class PestanaBuscar { FILTROS, DATOS }
 
 /** Acciones de la pantalla. */
@@ -116,6 +119,8 @@ fun ContenidoBuscar(onPerfil: (Long) -> Unit) {
                 alcance.launch { lista.irAResultados() }
             }
         }
+    val datos = if (pestana == PestanaBuscar.DATOS) rememberPanelDatos() else null
+    datos?.let { SeguirAviso(it, lista, primero = 1) }
     LazyColumn(
         state = lista,
         modifier = Modifier.fillMaxSize().testTag(TagsBuscar.LISTA),
@@ -125,6 +130,8 @@ fun ContenidoBuscar(onPerfil: (Long) -> Unit) {
         if (pestana == PestanaBuscar.FILTROS) {
             filtros(estado, acciones)
             resultados(estado.resultados, acciones)
+        } else {
+            datos?.let { datosLocales(it) }
         }
     }
 }

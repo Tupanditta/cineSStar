@@ -3,6 +3,9 @@ package com.cinesstar.cinetrack
 import android.app.Application
 import android.content.Context
 import androidx.annotation.VisibleForTesting
+import com.cinesstar.cinetrack.data.backup.ArchivosCopia
+import com.cinesstar.cinetrack.data.backup.ArchivosSaf
+import com.cinesstar.cinetrack.data.backup.CopiaRepository
 import com.cinesstar.cinetrack.data.repository.BibliotecaRepository
 import com.cinesstar.cinetrack.data.repository.BusquedaRepository
 import com.cinesstar.cinetrack.data.repository.CatalogoRepository
@@ -27,8 +30,17 @@ class AppContainer(
     val catalogo: CatalogoRepository = CatalogoRepository(database),
     val biblioteca: BibliotecaRepository = BibliotecaRepository(database),
     val busqueda: BusquedaRepository = BusquedaRepository(database),
+    val copias: CopiaRepository = CopiaRepository(database),
+    /** Archivos elegidos con el selector del sistema (copia de seguridad). Los tests lo sustituyen. */
+    val archivos: ArchivosCopia? = null,
 ) {
-    constructor(context: Context) : this(CineDatabase.construir(context))
+    constructor(context: Context) : this(CineDatabase.construir(context), context)
+
+    private constructor(database: CineDatabase, context: Context) : this(
+        database = database,
+        copias = CopiaRepository(database, ficheroBd = context.applicationContext.getDatabasePath(CineDatabase.NOMBRE_ARCHIVO)),
+        archivos = ArchivosSaf(context.applicationContext.contentResolver),
+    )
 }
 
 class CineTrackApplication : Application() {

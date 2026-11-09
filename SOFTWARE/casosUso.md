@@ -496,7 +496,7 @@ Usuario ─┬─ Perfiles ──── CU-01 Crear perfil
   - **Sagas**: se identifican por nombre normalizado; se reutiliza la existente o se crea.
   - **Listas**: se identifican por nombre normalizado.
     - Misma lista (mismo nombre, tipo y restricción): se **amplía** con los perfiles de la copia que aún no estén en ella (ya sean perfiles nuevos o existentes). Ranking: se añaden al final en el orden de la copia. Prioridad: conservan el nivel de la copia. Los elementos ya presentes no cambian de posición ni de nivel.
-    - Mismo nombre pero distinto tipo o restricción: se crea una lista nueva llamada "{nombre} (importada)", o "(importada 2)", etc. si ese nombre también existe.
+    - Mismo nombre pero distinto tipo o restricción: se crea una lista nueva llamada "{nombre} (importada)", o "(importada 2)", etc. si ese nombre también existe. Si una de esas listas "(importada…)" ya existe con el mismo tipo y restricción, se amplía en lugar de crear otra (así se cumple la idempotencia).
     - Sin coincidencia: se crea la lista con sus elementos, posiciones y niveles.
   - **Idempotencia**: importar dos veces el mismo archivo no cambia nada la segunda vez.
 - **Alternativos**

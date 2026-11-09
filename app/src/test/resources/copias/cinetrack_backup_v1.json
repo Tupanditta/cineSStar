@@ -1,0 +1,169 @@
+{
+    "app": "CineTrack",
+    "version": 1,
+    "fecha": "2026-11-09T12:00:00",
+    "sagas": [
+        "Dune",
+        "El Señor de los Anillos",
+        "Star Wars"
+    ],
+    "perfiles": [
+        {
+            "nombre": "Dune",
+            "tipo": "PELICULA",
+            "estado": "VISTO",
+            "puntuacionDecimas": 85,
+            "comentario": "Impresionante.\nLa volvería a ver 🎬",
+            "comentarioEditadoEn": 1762689600000,
+            "saga": "Dune",
+            "generos": [
+                "Ciencia Ficción",
+                "Aventura"
+            ],
+            "idiomas": [
+                "Inglés"
+            ],
+            "creadoEn": 1762600000000
+        },
+        {
+            "nombre": "Dune: Parte Dos",
+            "tipo": "PELICULA",
+            "estado": "PENDIENTE",
+            "puntuacionDecimas": null,
+            "comentario": null,
+            "comentarioEditadoEn": null,
+            "saga": "Dune",
+            "generos": [
+                "Ciencia Ficción"
+            ],
+            "idiomas": [
+                "Inglés",
+                "Español"
+            ],
+            "creadoEn": 1762600001000
+        },
+        {
+            "nombre": "El Señor de los Anillos",
+            "tipo": "PELICULA",
+            "estado": "VIENDO",
+            "puntuacionDecimas": 100,
+            "comentario": null,
+            "comentarioEditadoEn": null,
+            "saga": "El Señor de los Anillos",
+            "generos": [
+                "Fantasía",
+                "Aventura"
+            ],
+            "idiomas": [
+                "Inglés"
+            ],
+            "creadoEn": 1762600002000
+        },
+        {
+            "nombre": "Dark",
+            "tipo": "SERIE",
+            "estado": "VIENDO",
+            "puntuacionDecimas": 90,
+            "comentario": null,
+            "comentarioEditadoEn": null,
+            "saga": null,
+            "generos": [
+                "Suspense",
+                "Ciencia Ficción"
+            ],
+            "idiomas": [
+                "Alemán"
+            ],
+            "creadoEn": 1762600003000
+        },
+        {
+            "nombre": "Cosmos",
+            "tipo": "SERIE",
+            "estado": "VISTO",
+            "puntuacionDecimas": 0,
+            "comentario": "Divulgación de 10.",
+            "comentarioEditadoEn": 1762689700000,
+            "saga": null,
+            "generos": [
+                "Documental"
+            ],
+            "idiomas": [],
+            "creadoEn": 1762600004000
+        }
+    ],
+    "listas": [
+        {
+            "nombre": "Top Histórico",
+            "tipo": "RANKING",
+            "restriccion": "SOLO_PELICULAS",
+            "creadoEn": 1762600100000,
+            "elementos": [
+                {
+                    "nombre": "El Señor de los Anillos",
+                    "tipo": "PELICULA",
+                    "posicion": 1,
+                    "prioridad": null,
+                    "anadidoEn": 1762600101000
+                },
+                {
+                    "nombre": "Dune",
+                    "tipo": "PELICULA",
+                    "posicion": 2,
+                    "prioridad": null,
+                    "anadidoEn": 1762600102000
+                },
+                {
+                    "nombre": "Dune: Parte Dos",
+                    "tipo": "PELICULA",
+                    "posicion": 3,
+                    "prioridad": null,
+                    "anadidoEn": 1762600103000
+                }
+            ]
+        },
+        {
+            "nombre": "Próximas a ver",
+            "tipo": "PRIORIDAD",
+            "restriccion": "SOLO_SERIES",
+            "creadoEn": 1762600200000,
+            "elementos": [
+                {
+                    "nombre": "Dark",
+                    "tipo": "SERIE",
+                    "posicion": null,
+                    "prioridad": "ALTA",
+                    "anadidoEn": 1762600201000
+                },
+                {
+                    "nombre": "Cosmos",
+                    "tipo": "SERIE",
+                    "posicion": null,
+                    "prioridad": "BAJA",
+                    "anadidoEn": 1762600202000
+                }
+            ]
+        },
+        {
+            "nombre": "Para el finde",
+            "tipo": "NORMAL",
+            "restriccion": "MIXTO",
+            "creadoEn": 1762600300000,
+            "elementos": [
+                {
+                    "nombre": "Dune",
+                    "tipo": "PELICULA",
+                    "posicion": null,
+                    "prioridad": null,
+                    "anadidoEn": 1762600301000
+                },
+                {
+                    "nombre": "Dark",
+                    "tipo": "SERIE",
+                    "posicion": null,
+                    "prioridad": null,
+                    "anadidoEn": 1762600302000
+                }
+            ]
+        }
+    ]
+}

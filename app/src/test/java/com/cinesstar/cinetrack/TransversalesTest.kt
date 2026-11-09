@@ -71,7 +71,8 @@ class TransversalesTest {
                 Regex("<item quantity=\"[^\"]+\">(.*?)</item>").findAll(xml).map { it.groupValues[1] } +
                 GENEROS_PREDEFINIDOS + IDIOMAS_PREDEFINIDOS
         return textos
-            .map { texto -> texto.lowercase().split(Regex("""%(\d+\$)?[sd]""")).joinToString(".+") { Regex.escape(it) } }
+            // "%%" es un "%" literal en los textos con parámetros ("72%", design.md §10).
+            .map { texto -> texto.lowercase().split(Regex("""%(\d+\$)?[sd]""")).joinToString(".+") { Regex.escape(it.replace("%%", "%")) } }
             .map { Regex(it, RegexOption.DOT_MATCHES_ALL) }
             .toList()
     }
