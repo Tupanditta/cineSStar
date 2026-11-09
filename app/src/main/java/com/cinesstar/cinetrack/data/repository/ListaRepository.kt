@@ -139,21 +139,48 @@ class ListaRepository(
             true
         }
 
-    /** CU-18. Lleva un elemento del ranking a [nuevaPosicion] (1..n). Error: M-24. */
+    /**
+     * CU-18. Lleva un elemento del ranking a [nuevaPosicion] (1..n); los intermedios se desplazan y las posiciones quedan
+     * contiguas 1..n. Devuelve false si ya estaba en esa posición (A2: sin cambios). Solo cambia esta lista (RES-07).
+     * Errores: M-24 (posición fuera de 1..n o la lista no es un ranking).
+     */
     suspend fun mover(
         listaId: Long,
         perfilId: Long,
         nuevaPosicion: Int,
-    ) = db.withTransaction {
-        val items = listaDao.itemsPorPosicion(listaId).toMutableList()
-        val actual = items.indexOfFirst { it.perfilId == perfilId }
-        if (actual < 0) throw DominioException(ErrorDominio.NoEncontrado)
-        if (nuevaPosicion !in 1..items.size) throw DominioException(ErrorDominio.PosicionInvalida)
-        items.add(nuevaPosicion - 1, items.removeAt(actual))
-        items.forEachIndexed { indice, item ->
-            if (item.posicion != indice + 1) listaDao.actualizarPosicion(listaId, item.perfilId, indice + 1)
+    ): Boolean =
+        db.withTransaction {
+            val lista = listaDao.obtener(listaId) ?: throw DominioException(ErrorDominio.NoEncontrado)
+            if (lista.tipo != TipoLista.RANKING) throw DominioException(ErrorDominio.PosicionInvalida)
+            val items = listaDao.itemsPorPosicion(listaId).toMutableList()
+            val actual = items.indexOfFirst { it.perfilId == perfilId }
+            if (actual < 0) throw DominioException(ErrorDominio.NoEncontrado)
+            if (nuevaPosicion !in 1..items.size) throw DominioException(ErrorDominio.PosicionInvalida)
+            if (actual == nuevaPosicion - 1) return@withTransaction false
+            items.add(nuevaPosicion - 1, items.removeAt(actual))
+            items.forEachIndexed { indice, item ->
+                if (item.posicion != indice + 1) listaDao.actualizarPosicion(listaId, item.perfilId, indice + 1)
+            }
+            true
         }
-    }
+
+    /**
+     * CU-17. Cambia la prioridad de un elemento solo en esta lista (A2, RES-07); el perfil no cambia. Devuelve false si
+     * ya tenía ese nivel (A1: sin cambios). Dentro de un nivel se sigue ordenando por antigüedad en la lista.
+     */
+    suspend fun cambiarPrioridad(
+        listaId: Long,
+        perfilId: Long,
+        prioridad: Prioridad,
+    ): Boolean =
+        db.withTransaction {
+            val lista = listaDao.obtener(listaId) ?: throw DominioException(ErrorDominio.NoEncontrado)
+            val item = listaDao.item(listaId, perfilId) ?: throw DominioException(ErrorDominio.NoEncontrado)
+            if (lista.tipo != TipoLista.PRIORIDAD) throw DominioException(ErrorDominio.NoEncontrado)
+            if (item.prioridad == prioridad) return@withTransaction false
+            if (listaDao.actualizarPrioridad(listaId, perfilId, prioridad) == 0) throw DominioException(ErrorDominio.NoEncontrado)
+            true
+        }
 
     /** CU-19 / RF-38: borra la lista y sus elementos; los perfiles no se tocan. */
     suspend fun eliminar(listaId: Long) =

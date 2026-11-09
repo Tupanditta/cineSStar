@@ -281,6 +281,24 @@
     <string name="menu_anadir_a_lista">Añadir a lista</string>
     <string name="anadir_a_lista_titulo">Añadir a lista</string>
 
+    <!-- Prioridad y ranking (design.md §6.1, §6.2, §6.3, §6.6; S6) -->
+    <string name="alta_posicion">Posición</string>
+    <string name="alta_posicion_ayuda">Vacío = al final (#%1$d)</string>
+    <string name="alta_prioridad">Prioridad</string>
+    <string name="alta_anadir">Añadir</string>
+    <string name="cd_posicion_menos">Adelantar un puesto</string>
+    <string name="cd_posicion_mas">Retrasar un puesto</string>
+    <string name="cd_posicion_alta">Posición en el ranking</string>
+    <string name="lista_reordenar">Reordenar puestos</string>
+    <string name="lista_reordenar_banner">Usa las flechas para desplazar puestos ordinales.</string>
+    <string name="lista_reordenar_listo">Listo</string>
+    <string name="cd_subir_puesto">Subir un puesto</string>
+    <string name="cd_bajar_puesto">Bajar un puesto</string>
+    <string name="cd_cambiar_prioridad">Cambiar prioridad</string>
+    <string name="toast_ranking_guardado">Ranking guardado</string>
+    <string name="toast_posicion_actualizada">Posición actualizada</string>
+    <string name="toast_prioridad_actualizada">Prioridad actualizada</string>
+
     <!-- Mensajes del catálogo M-xx (casosUso.md §1.3) usados por el dominio -->
     <string name="m01_nombre_obligatorio">El nombre es obligatorio.</string>
     <string name="m02_perfil_duplicado_pelicula">Ya existe una película con ese nombre.</string>

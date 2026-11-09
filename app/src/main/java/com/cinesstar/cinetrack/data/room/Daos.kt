@@ -316,6 +316,14 @@ interface ListaDao {
         posicion: Int,
     )
 
+    /** CU-17. Devuelve las filas cambiadas (0 si el elemento ya no está en la lista). */
+    @Query("UPDATE lista_item SET prioridad = :prioridad WHERE listaId = :listaId AND perfilId = :perfilId")
+    suspend fun actualizarPrioridad(
+        listaId: Long,
+        perfilId: Long,
+        prioridad: Prioridad,
+    ): Int
+
     /** Rankings en los que está un perfil (para recompactar posiciones al borrarlo, S-07). */
     @Query(
         """

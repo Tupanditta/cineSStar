@@ -30,6 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import com.cinesstar.cinetrack.R
 import com.cinesstar.cinetrack.domain.Candidato
+import com.cinesstar.cinetrack.domain.ResumenLista
 import com.cinesstar.cinetrack.ui.components.CampoTexto
 import com.cinesstar.cinetrack.ui.components.DialogoFormulario
 import com.cinesstar.cinetrack.ui.components.EtiquetaCampo
@@ -45,18 +46,20 @@ import com.cinesstar.cinetrack.ui.theme.Spacing
 
 /**
  * Diálogo "Añadir título" (design.md §6.6, CU-15): búsqueda en la Biblioteca sin distinguir mayúsculas ni tildes (A5),
- * y se pueden añadir varios seguidos sin cerrarlo (A3). Los perfiles que ya están o que la restricción no admite se ven
+ * y se pueden añadir varios seguidos sin cerrarlo (A3). En un ranking se elige la posición y en una lista de prioridad
+ * el nivel (A1, A2) antes de tocar el título. Los perfiles que ya están o que la restricción no admite se ven
  * al 40 % y sin icono; si se tocan, se explica por qué (M-10, M-09) y no se añaden.
  */
 @Composable
 fun SelectorTitulos(
-    nombreLista: String,
-    busqueda: String,
+    lista: ResumenLista,
+    edicion: EdicionLista,
     candidatos: List<Candidato>,
     vm: ListaViewModel,
 ) {
+    val busqueda = edicion.busqueda.orEmpty()
     DialogoFormulario(
-        titulo = stringResource(R.string.selector_titulo, nombreLista),
+        titulo = stringResource(R.string.selector_titulo, lista.nombre),
         icono = "playlist_add",
         onCerrar = vm::cerrarSelector,
         tag = TagsLista.SELECTOR,
@@ -91,6 +94,17 @@ fun SelectorTitulos(
                 },
             )
         }
+        OpcionesAlta(
+            OpcionesAltaEstado(
+                tipo = lista.tipo,
+                total = lista.total,
+                posicion = edicion.posicion,
+                prioridad = edicion.prioridad,
+                onPosicion = vm::cambiarPosicion,
+                onPaso = vm::pasoPosicion,
+                onPrioridad = vm::elegirPrioridad,
+            ),
+        )
         if (candidatos.isEmpty()) {
             Text(
                 text = stringResource(R.string.m13_sin_resultados),

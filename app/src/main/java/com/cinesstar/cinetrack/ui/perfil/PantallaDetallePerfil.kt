@@ -87,6 +87,7 @@ import com.cinesstar.cinetrack.ui.components.icono
 import com.cinesstar.cinetrack.ui.components.iconoDetalle
 import com.cinesstar.cinetrack.ui.components.iconoGenero
 import com.cinesstar.cinetrack.ui.components.textoError
+import com.cinesstar.cinetrack.ui.lista.OpcionesAltaEstado
 import com.cinesstar.cinetrack.ui.theme.CineAlpha
 import com.cinesstar.cinetrack.ui.theme.CineShapes
 import com.cinesstar.cinetrack.ui.theme.CineTheme
@@ -198,11 +199,25 @@ private fun SelectorListasDetalle(
     edicion: EdicionDetalle,
     vm: DetallePerfilViewModel,
 ) {
-    val opciones = edicion.opcionesLista
-    if (visible && opciones != null) SelectorListas(opciones, vm::anadirALista, vm::cerrarAnadirALista)
+    val opciones = edicion.opcionesLista ?: return
+    if (!visible) return
+    val alta =
+        opciones.firstOrNull { it.lista.id == edicion.altaLista }?.let { opcion ->
+            opcion.lista.id to
+                OpcionesAltaEstado(
+                    tipo = opcion.lista.tipo,
+                    total = opcion.lista.total,
+                    posicion = edicion.altaPosicion,
+                    prioridad = edicion.altaPrioridad,
+                    onPosicion = vm::cambiarAltaPosicion,
+                    onPaso = vm::pasoAltaPosicion,
+                    onPrioridad = vm::elegirAltaPrioridad,
+                )
+        }
+    SelectorListas(opciones, vm::anadirALista, vm::cerrarAnadirALista, alta)
 }
 
-/** Texto del toast de cada evento del detalle (M-25, "«X» añadido a «Lista»", M-09, M-10). */
+/** Texto del toast de cada evento del detalle (M-25, "«X» añadido a «Lista»", M-09, M-10, M-24). */
 @Composable
 private fun textosEventos(): (EventoDetalle) -> String {
     val m25 = stringResource(R.string.m25_error_inesperado)
@@ -210,6 +225,7 @@ private fun textosEventos(): (EventoDetalle) -> String {
     val m09Peliculas = stringResource(R.string.m09_lista_solo_peliculas)
     val m09Series = stringResource(R.string.m09_lista_solo_series)
     val m10 = stringResource(R.string.m10_ya_en_lista)
+    val m24 = stringResource(R.string.m24_posicion_invalida)
     return { evento ->
         when (evento) {
             EventoDetalle.ErrorEscritura -> m25
@@ -218,6 +234,7 @@ private fun textosEventos(): (EventoDetalle) -> String {
                 when (val e = evento.error) {
                     is ErrorDominio.RestriccionLista -> if (e.admitido == TipoPerfil.PELICULA) m09Peliculas else m09Series
                     is ErrorDominio.YaEnLista -> m10.format(e.nombrePerfil)
+                    ErrorDominio.PosicionInvalida -> m24
                     else -> m25
                 }
         }

@@ -22,6 +22,10 @@ object TagsDetalle {
     const val MENU_ANADIR_LISTA = "detalle_menu_anadir_lista"
     const val ANADIR_A_LISTA = "detalle_anadir_a_lista"
     const val SELECTOR_LISTAS = "detalle_selector_listas"
+
+    /** Ranking o lista de prioridad desplegada en el selector, con su botón "Añadir" (CU-15 paso 3). */
+    const val ALTA_DESPLEGADA = "detalle_alta_desplegada"
+    const val CONFIRMAR_ALTA = "detalle_confirmar_alta"
     const val AJUSTAR = "detalle_ajustar"
     const val EDITOR_NOTA = "detalle_editor_nota"
     const val EDITOR_NOTA_CAMPO = "detalle_editor_nota_campo"

@@ -102,6 +102,7 @@ dependencies {
     implementation(libs.compose.foundation)
     implementation(libs.compose.material3)
     implementation(libs.haze)
+    implementation(libs.reorderable)
     implementation(libs.serialization.json)
     implementation(libs.coroutines.android)
     implementation(libs.room.runtime)

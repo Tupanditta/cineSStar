@@ -31,6 +31,8 @@ import com.cinesstar.cinetrack.domain.TipoLista
 import com.cinesstar.cinetrack.ui.components.DialogoFormulario
 import com.cinesstar.cinetrack.ui.components.SymbolIcon
 import com.cinesstar.cinetrack.ui.components.etiqueta
+import com.cinesstar.cinetrack.ui.lista.OpcionesAlta
+import com.cinesstar.cinetrack.ui.lista.OpcionesAltaEstado
 import com.cinesstar.cinetrack.ui.listas.textoTotal
 import com.cinesstar.cinetrack.ui.theme.CineAlpha
 import com.cinesstar.cinetrack.ui.theme.CineShapes
@@ -41,15 +43,18 @@ import com.cinesstar.cinetrack.ui.theme.DimensLista
 import com.cinesstar.cinetrack.ui.theme.Spacing
 
 /**
- * "Añadir a lista" desde el perfil (CU-15, design.md §7.5), con el estilo de formulario (§3.6-1). Tocar una lista añade
- * el perfil con los valores por defecto (al final del ranking, prioridad Media) y cierra: 2 pasos (RNF-09). Las listas
- * que ya lo contienen o que no lo admiten se ven al 40 % y sin icono; si se tocan, se explica por qué (M-10, M-09).
+ * "Añadir a lista" desde el perfil (CU-15, design.md §7.5), con el estilo de formulario (§3.6-1). Tocar una lista normal
+ * añade el perfil y cierra: 2 pasos (RNF-09). Un ranking o una lista de prioridad se despliega con la posición o el
+ * nivel (por defecto al final y Media) y el botón "Añadir": 3 pasos. Las listas que ya lo contienen o que no lo admiten
+ * se ven al 40 % y sin icono; si se tocan, se explica por qué (M-10, M-09).
  */
 @Composable
 fun SelectorListas(
     opciones: List<OpcionLista>,
     onElegir: (OpcionLista) -> Unit,
     onCerrar: () -> Unit,
+    /** Lista desplegada y sus opciones de alta (CU-15 paso 3); null = ninguna. */
+    alta: Pair<Long, OpcionesAltaEstado>? = null,
 ) {
     DialogoFormulario(
         titulo = stringResource(R.string.anadir_a_lista_titulo),
@@ -68,7 +73,14 @@ fun SelectorListas(
                 modifier = Modifier.fillMaxWidth().heightIn(max = DimensLista.ResultadosMaxAlto),
                 verticalArrangement = Arrangement.spacedBy(Spacing.Xs),
             ) {
-                items(opciones, key = { it.lista.id }) { opcion -> FilaOpcion(opcion) { onElegir(opcion) } }
+                items(opciones, key = { it.lista.id }) { opcion ->
+                    val desplegada = alta?.takeIf { it.first == opcion.lista.id }?.second
+                    if (desplegada == null) {
+                        FilaOpcion(opcion) { onElegir(opcion) }
+                    } else {
+                        OpcionDesplegada(opcion, desplegada) { onElegir(opcion) }
+                    }
+                }
             }
         }
         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) {
@@ -82,6 +94,42 @@ fun SelectorListas(
                         .background(MaterialTheme.colorScheme.surfaceContainer)
                         .clickable(role = Role.Button, onClick = onCerrar)
                         .padding(horizontal = DimensDialogoFormulario.BotonPaddingH, vertical = DimensDialogoFormulario.BotonPaddingV),
+            )
+        }
+    }
+}
+
+/** Ranking o lista de prioridad elegida: su fila, la posición o el nivel y "Añadir" (CU-15 paso 3). */
+@Composable
+private fun OpcionDesplegada(
+    opcion: OpcionLista,
+    estado: OpcionesAltaEstado,
+    onAnadir: () -> Unit,
+) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(CineShapes.Lg)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .padding(bottom = DimensLista.ResultadoPadding)
+                .testTag(TagsDetalle.ALTA_DESPLEGADA),
+        verticalArrangement = Arrangement.spacedBy(Spacing.Sm),
+    ) {
+        FilaOpcion(opcion, onAnadir)
+        OpcionesAlta(estado, Modifier.padding(horizontal = DimensLista.ResultadoPadding))
+        Box(modifier = Modifier.fillMaxWidth().padding(horizontal = DimensLista.ResultadoPadding), contentAlignment = Alignment.CenterEnd) {
+            Text(
+                text = stringResource(R.string.alta_anadir),
+                style = CineTheme.typography.labelMd,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                modifier =
+                    Modifier
+                        .clip(CineShapes.Lg)
+                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .clickable(role = Role.Button, onClick = onAnadir)
+                        .padding(horizontal = DimensDialogoFormulario.BotonPaddingH, vertical = DimensDialogoFormulario.BotonPaddingV)
+                        .testTag(TagsDetalle.CONFIRMAR_ALTA),
             )
         }
     }

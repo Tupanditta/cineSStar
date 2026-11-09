@@ -335,6 +335,14 @@ Barra superior secundaria (§3.3), sin barra inferior. Contenido con padding 16 
 - La lista abierta lleva un menú ⋮ en la cabecera con "Eliminar lista" (mismo efecto que el pie). Tocar una fila abre el perfil (CU-13 A3).
 - Si la lista desaparece mientras está abierta (CU-13 E1), vuelve a "Mis Listas" con el toast "Esta lista ya no existe."; si desaparece el elemento que se iba a quitar (CU-16 E1), toast "Este título ya no está en la lista." y la lista se refresca.
 
+**Decisiones del S6** (prioridad y ranking):
+- Selector "Añadir título" en un ranking: bajo la búsqueda, fila "Posición" (`label-sm`) con la ayuda "Vacío = al final (#{n+1})" y, a la derecha, el stepper de §8 (− / campo 64 dp con placeholder "{n+1}" / +, teclado numérico). − / + parten de n+1 y no salen de 1..n+1 (el botón del extremo queda al 40 %). Tocar un título lo añade en esa posición (los demás bajan) y el campo vuelve a vacío. Una posición no válida (0, > n+1, texto) da M-24 en un toast y no añade (CU-15 E3). Así añadir al final sigue siendo de 2 pasos (RNF-09, T6.22).
+- Selector en una lista de prioridad: fila "Prioridad" con 3 segmentos Alta / Media / Baja (mismo estilo que la restricción de §5.3), Media por defecto (S-16). El nivel elegido se aplica a todos los que se añadan mientras el selector esté abierto.
+- Acciones rápidas del ranking: "Reordenar puestos" y "Añadir título" a partes iguales; en las demás listas solo "Añadir título" a todo el ancho. "Reordenar puestos" muestra el banner de §6.1; cada movimiento se guarda al hacerlo, así que "Listo" solo cierra el banner con el toast "Ranking guardado".
+- Flechas ▲▼ siempre visibles (28×28, `rounded`); deshabilitadas al 30 % en el #1 (▲) y en el último (▼), sin efecto (CU-18 A1). Cada movimiento muestra "Posición actualizada".
+- Arrastre: mantener pulsada cualquier parte de la fila (sin asa) con la biblioteca `sh.calvin.reorderable`; mientras se arrastra, las filas y los puestos se recolocan de forma provisional y, al soltar, se guarda el puesto nuevo. Cerca del borde superior o inferior la lista se desplaza sola (CU-18 A3). Soltar en el mismo puesto no escribe (A2). Si falla la escritura: M-25 y vuelve el orden guardado (E1). Tocar la fila sin arrastrar sigue abriendo el perfil.
+- Píldora de prioridad: al tocarla, menú desplegable (`surface-container-high`) con Alta, Media y Baja (`label-md`; la actual en negrita con `check` 18 dp `primary`). Elegir el mismo nivel no cambia nada (CU-17 A1); otro nivel reordena la lista (Alta → Media → Baja; dentro del nivel, por antigüedad en la lista) con el toast "Prioridad actualizada".
+
 ---
 
 ## 7. Pantalla Detalle del perfil (`detalle_del_perfil`)
@@ -382,7 +390,7 @@ Barra superior secundaria con "Detalle Película" / "Detalle Serie". **Sin barra
   - Izquierda (separación 8): punto 10 dp (ranking `secondary-container`, prioridad `primary`, normal `on-surface-variant`); nombre `title-sm` semibold; debajo `label-sm` `on-surface-variant`: ranking "Posición actual: #{p} de {n} títulos", prioridad "Prioridad {nivel} en esta lista", normal "{n} títulos".
   - Derecha: insignia `rounded` padding 8×2 fondo `surface-container-lowest` texto `primary` `label-sm` semibold: "Ranking #{p}", "Prioridad {Alta/Media/Baja}", "Normal".
 - Sin listas: texto `body-sm` `on-surface-variant` "Aún no está en ninguna lista".
-- **Añadir a lista** (S5, CU-15 desde el perfil): diálogo de formulario (§3.6-1) "Añadir a lista" con todas las listas (punto del tipo, nombre, "{Tipo} • {n} títulos" y `add_circle` 18 dp `sky-400`). Tocar una lista añade el perfil con los valores por defecto y cierra el diálogo (2 pasos, RNF-09); toast "«{título}» añadido a «{lista}»". Las que ya lo contienen o no lo admiten se ven al 40 % sin icono; tocarlas da M-10 o M-09. Sin listas: "Aún no has creado ninguna lista.". Tocar una fila de "En tus Listas" abre esa lista.
+- **Añadir a lista** (S5, CU-15 desde el perfil): diálogo de formulario (§3.6-1) "Añadir a lista" con todas las listas (punto del tipo, nombre, "{Tipo} • {n} títulos" y `add_circle` 18 dp `sky-400`). Tocar una lista normal añade el perfil y cierra el diálogo (2 pasos, RNF-09); toast "«{título}» añadido a «{lista}»". Desde el S6, tocar un ranking o una lista de prioridad la despliega (caja `rounded-lg` `surface-container`) con la fila "Posición" o los segmentos de prioridad de §6.6 (por defecto al final y Media) y el botón "Añadir" (`rounded-lg`, `primary-container` / `on-primary-container`, `label-md`); "Añadir" o tocar otra vez la lista la añade y cierra (3 pasos, CU-15 paso 3). Las que ya lo contienen o no lo admiten se ven al 40 % sin icono; tocarlas da M-10 o M-09. Sin listas: "Aún no has creado ninguna lista.". Tocar una fila de "En tus Listas" abre esa lista.
 
 ### 7.6 Mi Crítica y Notas
 - Tarjeta `rounded-xl` `surface-container` padding 16 separación 8.
@@ -586,7 +594,7 @@ Stitch generó cada pantalla por separado y hay detalles que cambian entre ellas
 | Búsqueda sin tildes | Columna `nombreBusqueda` normalizada (`java.text.Normalizer`) + `LIKE` con escape | RF-46 |
 | Preferencias | **DataStore (Preferences)** | Última lista abierta, avisos |
 | Imágenes | **Coil 3** + `PickVisualMedia` (carátula opcional, copiada al almacenamiento interno) | Sin red |
-| Reordenar | **sh.calvin.reorderable** (pulsación larga en `LazyColumn`) + flechas ▲▼ | §6.2 |
+| Reordenar | **sh.calvin.reorderable** 3.1.0 (pulsación larga en `LazyColumn`, con scroll automático) + flechas ▲▼ | §6.2. Añadida en el S6 |
 | Desenfoque | **Haze** en barras y diálogos; en Android < 12, color sólido al 95 % | §3.2, §3.4 |
 | Copia de seguridad | **kotlinx.serialization** + Storage Access Framework (`CreateDocument` / `OpenDocument`) | Sin permisos de almacenamiento |
 | Pruebas | JUnit 5, Turbine, Room in-memory, `compose-ui-test`, **Paparazzi/Roborazzi** (capturas comparadas con `screen.png`) | Ver `sprints.md` |

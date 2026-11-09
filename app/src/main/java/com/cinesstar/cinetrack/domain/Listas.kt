@@ -89,3 +89,30 @@ object OrdenLista {
         return if (clave.isEmpty()) candidatos else candidatos.filter { clave in it.nombreBusqueda }
     }
 }
+
+/**
+ * Campo "Posición" al añadir a un ranking de [total] elementos (CU-15 A1/E3, design.md §6.6). Vacío = al final (n+1,
+ * RF-39); un entero de 1 a n+1 es válido; el resto (0, > n+1, texto) no lo es (M-24).
+ */
+object PosicionAlta {
+    /** Puesto en el que quedará, o null si el texto no es una posición válida. */
+    fun destino(
+        texto: String,
+        total: Int,
+    ): Int? {
+        val limpio = texto.trim()
+        if (limpio.isEmpty()) return total + 1
+        if (!limpio.all { it in '0'..'9' }) return null
+        return limpio.toIntOrNull()?.takeIf { it in 1..total + 1 }
+    }
+
+    /** Botones − / +: parten del puesto actual (n+1 si está vacío o no es válido) y no salen de 1..n+1. */
+    fun paso(
+        texto: String,
+        delta: Int,
+        total: Int,
+    ): String {
+        val actual = destino(texto, total) ?: (total + 1)
+        return (actual + delta).coerceIn(1, total + 1).toString()
+    }
+}

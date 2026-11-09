@@ -342,4 +342,14 @@ object DimensLista {
     val BuscarIcon = 18.dp
     val BuscarIconStart = 10.dp
     val BuscarPaddingStart = 36.dp
+
+    // S6: acciones del ranking, flechas ▲▼ y opciones al añadir
+    val BannerPadding = 12.dp
+    val BannerIcon = 18.dp
+    val ListoPaddingH = 12.dp
+    val ListoPaddingV = 4.dp
+    val Flecha = 28.dp
+    val FlechaIcon = 18.dp
+    val SegmentoPaddingV = 6.dp
+    val Anillo = 1.dp
 }

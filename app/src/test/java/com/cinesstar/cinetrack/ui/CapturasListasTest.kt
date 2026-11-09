@@ -168,4 +168,45 @@ class CapturasListasTest {
 
         assertTrue("Barra superior: $superior fuera de ${Capturas.BARRAS}", superior.cumple(Capturas.BARRAS))
     }
+
+    /**
+     * T6.24 (G): ranking con medallas y el banner "Reordenar puestos", lista de prioridad con su menú y el selector con la
+     * fila "Posición" y los segmentos de prioridad. Barras comparadas con `lista_ranking_top_10_hist_rico/screen.png`; el
+     * resto queda para revisión manual.
+     */
+    @Test
+    @Config(qualifiers = "w390dp-h1476dp-xhdpi")
+    fun t6_24_rankingPrioridadYDialogoDePosicion() {
+        val ids = crearDatosDelPrototipo()
+        listas.abrir()
+        listas.abrirLista(ids[0])
+        compose.esperar { compose.existe(TagsLista.fila(enBd { listas.elementos(ids[0]) }.last().perfilId)) }
+        listas.tocar(TagsLista.REORDENAR)
+        compose.esperar { compose.existe(TagsLista.BANNER_REORDENAR) }
+
+        val app = captura()
+        val ref = referencia("lista_ranking_top_10_hist_rico", app.height)
+        guardar("lista_ranking_reordenar_app", app)
+        val superior = barraSuperior(app, ref)
+        println("T6.24 Ranking: barra superior $superior")
+
+        listas.abrirSelector()
+        listas.escribirPosicion("2")
+        guardar("lista_selector_posicion_app", captura())
+        listas.cerrarSelector()
+
+        compose.activityRule.scenario.onActivity { it.onBackPressedDispatcher.onBackPressed() }
+        compose.waitForIdle()
+        listas.abrirLista(ids[1])
+        guardar("lista_prioridad_app", captura())
+        val primero = enBd { listas.elementos(ids[1]) }.first().perfilId
+        listas.abrirMenuPrioridad(primero)
+        guardar("lista_prioridad_menu_app", captura())
+        // Elegir el nivel que ya tiene cierra el menú sin cambiar nada (CU-17 A1).
+        listas.tocar(TagsLista.opcionPrioridad(primero, Prioridad.ALTA))
+        listas.abrirSelector()
+        guardar("lista_selector_prioridad_app", captura())
+
+        assertTrue("Barra superior: $superior fuera de ${Capturas.BARRAS}", superior.cumple(Capturas.BARRAS))
+    }
 }

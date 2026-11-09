@@ -11,7 +11,10 @@ import com.cinesstar.cinetrack.domain.ErrorDominio
 import com.cinesstar.cinetrack.domain.Estado
 import com.cinesstar.cinetrack.domain.OpcionLista
 import com.cinesstar.cinetrack.domain.PasoPuntuacion
+import com.cinesstar.cinetrack.domain.PosicionAlta
+import com.cinesstar.cinetrack.domain.Prioridad
 import com.cinesstar.cinetrack.domain.Puntuacion
+import com.cinesstar.cinetrack.domain.TipoLista
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -46,6 +49,12 @@ data class EdicionDetalle(
     val critica: String? = null,
     /** Listas del selector "Añadir a lista" (CU-15 desde el perfil); null = cerrado. */
     val opcionesLista: List<OpcionLista>? = null,
+    /** Ranking o lista de prioridad desplegada en el selector para elegir posición o nivel (CU-15 paso 3); null = ninguna. */
+    val altaLista: Long? = null,
+    /** Campo "Posición" de [altaLista] si es un ranking; vacío = al final (RF-39). */
+    val altaPosicion: String = "",
+    /** Prioridad para [altaLista] si es de prioridad; Media por defecto (S-16). */
+    val altaPrioridad: Prioridad = Prioridad.POR_DEFECTO,
     /** Hay una escritura en curso: se ignoran nuevas pulsaciones. */
     val guardando: Boolean = false,
 ) {
@@ -169,19 +178,51 @@ class DetallePerfilViewModel(
     fun abrirAnadirALista() =
         ejecutar {
             val opciones = listas.opcionesPara(perfilId)
-            edicionInterna.update { it.copy(opcionesLista = opciones) }
+            edicionInterna.update { it.copy(opcionesLista = opciones, altaLista = null) }
         }
 
-    fun cerrarAnadirALista() = edicionInterna.update { it.copy(opcionesLista = null) }
+    fun cerrarAnadirALista() = edicionInterna.update { it.copy(opcionesLista = null, altaLista = null) }
+
+    /** CU-15 A1 desde el perfil: texto del campo "Posición" (se valida al añadir: M-24). */
+    fun cambiarAltaPosicion(texto: String) = edicionInterna.update { it.copy(altaPosicion = texto.take(MAX_CIFRAS_POSICION)) }
+
+    /** Botones − / + del campo "Posición" (1..n+1 del ranking desplegado). */
+    fun pasoAltaPosicion(delta: Int) =
+        edicionInterna.update { e ->
+            val total =
+                e.opcionesLista
+                    ?.firstOrNull { it.lista.id == e.altaLista }
+                    ?.lista
+                    ?.total ?: return@update e
+            e.copy(altaPosicion = PosicionAlta.paso(e.altaPosicion, delta, total))
+        }
+
+    /** CU-15 A2 desde el perfil. */
+    fun elegirAltaPrioridad(prioridad: Prioridad) = edicionInterna.update { it.copy(altaPrioridad = prioridad) }
 
     /**
-     * CU-15 desde el perfil, pasos 2–3: se añade con la posición o prioridad por defecto (al final, Media; RF-39, S-16)
-     * y se cierra el selector. Una lista no disponible también se intenta: responde con M-10 o M-09 y no añade nada.
+     * CU-15 desde el perfil, pasos 2–3. Una lista normal se añade al tocarla. Un ranking o una lista de prioridad se
+     * despliega primero con su posición o nivel (por defecto al final y Media; RF-39, S-16) y se añade con "Añadir" o
+     * tocándola otra vez. Una posición no válida da M-24 y no se añade (E3). Al añadir se cierra el selector. Una lista no
+     * disponible también se intenta: responde con M-10 o M-09 y no añade nada.
      */
     fun anadirALista(opcion: OpcionLista) {
         val nombre = ficha?.detalle?.perfil?.nombre ?: return
+        val lista = opcion.lista
+        val edicion = edicionInterna.value
+        if (opcion.disponible && lista.tipo != TipoLista.NORMAL && edicion.altaLista != lista.id) {
+            edicionInterna.update { it.copy(altaLista = lista.id, altaPosicion = "", altaPrioridad = Prioridad.POR_DEFECTO) }
+            return
+        }
+        val enRanking = lista.tipo == TipoLista.RANKING && opcion.disponible
+        val posicion = if (enRanking) PosicionAlta.destino(edicion.altaPosicion, lista.total) else null
+        if (enRanking && posicion == null) {
+            viewModelScope.launch { eventosInternos.send(EventoDetalle.ErrorLista(ErrorDominio.PosicionInvalida)) }
+            return
+        }
+        val prioridad = if (lista.tipo == TipoLista.PRIORIDAD) edicion.altaPrioridad else null
         ejecutar {
-            listas.anadir(opcion.lista.id, perfilId)
+            listas.anadir(lista.id, perfilId, posicion = posicion, prioridad = prioridad)
             edicionInterna.update { it.copy(opcionesLista = null) }
             eventosInternos.send(EventoDetalle.AnadidoALista(nombre, opcion.lista.nombre))
         }
@@ -231,5 +272,6 @@ class DetallePerfilViewModel(
     private companion object {
         const val SUSCRIPCION_MS = 5_000L
         const val TAG = "DetallePerfil"
+        const val MAX_CIFRAS_POSICION = 6
     }
 }

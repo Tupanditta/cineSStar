@@ -88,10 +88,15 @@ class ListaAbiertaTest {
         compose.onNode(hasTestTag(TagsDetalle.opcionLista(listaId))).performClick()
     }
 
+    /** Pasos 2–3: en un ranking o una lista de prioridad (S6) se despliega y se confirma con "Añadir". */
     private fun anadirDesdePerfil(listaId: Long) {
         abrirSelectorPerfil(listaId)
         elegirLista(listaId)
         compose.waitForIdle()
+        if (compose.existe(TagsDetalle.CONFIRMAR_ALTA)) {
+            compose.onNode(hasTestTag(TagsDetalle.CONFIRMAR_ALTA)).performClick()
+            compose.waitForIdle()
+        }
     }
 
     // ---- CU-13 ----
