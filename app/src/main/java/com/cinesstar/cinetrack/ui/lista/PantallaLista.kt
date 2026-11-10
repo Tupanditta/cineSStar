@@ -60,6 +60,7 @@ import com.cinesstar.cinetrack.ui.components.LocalAvisos
 import com.cinesstar.cinetrack.ui.components.LocaleEs
 import com.cinesstar.cinetrack.ui.components.PantallaSecundaria
 import com.cinesstar.cinetrack.ui.components.SymbolIcon
+import com.cinesstar.cinetrack.ui.components.TextoAjustable
 import com.cinesstar.cinetrack.ui.components.conNegrita
 import com.cinesstar.cinetrack.ui.components.etiqueta
 import com.cinesstar.cinetrack.ui.components.etiquetaSolo
@@ -377,12 +378,12 @@ private fun BotonReordenar(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SymbolIcon("swap_vert", null, DimensLista.AccionIcon, MaterialTheme.colorScheme.primaryContainer)
+        // Sin límite de líneas: con la fuente del sistema grande pasa a dos líneas en vez de cortarse (T9.08).
         Text(
             text = stringResource(R.string.lista_reordenar),
             style = CineTheme.typography.labelMd,
             color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -649,19 +650,17 @@ private fun Puesto(elemento: ElementoLista) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(
-            text = stringResource(R.string.lista_puesto, puesto),
-            style =
+        // Se reduce si no cabe en los 32 dp (fuente del sistema grande, T9.08).
+        TextoAjustable(
+            texto = stringResource(R.string.lista_puesto, puesto),
+            estilo =
                 when {
                     puesto < DOS_CIFRAS -> CineTheme.typography.headlineMd
                     puesto < TRES_CIFRAS -> CineTheme.typography.titleSm
                     else -> CineTheme.typography.labelSm
-                },
+                }.copy(letterSpacing = TrackingTighter),
             fontWeight = if (podio) FontWeight.ExtraBold else FontWeight.Bold,
-            letterSpacing = TrackingTighter,
             color = if (podio) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
-            softWrap = false,
             modifier = Modifier.testTag(TagsLista.puesto(elemento.perfilId)),
         )
         if (podio) {
@@ -948,7 +947,8 @@ private fun HojaListas(
         onAccion = onAccion,
         onCancelar = onCancelar,
         fondoAccion = MaterialTheme.colorScheme.secondaryContainer,
-        textoAccion = MaterialTheme.colorScheme.onSecondary,
+        // T9.11: on-secondary sobre secondary-container no llega a AA (2.3:1); on-secondary-container sí (4.6:1).
+        textoAccion = MaterialTheme.colorScheme.onSecondaryContainer,
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(Spacing.Sm), verticalAlignment = Alignment.CenterVertically) {
             Box(

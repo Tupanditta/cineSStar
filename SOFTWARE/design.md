@@ -43,7 +43,7 @@ El prototipo tiene **dos** `tailwind.config` distintos. Se toma como canónico e
 | `primary-container` | `#38BDF8` | = | **Acento**: botones rellenos, segmento activo, FAB, ranking #1–#3 |
 | `on-primary-container` | `#004965` | `#00354A` | Texto sobre `primary-container` |
 | `secondary` | `#FFB3B6` | = | Asterisco de obligatorio, errores de validación del formulario, estado Pendiente, lista de prioridad |
-| `on-secondary` | `#68001A` | = | Texto del botón "Quitar" |
+| `on-secondary` | `#68001A` | = | Texto del botón "Quitar" en el prototipo; no se usa (contraste 2.3:1, §12) |
 | `secondary-container` | `#CC003C` | = | Botón "Quitar", mosaico Prioridad seleccionado, punto de lista |
 | `on-secondary-container` | `#FFDCDC` | = | Texto sobre `secondary-container` |
 | `tertiary` | `#83D7FF` | `#7DD3FC` | Iconos informativos, barra de series |
@@ -171,7 +171,7 @@ Variante de **éxito al guardar un perfil**: fondo `primary-container`, texto `o
 ### 3.6 Diálogos (tres estilos del prototipo)
 1. **Formulario** (Nueva Lista, Añadir a lista): centrado, ancho máx. 384 dp, `rounded-xl`, fondo `surface-container-high`, padding 16, separación 16, borde 1 dp `slate-700` 60 %, `shadow-2xl`, scrim negro 75 % con desenfoque 4 dp. Cabecera: icono 22 dp `#38BDF8` + título `headline-md` + botón `close` 20 dp.
 2. **Confirmación destructiva de perfil**: centrado, ancho máx. 384, padding 24, `rounded-xl`, fondo `surface-container-high`, scrim `surface-dim` 80 % con desenfoque. Círculo 48 dp `error-container` con `warning` 28 dp `on-error-container` centrado; título `headline-md` bold centrado; texto `body-sm` `on-surface-variant` centrado (nombre en negrita); botones apilados a ancho completo (`rounded-lg`, 10 dp vertical, `title-sm`): primario fondo `error`, texto `on-error` bold; "Cancelar" fondo `surface-container`.
-3. **Hoja inferior "Quitar"** (lista abierta): pegada abajo en móvil, `rounded-2xl`, padding 20, fondo `surface-container-high`, `shadow-2xl`, scrim `background` 80 % con desenfoque. Cabecera: círculo 40 dp `secondary-container` 20 % con icono 20 dp `secondary`; título `title-md` bold + nombre del título en `primary` `body-sm` medium. Texto `body-md` `on-surface-variant`. Botones en fila, `flex-1`, `rounded-xl`, 10 dp vertical, `label-md`: "Cancelar" `surface-container-highest`; acción `secondary-container` + `on-secondary` semibold.
+3. **Hoja inferior "Quitar"** (lista abierta): pegada abajo en móvil, `rounded-2xl`, padding 20, fondo `surface-container-high`, `shadow-2xl`, scrim `background` 80 % con desenfoque. Cabecera: círculo 40 dp `secondary-container` 20 % con icono 20 dp `secondary`; título `title-md` bold + nombre del título en `primary` `body-sm` medium. Texto `body-md` `on-surface-variant`. Botones en fila, `flex-1`, `rounded-xl`, 10 dp vertical, `label-md`: "Cancelar" `surface-container-highest`; acción `secondary-container` + `on-secondary-container` semibold (el prototipo usa `on-secondary`, §12).
 
 ### 3.7 Campos de formulario
 - Fondo `surface-container-low`, `rounded-xl`, `body-md`, placeholder `outline`. **Al enfocar, el fondo pasa a `surface-container`; no hay borde ni anillo** (en el diálogo Nueva Lista: fondo `surface-container-lowest` + anillo 1 dp `#38BDF8` 50 %).
@@ -331,7 +331,7 @@ Barra superior secundaria (§3.3), sin barra inferior. Contenido con padding 16 
 - En el S5 se añade siempre con los valores por defecto: al final del ranking (RF-39) y prioridad Media (S-16). La fila "Posición" y los segmentos Alta/Media/Baja del selector, las flechas ▲▼, el arrastre, "Reordenar puestos" y el menú de la píldora de prioridad son del S6. La columna de puesto con medallas (§6.2) y la píldora de prioridad (§2.4) ya se muestran.
 - Póster sin carátula (§12): caja 56×80 `surface-container` con el icono del tipo 24 dp en `surface-container-highest` y la insignia "PELÍCULA"/"SERIE". La línea 2 son los géneros separados por " • " y se omite si no tiene. El botón "Quitar" mantiene el icono de 18 dp con zona táctil de 48 dp (§11).
 - Selector "Añadir título": la búsqueda lleva el icono `search` dentro del campo. Sin resultados (o biblioteca vacía): M-13. Los perfiles no disponibles (ya están o la restricción no los admite) se ven al 40 % y sin `add_circle`, y anuncian "Ya está en la lista" / "No admitido en esta lista"; si se tocan igualmente, toast con M-10 o M-09 y no se añaden (CU-15 E1/E2).
-- Hoja "Quitar" y aviso M-11: botón de acción `secondary-container` con texto `on-secondary` (§3.6-3). El aviso M-11 usa la misma hoja con el título "Eliminar lista", el nombre de la lista en `primary`, el texto de M-11 y los botones "Mantener lista" / "Eliminar lista".
+- Hoja "Quitar" y aviso M-11: botón de acción `secondary-container` con texto `on-secondary-container` (§3.6-3). El aviso M-11 usa la misma hoja con el título "Eliminar lista", el nombre de la lista en `primary`, el texto de M-11 y los botones "Mantener lista" / "Eliminar lista".
 - La lista abierta lleva un menú ⋮ en la cabecera con "Eliminar lista" (mismo efecto que el pie). Tocar una fila abre el perfil (CU-13 A3).
 - Si la lista desaparece mientras está abierta (CU-13 E1), vuelve a "Mis Listas" con el toast "Esta lista ya no existe."; si desaparece el elemento que se iba a quitar (CU-16 E1), toast "Este título ya no está en la lista." y la lista se refresca.
 
@@ -537,6 +537,13 @@ Contenido (padding 16 lateral, separación 16):
 - **Orientación**: la app está bloqueada en vertical (`screenOrientation="portrait"`, decisión del usuario en el S9, T9.09). En Android 16 o superior el sistema ignora el bloqueo en pantallas de 600 dp o más (tablets, plegables abiertos); allí se aplica la regla de tablet de abajo.
 - **Tamaños**: diseño base 411 dp de ancho (capturas). En < 360 dp las rejillas de 3 mantienen 3 columnas con textos truncados. En tablet (≥ 600 dp) el contenido se centra con ancho máximo 600 dp.
 
+**Decisiones del S9** (adaptación, accesibilidad y cierre):
+- **Fuente del sistema grande** (T9.08): las etiquetas de una línea en huecos fijos (barra inferior, pestañas de Buscar, etiquetas de métricas, puesto del ranking) usan `TextoAjustable`: el tamaño del estilo, reducido solo si no cabe, hasta 9 sp reales. Los botones de acción con texto largo ("Generar y Guardar Archivo Local", "Reordenar puestos") pasan a dos líneas en vez de cortarse. La barra inferior tiene alto mínimo de 64 dp (no fijo) para que la etiqueta de "Añadir" no se recorte, y cada destino ocupa como mucho un quinto del ancho. La cabecera "Catálogo de Medios" pasa el recuento "Mostrando…" a la línea siguiente si no caben juntos. Los títulos de tarjetas siguen truncándose con puntos suspensivos.
+- **Zonas táctiles** (T9.10): Compose amplía a 48×48 dp la zona táctil de lo que es más pequeño (chips, flechas del ranking) sin cambiar su tamaño visual; la revisión automática lo comprueba en todas las pantallas.
+- **Contraste** (T9.11): todas las combinaciones de texto y fondo cumplen AA (4.5:1) salvo la del prototipo para "Quitar" (`on-secondary` sobre `secondary-container`, 2.3:1), que pasa a `on-secondary-container` (§12).
+- **Rendimiento** (RNF-08): con 1000 perfiles, abrir un perfil, una lista de 200 elementos, una búsqueda combinada y agrupar por género tardan milisegundos en JVM; el arranque con la base de datos recién abierta, unos 0,25 s en Robolectric. Los fps del scroll y el arranque en frío reales se miden en dispositivo (`SOFTWARE/pruebasManuales.md`).
+- **Release**: R8 activado; `assembleRelease` y `bundleRelease` comprueban antes que el manifiesto combinado no pide red y que no hay librerías de red (T9.18). La firma se configura fuera del repositorio (README).
+
 ---
 
 ## 12. Diferencias con el prototipo por requisitos
@@ -566,6 +573,7 @@ Contenido (padding 16 lateral, separación 16):
 | Franja "SQLite cifrado local • 60 entradas · Sin telemetría" y pie "Base de datos SQLite al día…" en la Biblioteca | Quitados | Decisión del usuario (S4) |
 | Barra superior con "CineTrack", "100% Local" y nombre de la pantalla | Solo logo y avatar | Decisión del usuario (S4) |
 | Póster 96×144 en las tarjetas de Biblioteca | Icono de tipo 48 dp (§4.1); la tarjeta mantiene su alto | Decisión del usuario (S4): no hay carátulas y el hueco no aportaba |
+| Botón "Quitar" / "Eliminar lista" de la hoja con texto `on-secondary` (2.3:1) | Texto `on-secondary-container` (4.6:1) | Contraste AA (T9.11) |
 | Escala tipográfica del prototipo (`label-sm` 10 sp…) | Estilos de título, cuerpo y etiqueta 1–2 sp mayores (§2.5) | Decisión del usuario (S4): textos demasiado pequeños en el móvil. Las capturas G se miden con esta escala |
 
 ---

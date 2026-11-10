@@ -24,8 +24,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -59,6 +57,7 @@ import com.cinesstar.cinetrack.domain.ResumenFusion
 import com.cinesstar.cinetrack.ui.components.EtiquetaSeccion
 import com.cinesstar.cinetrack.ui.components.HojaInferior
 import com.cinesstar.cinetrack.ui.components.SymbolIcon
+import com.cinesstar.cinetrack.ui.components.TextoAjustable
 import com.cinesstar.cinetrack.ui.theme.CineAlpha
 import com.cinesstar.cinetrack.ui.theme.CineShapes
 import com.cinesstar.cinetrack.ui.theme.CineTheme
@@ -249,13 +248,7 @@ private fun Metrica(
         )
         // Con la escala tipográfica mayor (§2.5) "Almacenamiento" no cabe en una tarjeta de un tercio: la etiqueta reduce
         // su tamaño en vez de partir la palabra.
-        val estilo = CineTheme.typography.labelSm
-        BasicText(
-            text = stringResource(etiqueta),
-            style = estilo.copy(color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center),
-            maxLines = lineas,
-            autoSize = TextAutoSize.StepBased(minFontSize = DimensDatos.EtiquetaMetricaMin, maxFontSize = estilo.fontSize),
-        )
+        TextoAjustable(stringResource(etiqueta), CineTheme.typography.labelSm, MaterialTheme.colorScheme.onSurfaceVariant, lineas = lineas)
     }
 }
 
@@ -534,13 +527,8 @@ private fun BotonAccion(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         SymbolIcon(icono, null, DimensDatos.BotonIcon, color)
-        Text(
-            text = stringResource(texto),
-            style = CineTheme.typography.labelLg,
-            color = color,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-        )
+        // Sin límite de líneas: con la fuente del sistema grande el texto pasa a dos líneas en vez de cortarse (T9.08).
+        Text(text = stringResource(texto), style = CineTheme.typography.labelLg, color = color, textAlign = TextAlign.Center)
     }
 }
 

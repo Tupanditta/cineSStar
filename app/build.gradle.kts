@@ -1,4 +1,6 @@
+import com.android.build.api.artifact.SingleArtifact
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -9,6 +11,23 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.detekt)
 }
+
+/*
+ * Firma del release (S9). Los datos se leen de variables de entorno o de `local.properties` (que no se sube al
+ * repositorio); nunca se escriben aquí. Sin ellos, `assembleRelease` genera un APK sin firmar.
+ */
+val propiedadesLocales =
+    Properties().apply {
+        rootProject
+            .file("local.properties")
+            .takeIf { it.exists() }
+            ?.inputStream()
+            ?.use { load(it) }
+    }
+
+fun secreto(nombre: String): String? = System.getenv(nombre) ?: propiedadesLocales.getProperty(nombre)
+
+val almacenFirma = secreto("CINETRACK_KEYSTORE")?.let { rootProject.file(it) }
 
 android {
     namespace = "com.cinesstar.cinetrack"
@@ -32,8 +51,20 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        if (almacenFirma != null) {
+            create("release") {
+                storeFile = almacenFirma
+                storePassword = secreto("CINETRACK_KEYSTORE_PASSWORD")
+                keyAlias = secreto("CINETRACK_KEY_ALIAS")
+                keyPassword = secreto("CINETRACK_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            signingConfigs.findByName("release")?.let { signingConfig = it }
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
@@ -78,6 +109,46 @@ android {
 
 kotlin {
     compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
+}
+
+/*
+ * T9.18 / TX.01 (RES-03): el release no pide INTERNET ni permisos de red y no incluye librerías de red. Se comprueba en
+ * el manifiesto combinado (con el de todas las dependencias) y en el classpath de ejecución; `assembleRelease` y
+ * `bundleRelease` fallan si no se cumple.
+ */
+val permisosDeRed = listOf("android.permission.INTERNET", "android.permission.ACCESS_NETWORK_STATE", "android.permission.ACCESS_WIFI_STATE")
+val libreriasDeRed =
+    listOf("com.squareup.okhttp", "com.squareup.retrofit", "io.ktor", "com.android.volley", "org.chromium.net", "com.google.firebase")
+
+androidComponents {
+    onVariants(selector().withBuildType("release")) { variante ->
+        val manifiesto = variante.artifacts.get(SingleArtifact.MERGED_MANIFEST)
+        val clases = configurations.named("${variante.name}RuntimeClasspath")
+        val comprobar =
+            tasks.register("verificarSinRed${variante.name.replaceFirstChar { it.uppercase() }}") {
+                group = "verification"
+                description = "T9.18: el ${variante.name} no tiene permisos ni librerías de red."
+                inputs.file(manifiesto)
+                doLast {
+                    val texto = manifiesto.get().asFile.readText()
+                    val permisos = permisosDeRed.filter { "\"$it\"" in texto }
+                    check(permisos.isEmpty()) { "El manifiesto del ${variante.name} pide permisos de red: $permisos" }
+                    val modulos =
+                        clases
+                            .get()
+                            .incoming.resolutionResult.allComponents
+                            .map { it.id.displayName }
+                    val red = modulos.filter { m -> libreriasDeRed.any { m.startsWith(it) } }
+                    check(red.isEmpty()) { "El ${variante.name} incluye librerías de red: $red" }
+                    println("T9.18 ${variante.name}: sin permisos de red y sin librerías de red (${modulos.size} módulos revisados)")
+                }
+            }
+        afterEvaluate {
+            listOf("assemble", "bundle").forEach { accion ->
+                tasks.named("$accion${variante.name.replaceFirstChar { it.uppercase() }}") { dependsOn(comprobar) }
+            }
+        }
+    }
 }
 
 room {

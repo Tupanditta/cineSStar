@@ -50,6 +50,9 @@ object DimensComunes {
     /** Alto que ocupa el slider en el diseño; la zona táctil sigue siendo de 48 dp. */
     val SliderAlturaVisual = 20.dp
 
+    /** Tamaño mínimo al que se reduce una etiqueta de una línea que no cabe (`TextoAjustable`, T9.08). */
+    val TextoMinimo = 9.sp
+
     /** Objetivo táctil mínimo (§11). */
     val TouchTarget = 48.dp
 }
@@ -436,9 +439,6 @@ object DimensDatos {
     val MetricaIcon = 24.dp
     val MetricaIconBottom = 4.dp
     val EtiquetaGap = 4.dp
-
-    /** Tamaño mínimo de la etiqueta de una métrica cuando no cabe (se reduce en vez de partir la palabra). */
-    val EtiquetaMetricaMin = 9.sp
 
     // 3. Distribución
     val BarraAlto = 8.dp

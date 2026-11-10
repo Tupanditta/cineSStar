@@ -16,8 +16,10 @@ App Android 100 % local para catalogar películas y series. Especificación en [
 | Lint | `./gradlew :app:ktlintCheck :app:detekt` |
 | Formatear | `./gradlew :app:ktlintFormat` |
 | Puerta completa de un sprint | `./gradlew :app:ktlintCheck :app:detekt :app:testDebugUnitTest :app:assembleDebug :app:assembleRelease` |
+| APK / AAB de release | `./gradlew :app:assembleRelease` / `./gradlew :app:bundleRelease` (firmados si está configurada la firma) |
+| Comprobar que el release no usa red (T9.18) | `./gradlew :app:verificarSinRedRelease` (se ejecuta solo antes de `assembleRelease` y `bundleRelease`) |
 
-Los tests de interfaz y de base de datos usan Robolectric, sin emulador. Los tests de capturas (T0.08, T2.31, T3.32, T4.20, T5.35, T6.24, T7.23, T8.21) dejan las imágenes de la app y del prototipo en `app/build/capturas/`.
+Los tests de interfaz y de base de datos usan Robolectric, sin emulador. Los tests de capturas (T0.08, T2.31, T3.32, T4.20, T5.35, T6.24, T7.23, T8.21) y la revisión de adaptación del S9 (`ancho320_*`, `fuente130_*`, `fuente200_*`) dejan las imágenes de la app y del prototipo en `app/build/capturas/`.
 
 ## Estructura
 
@@ -36,7 +38,27 @@ app/src/main/java/com/cinesstar/cinetrack/
                cambiar prioridad (CU-17), reordenar el ranking con ▲▼ y arrastre (CU-18), renombrar y eliminar
   ui/buscar/   Buscar (CU-20): nombre, tipo, rango de puntuación con slider doble, géneros, idioma, saga y estado
   ui/datos/    Datos Locales (pestaña de Buscar) y Ajustes: métricas, exportar (CU-21) e importar por fusión (CU-22)
-app/src/test/  tests de los sprints (T0.xx … T8.xx, TX.xx), fixtures y copias de referencia del formato (resources/copias)
+app/src/test/  tests de los sprints (T0.xx … T9.xx, TX.xx), fixtures y copias de referencia del formato (resources/copias)
 app/schemas/   esquema exportado de Room (migraciones)
 third_party/   licencias de las fuentes empaquetadas
 ```
+
+## Firma del release
+
+La firma no está en el repositorio. Se leen estas claves de variables de entorno o, si no existen, de `local.properties`
+(que Git ignora, igual que los archivos `*.jks` y `*.keystore`):
+
+```properties
+CINETRACK_KEYSTORE=ruta/al/almacen.jks
+CINETRACK_KEYSTORE_PASSWORD=...
+CINETRACK_KEY_ALIAS=...
+CINETRACK_KEY_PASSWORD=...
+```
+
+La ruta es relativa a la raíz del proyecto (o absoluta). Sin `CINETRACK_KEYSTORE`, `assembleRelease` genera
+`app-release-unsigned.apk`.
+
+## Pruebas manuales
+
+Las pruebas de tipo M (dispositivo real: reinicio, versiones de Android, modo avión, TalkBack, fps) están en
+[SOFTWARE/pruebasManuales.md](SOFTWARE/pruebasManuales.md), con una tabla para anotar los resultados.

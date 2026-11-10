@@ -397,14 +397,18 @@ private fun ChipFiltro(
 }
 
 /** §4-5: cabecera "Catálogo de Medios" con "Mostrando {x} de {N}". */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun CabeceraCatalogo(
     mostrados: Int,
     total: Int,
 ) {
-    Row(
+    // Si no caben en una fila (fuente del sistema grande, T9.08), el recuento pasa debajo en vez de partir el título.
+    FlowRow(
         modifier = Modifier.fillMaxWidth().padding(start = Spacing.Margin, end = Spacing.Margin, bottom = Spacing.Md),
-        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.spacedBy(Spacing.Xs),
+        itemVerticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = stringResource(R.string.biblioteca_catalogo),
@@ -412,7 +416,6 @@ private fun CabeceraCatalogo(
             fontWeight = FontWeight.Bold,
             letterSpacing = TrackingTight,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.weight(1f),
         )
         PildoraRecuento(stringResource(R.string.biblioteca_mostrando, mostrados, total), Modifier.testTag(TagsBiblioteca.MOSTRANDO))
     }

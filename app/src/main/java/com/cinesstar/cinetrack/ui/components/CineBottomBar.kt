@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -55,7 +55,8 @@ fun CineBottomBar(
                 .shadow(Dimens.ShadowBar, clip = false, ambientColor = CineTheme.colors.black, spotColor = CineTheme.colors.black)
                 .fondoBarra(hazeState, CineTheme.colors.barraInferior)
                 .windowInsetsPadding(WindowInsets.navigationBars)
-                .height(Dimens.BottomBarHeight)
+                // Alto mínimo, no fijo: con la fuente del sistema grande (T9.08) la etiqueta de "Añadir" no se recorta.
+                .heightIn(min = Dimens.BottomBarHeight)
                 .padding(horizontal = Dimens.BottomBarPaddingH)
                 .testTag(TagsBarra.INFERIOR),
     ) {
@@ -65,10 +66,12 @@ fun CineBottomBar(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             DestinoBarra.entries.forEach { destino ->
+                // Cada elemento ocupa como mucho un quinto del ancho: con la fuente grande no empuja a los demás fuera.
+                val hueco = Modifier.weight(1f, fill = false)
                 if (destino == DestinoBarra.ANADIR) {
-                    BotonAnadir(onClick = { onDestino(destino) })
+                    BotonAnadir(onClick = { onDestino(destino) }, modifier = hueco)
                 } else {
-                    ElementoBarra(destino, seleccionado = destino == activo, onClick = { onDestino(destino) })
+                    ElementoBarra(destino, seleccionado = destino == activo, onClick = { onDestino(destino) }, modifier = hueco)
                 }
             }
         }
@@ -80,11 +83,12 @@ private fun ElementoBarra(
     destino: DestinoBarra,
     seleccionado: Boolean,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     val color = if (seleccionado) CineTheme.colors.sky400 else MaterialTheme.colorScheme.onSurfaceVariant
     Column(
         modifier =
-            Modifier
+            modifier
                 .defaultMinSize(minWidth = Dimens.NavItemMin, minHeight = Dimens.NavItemMin)
                 .selectable(selected = seleccionado, role = Role.Tab, onClick = onClick)
                 .testTag(destino.tag()),
@@ -92,12 +96,11 @@ private fun ElementoBarra(
         verticalArrangement = Arrangement.Center,
     ) {
         SymbolIcon(destino.icono, contentDescription = null, size = Dimens.NavIcon, tint = color)
-        Text(
-            text = stringResource(destino.etiqueta),
-            style = CineTheme.typography.labelSm,
-            fontWeight = if (seleccionado) FontWeight.Bold else CineTheme.typography.labelSm.fontWeight,
+        TextoAjustable(
+            texto = stringResource(destino.etiqueta),
+            estilo = CineTheme.typography.labelSm,
+            fontWeight = if (seleccionado) FontWeight.Bold else null,
             color = color,
-            maxLines = 1,
         )
     }
 }
@@ -107,10 +110,13 @@ private fun ElementoBarra(
  * de margen del elemento (`items-center`), así que el desplazamiento visible es la mitad del margen: 10 dp.
  */
 @Composable
-private fun BotonAnadir(onClick: () -> Unit) {
+private fun BotonAnadir(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Column(
         modifier =
-            Modifier
+            modifier
                 .offset(y = -Dimens.NavFabLift / 2)
                 .defaultMinSize(minWidth = Dimens.NavItemMin, minHeight = Dimens.NavItemMin)
                 .clip(CineShapes.Xl)
@@ -134,11 +140,10 @@ private fun BotonAnadir(onClick: () -> Unit) {
             SymbolIcon(DestinoBarra.ANADIR.icono, contentDescription = null, size = Dimens.NavFabIcon, tint = CineTheme.colors.slate950)
         }
         Spacer(Modifier.height(Dimens.NavFabLabelGap))
-        Text(
-            text = stringResource(DestinoBarra.ANADIR.etiqueta),
-            style = CineTheme.typography.labelSm,
+        TextoAjustable(
+            texto = stringResource(DestinoBarra.ANADIR.etiqueta),
+            estilo = CineTheme.typography.labelSm,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
         )
     }
 }

@@ -69,6 +69,7 @@ import com.cinesstar.cinetrack.domain.PerfilBiblioteca
 import com.cinesstar.cinetrack.ui.components.CineRangeSlider
 import com.cinesstar.cinetrack.ui.components.EtiquetaSeccion
 import com.cinesstar.cinetrack.ui.components.SymbolIcon
+import com.cinesstar.cinetrack.ui.components.TextoAjustable
 import com.cinesstar.cinetrack.ui.components.etiqueta
 import com.cinesstar.cinetrack.ui.components.icono
 import com.cinesstar.cinetrack.ui.components.textoError
@@ -218,7 +219,7 @@ private fun Pestanas(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 SymbolIcon(icono, null, DimensBuscar.TabIcon, color)
-                Text(text = stringResource(texto), style = CineTheme.typography.labelMd, color = color, maxLines = 1)
+                TextoAjustable(stringResource(texto), CineTheme.typography.labelMd, color)
             }
         }
     }

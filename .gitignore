@@ -6,6 +6,9 @@ local.properties
 captures/
 *.apk
 *.aab
+# Almacenes de claves de firma: nunca en el repositorio
+*.jks
+*.keystore
 
 # IDE
 /.idea/workspace.xml

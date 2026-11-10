@@ -40,7 +40,7 @@ import com.cinesstar.cinetrack.ui.theme.Spacing
 /**
  * Hoja inferior (design.md §3.6-3): pegada abajo, `rounded-2xl`, padding 20, fondo `surface-container-high`, scrim
  * `background` 80 %. El [contenido] va encima de la fila de botones ("Cancelar" y la acción, a partes iguales). La
- * acción es `primary-container` salvo en "Quitar" de las listas (§3.6-3: `secondary-container` + `on-secondary`).
+ * acción es `primary-container` salvo en "Quitar" de las listas (§3.6-3: `secondary-container` + `on-secondary-container`).
  */
 @Composable
 fun HojaInferior(
